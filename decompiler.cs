@@ -10,17 +10,11 @@ namespace decompiler
 		{
 			String a;
 			String b;
-			Console.WriteLine ("file exe to convert");
-			Console.Beep ();
-			a=Console.ReadLine ();
-			Console.WriteLine ("file asm to output");
-			Console.Beep ();
-			b=Console.ReadLine ();
-			
+			a=args[0];
 			ProcessStartInfo psi = new ProcessStartInfo();
 			psi.FileName = "/usr/bin/x86_64-w64-mingw32-objdump";
 			psi.UseShellExecute = false;
-			psi.Arguments = "-S  '" + a + "' > '" + b+"'";
+			psi.Arguments = "-S  " + a  ;
 			psi.RedirectStandardOutput = true;
 			Process p = Process.Start(psi);
 			Console.WriteLine(p.StandardOutput.ReadToEnd());
@@ -28,15 +22,6 @@ namespace decompiler
 			p.Close();
 			
 
-			psi.FileName = "mousepad" ;
-			psi.UseShellExecute = false;
-			psi.Arguments =  b;
-			psi.RedirectStandardOutput = true;
-			p = Process.Start(psi);
-			Console.WriteLine(p.StandardOutput.ReadToEnd());
-			p.WaitForExit();
-			p.Close();
-			
 			
 			
 		}
