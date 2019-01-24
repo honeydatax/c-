@@ -174,6 +174,40 @@ namespace FormWithButton
 				s=s.Replace("\\13","\",13,10,\"");
 				s=s.Replace("\\10","\",13,10,\"");
 
+
+				if (s.Contains("[eax"))
+				{
+
+					s="	push ax\n	pop si\n	 	\n"+s;
+					s=s.Replace("[eax","[si");
+
+
+				}
+
+
+
+				if (s.Contains("[ebx"))
+				{
+
+					s="	push bx\n	pop si\n	 	\n"+s;
+					s=s.Replace("[ebx","[si");
+
+
+				}
+
+
+				if (s.Contains("[edx"))
+				{
+
+					s="	push dx\n	pop si\n	 	\n"+s;
+					s=s.Replace("[edx","[si");
+
+
+				}
+
+
+
+
 				if (s.Contains("[esp"))
 				{
 
@@ -327,11 +361,11 @@ namespace FormWithButton
 				file.WriteLine(ss);
 			}
 
-			
+
 			
 			psi.FileName = "mousepad";
 			psi.UseShellExecute = false;
-			psi.Arguments =b;
+			psi.Arguments = b;
 			psi.RedirectStandardOutput = true;
 			psi.RedirectStandardError = true;
 			p = Process.Start(psi);
