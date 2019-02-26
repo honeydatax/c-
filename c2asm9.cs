@@ -116,8 +116,13 @@ namespace FormWithButton
 			String[] lines = File.ReadAllLines( b + ".asm");
 			using (StreamWriter file =  new StreamWriter(b))
 			{
+				file.WriteLine("section .text");
+				file.WriteLine("global _start");
+				file.WriteLine("start:");
+				file.WriteLine("_start:");
 				file.WriteLine("main:");
 				file.WriteLine("	jmp	_main");
+				file.WriteLine(" ");
 				file.WriteLine(" ");
 				file.WriteLine("_puts:");
 				file.WriteLine("	push	ebp");
