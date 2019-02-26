@@ -92,7 +92,7 @@ namespace FormWithButton
 			ProcessStartInfo psi = new ProcessStartInfo();
 			psi.FileName = "bash";
 			psi.UseShellExecute = false;
-			psi.Arguments = "-c \"/usr/bin/x86_64-w64-mingw32-g++ -S -m16 -masm=intel -o " + b + ".s " + a+ "  2> error.txt > error.txt \" ";
+			psi.Arguments = "-c \"/usr/bin/x86_64-w64-mingw32-g++ -S -m32 -masm=intel -o " + b + ".s " + a+ "  2> error.txt > error.txt \" ";
 			psi.RedirectStandardOutput = true;
 			psi.RedirectStandardError = true;
 			Process p = Process.Start(psi);
@@ -116,6 +116,10 @@ namespace FormWithButton
 			String[] lines = File.ReadAllLines( b + ".s");
 			using (StreamWriter file =  new StreamWriter(b+".asm"))
 			{
+				file.WriteLine("section .text");
+				file.WriteLine("global _start");
+				file.WriteLine("start:");
+				file.WriteLine("_start:");
 				file.WriteLine("main:");
 				file.WriteLine("	jmp	_main");
 				file.WriteLine(" ");
@@ -301,7 +305,7 @@ namespace FormWithButton
 
 			psi.FileName = "bash" ;
 			psi.UseShellExecute = false;
-			psi.Arguments = "-c \"nasm -o "+b + " "+b+".asm 2>error.txt  > error.txt\" ";
+			psi.Arguments = "-c \"nasm -f coff -o "+b + " "+b+".asm 2>error.txt  > error.txt\" ";
 			psi.RedirectStandardOutput = true;
 			psi.RedirectStandardError = true;
 			p = Process.Start(psi);
