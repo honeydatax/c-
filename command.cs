@@ -5,13 +5,13 @@ namespace logic{
 	
 	class logics{
 		public class Shells{
-			private string command="";
-			private string back="";
 			private int max=32000;
 			private int count=-1;
 			private bool endss=false;
 			public int terminal=78;
 			public Shells(string files){
+				string command="";
+				string back="";
 				center("new command",terminal);	
 				string [] list=null;
 				if(files!=""){
@@ -34,29 +34,72 @@ namespace logic{
 							command=list[count];
 						}
 					}
-					run(files);
+					runs(command,files);
 				}
 			}
 			~Shells(){
 				center("exit this shell",terminal);
 			}
-			public void run(string files){
-					command=command.Trim();
-					back=command;
-					command=command.ToUpper();
-					if (files!="") center(command,terminal);	
-					if (command.IndexOf("EXIT")>-1){
-						command="";
+			public void runs(string command ,string files){
+					string back="";
+					string commands="";
+					string [] argss=null;
+					string [] argss2=null;
+					string [] argss3=null;
+					int i=0;
+					int i1=0;
+					int i2=0;					
+					int i3=0;
+					commands=command.Trim();
+					back=commands;
+					commands=commands.ToUpper();
+					
+					if (commands.IndexOf("FOR")>-1){
+						
+						argss=commands2(commands);
+						argss3=commands2(back);
+						if (argss.Length>1){
+							argss2=args(argss[0]);
+							try{
+							
+								if (argss2.Length>3){
+									i1=Convert.ToInt16(argss2[1]);
+									i2=Convert.ToInt16(argss2[2]);
+									i3=Convert.ToInt16(argss2[3]);
+									if (i1<i2){
+										commands=argss[1];
+										back=argss3[1];
+										for(i=i1;i<i2;i=i+i3){
+											run(commands,files,back);
+										}
+									}
+								}
+							}catch{
+								center("error :for",terminal);
+							}
+								
+						}
+						commands="";
+					}
+					if (commands!="")run(commands,files,back);
+			}
+			
+			public void run(string command ,string files,string back){
+					string commands="";
+					commands=command;
+					if (files!="") center(commands,terminal);	
+					if (commands.IndexOf("EXIT")>-1){
+						commands="";
 						endss=EXIT();
 					}
-					if (command.IndexOf("CAT")>-1 || command.IndexOf("TYPE")>-1)command=CAT(back);
-					if (command.IndexOf("BASH")>-1 || command.IndexOf("SH")>-1 || command.IndexOf("COMMAND")>-1)command=BASH(back);	
-					if (command.IndexOf("SLEEP")>-1 || command.IndexOf("DELAY")>-1 )command=SLEEP(back);	
-					if (command.IndexOf("ECHO")>-1 || command.IndexOf("PRINTF")>-1 || command.IndexOf("PRINT")>-1)command=PRINT(back);	
-					if (command.IndexOf("CLS")>-1 || command.IndexOf("CLEAR")>-1)command=CLEAR();
-					if (command.IndexOf("DIR")>-1 || command.IndexOf("LS")>-1)command=DIR();	
-					if (command.IndexOf("CAL")>-1 )command=CAL(back);	
-					if (command.IndexOf("DATE")>-1 )command=DATE();	
+					if (commands.IndexOf("CAT")>-1 || commands.IndexOf("TYPE")>-1)commands=CAT(back);
+					if (commands.IndexOf("BASH")>-1 || commands.IndexOf("SH")>-1 || commands.IndexOf("COMMAND")>-1)commands=BASH(back);	
+					if (commands.IndexOf("SLEEP")>-1 || commands.IndexOf("DELAY")>-1 )commands=SLEEP(back);	
+					if (commands.IndexOf("ECHO")>-1 || commands.IndexOf("PRINTF")>-1 || commands.IndexOf("PRINT")>-1)commands=PRINT(back);	
+					if (commands.IndexOf("CLS")>-1 || commands.IndexOf("CLEAR")>-1)commands=CLEAR();
+					if (commands.IndexOf("DIR")>-1 || commands.IndexOf("LS")>-1)commands=DIR();	
+					if (commands.IndexOf("CAL")>-1 )commands=CAL(back);	
+					if (commands.IndexOf("DATE")>-1 )commands=DATE();	
 			}
 			public string Commands(){
 				string comm="";
@@ -67,6 +110,10 @@ namespace logic{
 			public string [] args(string argc){
 				return argc.Split(' ');
 			}
+			public string [] commands2(string argc){
+				return argc.Split(';');
+			}
+
 			public bool EXIT(){
 				return true;
 			}
