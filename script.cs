@@ -1,73 +1,206 @@
 using System;
 using System.IO;
+
 namespace logic{
 	
 	class logics{
-		public string arg2(string s){
-			string s1="";
-			int i;
-			int index=s.IndexOf(" ");
-			if (index>0){
-				for(i=index;i<s.Length;i++){
-					s1=s1+s[i].ToString();
+		public class Shells{
+			private string command="";
+			private string back="";
+			private int max=32000;
+			private int count=-1;
+			private bool endss=false;
+			public Shells(string files){
+				center("new command",78);	
+				string [] list=null;
+				if(files!=""){
+					try{
+						list=File.ReadAllLines(files);
+					}catch{
+						endss=true;
+					}
 				}
-				s1=s1.Trim();
-			}
-			return s1;
-		}
-		static void Main(string[] args){
-			logics logss = new logics();
-			string s;
-			string s1;
-			int i;
-			int index;
-			int n;
-			string s3="";
-			if (args.Length>0) s3=args[0];
-			string [] list=File.ReadAllLines(s3);
-			bool b=true;
-				Console.WriteLine("hello world");
-				for(i=0;i<list.Length;i++){
-					s1=list[i];
-					s1=s1.Trim();
-					s=s1.ToUpper();
-					Console.WriteLine("out: {0}!",s);
-					if (s.IndexOf("EXIT")==0) b=false; 
-					if (s.IndexOf("CLS")==0) Console.Clear(); 
-					if (s.IndexOf("CLEAR")==0) Console.Clear(); 
-					if (s.IndexOf("CAT")==0 || s.IndexOf("TYPE")==0){
-						s=logss.arg2(s1);
-						try{
-							s=File.ReadAllText(s);
-						}catch{
-							Console.WriteLine("error: {0}!",s);	
-						}
-						Console.WriteLine("out: {0}!",s);	
-					} 
-					if (s.IndexOf("DIR")==0 || s.IndexOf("LS")==0){
+				while(!endss){
+					if(files==""){
+						command=Commands();
 						
-						try{
-							int t;
-							s=".";
-							string [] files = Directory.GetFiles(s);
-							for(i=0;i<files.Length;i++)Console.WriteLine("{0}!",files[i]);	
-							t=files.Length;
-							Console.WriteLine(" {0} files!",t);	
-						}catch{
-							Console.WriteLine("error: {0}!",s);	
+					}else{
+						count++;
+						if (count>=list.Length){
+							endss=true;
+							command="";
+						}else{
+							command=list[count];
 						}
+					}
+					command=command.Trim();
+					back=command;
+					command=command.ToUpper();
+					if (files!="") center(command,79);	
+					if (command.IndexOf("EXIT")>-1){
+						command="";
+						endss=EXIT();
+					}
+					if (command.IndexOf("CAT")>-1 || command.IndexOf("TYPE")>-1)command=CAT(back);
+					if (command.IndexOf("BASH")>-1 || command.IndexOf("SH")>-1 || command.IndexOf("COMMAND")>-1)command=BASH(back);	
+					if (command.IndexOf("ECHO")>-1 || command.IndexOf("PRINTF")>-1 || command.IndexOf("PRINT")>-1)command=PRINT(back);	
+					if (command.IndexOf("CLS")>-1 || command.IndexOf("CLEAR")>-1)command=CLEAR();
+					if (command.IndexOf("DIR")>-1 || command.IndexOf("LS")>-1)command=DIR();	
+					if (command.IndexOf("CAL")>-1 )command=CAL(back);	
+					if (command.IndexOf("DATE")>-1 )command=DATE();	
 
-					} 
-
-					
 				}
+			}
+			public string Commands(){
+				string comm="";
+				Console.Write(">>");
+				comm=Console.ReadLine();
+				return comm;
+			}
+			public string [] args(string argc){
+				return argc.Split(' ');
+			}
+			public bool EXIT(){
+				return true;
+			}
+			public string CLEAR(){
+				Console.Clear();
+				return "";
+			}
+			public string DIR(){
+					
+				string s=".";
+				try{
+					int i=0;
+					int t=0;
+					
+					string [] files = Directory.GetFiles(s);
+					for(i=0;i<files.Length;i++)center(files[i],78);	
+						t=files.Length;
+						Console.WriteLine(" {0} files!",t);	
+					}catch{
+						Console.WriteLine("error: {0}!",s);	
+					}
+				return "";
+			}
+			public string CAT(string files){
+				string ss="";
+				string [] s=args(files);
+				if(s.Length>1){
+					try{
+						ss=File.ReadAllText(s[1]);
+					}catch{
+						Console.WriteLine("error: {0}!",s[1]);	
+					}
+						Console.WriteLine("{0}!",ss);	
+
+				}
+				return "";
+			}
+			
+			public string PRINT(string  files){
+				string s="";
+				int i=0;
+				string [] ffiles=args(files);
+				if (ffiles.Length>1){
+					for(i=1;i<ffiles.Length;i++){
+						s=s+ffiles[i]+" ";
+					}
+				}
+				center(s,78);	
+				return "";
+			}
+			public string BASH(string  files){
+				string s="";
+				string [] ffiles=args(files);
+				center(files,78);	
+				if (ffiles.Length>1)s=ffiles[1];
+				Shells shells = new Shells(s);
+				return "";
+			}
+			public string DATE(){
+				center(DateTime.Now.ToString(),78);
+				return "";
+			}
+		public string CAL(string files){
+			try{
+			int [] Mday = new int[]{31,28,31,30,31,30,31,31,30,31,30,31};
+			DateTime d = new DateTime();
+			string [] ffiles=args(files);
+			int month=Convert.ToInt16(ffiles[2]);
+			int year=Convert.ToInt16(ffiles[1]);
+			string space="";
+			int i;
+			int max=Mday[month-1];
+			int wd=0;
+			
+		  
+			d=Convert.ToDateTime(Convert.ToString(1)+"/"+ffiles[2]+"/"+ffiles[1]+" 12:0:0");
+			if (month==2){
+				i=year/4;
+				i=i*4;
+				if(year==i)max++;
+			}
+			Console.WriteLine("");
+			Console.WriteLine(" {0}",Convert.ToString(year));
+			Console.WriteLine(" {0}",Convert.ToString(month));
+			Console.WriteLine("Su Mo Tu We Th Fr Sa");
+			wd=Convert.ToInt16(d.DayOfWeek);
+			for(i=0;i<wd;i++){
+				Console.Write("   ");
+			}
+			for(i=0;i<max;i++){
+				space="";
+				if (i < 9)space=" ";
+				Console.Write("{0}{1} ",space,Convert.ToString(i+1));
+				wd++;
+				if(wd>6){
+					Console.WriteLine("");
+					wd=0;
+				}
+			}
+		  }catch{
+			  Console.WriteLine("");
+		  }
+		
+			
+			
+			Console.WriteLine("");
+			return "";
+			
+		}
+
+			public string SString(string s, int size){
+				string ss="";
+				int i;
+				for(i=0;i<size;i++)ss=ss+s;
+				return ss;
+			}
+			public string SSpaces(int size){
+				return SString(" ",size);
+			}
+			public void center(string s,int size){
+				int sizes=size/2-s.Length/2;
+				string ss=SSpaces(sizes);
+				ss=ss+s;
+				Console.WriteLine("{0}",ss);
+				
+			}
+
+
+		static void Main(string[] args){
+			string s="";
+			if(args.Length>0)s=args[0];
+			Shells shells = new Shells(s);
+
+				
 
 		}
 
 		
 	}
 }
-
+}
 
 
 
