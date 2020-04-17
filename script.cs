@@ -51,6 +51,7 @@ namespace logic{
 					int i2=0;					
 					int i3=0;
 					commands=command.Trim();
+					commands=removespaces(commands);
 					back=commands;
 					commands=commands.ToUpper();
 					
@@ -69,8 +70,11 @@ namespace logic{
 									if (i1<i2){
 										commands=argss[1];
 										back=argss3[1];
+										back=back.Trim();
 										for(i=i1;i<i2;i=i+i3){
+											
 											run(commands,files,back);
+											
 										}
 									}
 								}
@@ -86,26 +90,34 @@ namespace logic{
 			
 			public void run(string command ,string files,string back){
 					string commands="";
-					commands=command;
+					commands=command.Trim();
 					if (files!="") center(commands,terminal);	
 					if (commands.IndexOf("EXIT")>-1){
 						commands="";
 						endss=EXIT();
 					}
-					if (commands.IndexOf("CAT")>-1 || commands.IndexOf("TYPE")>-1)commands=CAT(back);
-					if (commands.IndexOf("BASH")>-1 || commands.IndexOf("SH")>-1 || commands.IndexOf("COMMAND")>-1)commands=BASH(back);	
-					if (commands.IndexOf("SLEEP")>-1 || commands.IndexOf("DELAY")>-1 )commands=SLEEP(back);	
-					if (commands.IndexOf("ECHO")>-1 || commands.IndexOf("PRINTF")>-1 || commands.IndexOf("PRINT")>-1)commands=PRINT(back);	
-					if (commands.IndexOf("CLS")>-1 || commands.IndexOf("CLEAR")>-1)commands=CLEAR();
-					if (commands.IndexOf("DIR")>-1 || commands.IndexOf("LS")>-1)commands=DIR();	
-					if (commands.IndexOf("CAL")>-1 )commands=CAL(back);	
-					if (commands.IndexOf("DATE")>-1 )commands=DATE();	
+					if (commands.IndexOf("CAT")==0 || commands.IndexOf("TYPE")==0)commands=CAT(back);
+					if (commands.IndexOf("BASH")==0 || commands.IndexOf("SH")==0 || commands.IndexOf("COMMAND")==0)commands=BASH(back);	
+					if (commands.IndexOf("SLEEP")==0 || commands.IndexOf("DELAY")==0 )commands=SLEEP(back);	
+					if (commands.IndexOf("ECHO")==0 || commands.IndexOf("PRINTF")==0 || commands.IndexOf("PRINT")==0)commands=PRINT(back);	
+					if (commands.IndexOf("CLS")==0 || commands.IndexOf("CLEAR")==0)commands=CLEAR();
+					if (commands.IndexOf("DIR")==0 || commands.IndexOf("LS")==0)commands=DIR();	
+					if (commands.IndexOf("CAL")==0 )commands=CAL(back);	
+					if (commands.IndexOf("DATE")==0 )commands=DATE();	
 			}
 			public string Commands(){
 				string comm="";
 				Console.Write(">>");
 				comm=Console.ReadLine();
 				return comm;
+			}
+			public string removespaces(string s){
+				int i=0;
+				string ss="";
+				for (i=0;i<s.Length;i++){
+					if (s[i]>=' ')ss=ss+s[i];
+				}
+				return ss;
 			}
 			public string [] args(string argc){
 				return argc.Split(' ');
