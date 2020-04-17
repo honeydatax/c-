@@ -34,6 +34,13 @@ namespace logic{
 							command=list[count];
 						}
 					}
+					run(files);
+				}
+			}
+			~Shells(){
+				center("exit this shell",terminal);
+			}
+			public void run(string files){
 					command=command.Trim();
 					back=command;
 					command=command.ToUpper();
@@ -50,12 +57,6 @@ namespace logic{
 					if (command.IndexOf("DIR")>-1 || command.IndexOf("LS")>-1)command=DIR();	
 					if (command.IndexOf("CAL")>-1 )command=CAL(back);	
 					if (command.IndexOf("DATE")>-1 )command=DATE();	
-					
-
-				}
-			}
-			~Shells(){
-				center("exit this shell",terminal);
 			}
 			public string Commands(){
 				string comm="";
@@ -123,7 +124,10 @@ namespace logic{
 				if (ffiles.Length>1)s=ffiles[1];
 				Shells shells = new Shells(s);
 				shells=null;
+				ffiles=null;
+				center(" ",terminal);
 				GC.Collect();
+				
 				return "";
 			}
 			public string DATE(){
