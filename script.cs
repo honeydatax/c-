@@ -55,7 +55,7 @@ namespace logic{
 					back=commands;
 					commands=commands.ToUpper();
 					
-					if (commands.IndexOf("FOR")>-1){
+					if (commands.IndexOf("FOR")==0){
 						
 						argss=commands2(commands);
 						argss3=commands2(back);
@@ -85,6 +85,35 @@ namespace logic{
 						}
 						commands="";
 					}
+					if (commands.IndexOf("TIME")==0){
+						
+						argss=commands2(commands);
+						argss3=commands2(back);
+						if (argss.Length>1){
+							argss2=args(argss[0]);
+							try{
+								TimeSpan t;
+								DateTime dt1=DateTime.Now;
+
+										commands=argss[1];
+										back=argss3[1];
+										back=back.Trim();
+										run(commands,files,back);
+											
+								DateTime dt2=DateTime.Now;
+								t=dt2-dt1;
+								center("Time :"+Convert.ToString(t.Hours)+":"+Convert.ToString(t.Minutes)+":"+Convert.ToString(t.Seconds)+":"+Convert.ToString(t.Milliseconds),terminal);
+
+
+								
+							}catch{
+								center("error :TIME",terminal);
+							}
+								
+						}
+						commands="";
+					}
+
 					if (commands!="")run(commands,files,back);
 			}
 			
@@ -189,6 +218,8 @@ namespace logic{
 				
 				return "";
 			}
+
+
 			public string DATE(){
 				center(DateTime.Now.ToString(),terminal);
 				return "";
