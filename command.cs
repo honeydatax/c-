@@ -114,6 +114,41 @@ namespace logic{
 						commands="";
 					}
 
+					if (commands.IndexOf("IF")==0){
+						
+						argss=commands2(commands);
+						argss3=commands2(back);
+						if (argss.Length>1){
+							argss2=args(argss[0]);
+							try{
+								bool j=true;
+								string h="";
+								if (argss2.Length>1){
+									h=argss2[1];
+									h=h.Trim();
+									
+									if (h[0]=='0' || h=="FALSE")j=false;
+								}else{
+									j=false;
+								}	
+								if (j){
+										commands=argss[1];
+										
+										back=argss3[1];
+										back=back.Trim();
+								
+										run(commands,files,back);
+								}			
+								
+							}catch{
+								center("error :if",terminal);
+							}
+								
+						}
+						commands="";
+					}
+
+
 					if (commands!="")run(commands,files,back);
 			}
 			
