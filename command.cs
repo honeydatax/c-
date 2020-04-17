@@ -11,7 +11,7 @@ namespace logic{
 			private int count=-1;
 			private bool endss=false;
 			public Shells(string files){
-				Console.WriteLine("new command");	
+				center("new command",78);	
 				string [] list=null;
 				if(files!=""){
 					try{
@@ -36,17 +36,19 @@ namespace logic{
 					command=command.Trim();
 					back=command;
 					command=command.ToUpper();
-					if (files!="") Console.WriteLine("{0}",command);	
+					if (files!="") center(command,79);	
 					if (command.IndexOf("EXIT")>-1){
 						command="";
 						endss=EXIT();
 					}
 					if (command.IndexOf("CAT")>-1 || command.IndexOf("TYPE")>-1)command=CAT(back);
-					if (command.IndexOf("BASH")>-1 || command.IndexOf("SH")>-1)command=BASH(back);	
+					if (command.IndexOf("BASH")>-1 || command.IndexOf("SH")>-1 || command.IndexOf("COMMAND")>-1)command=BASH(back);	
+					if (command.IndexOf("ECHO")>-1 || command.IndexOf("PRINTF")>-1 || command.IndexOf("PRINT")>-1)command=PRINT(back);	
 					if (command.IndexOf("CLS")>-1 || command.IndexOf("CLEAR")>-1)command=CLEAR();
 					if (command.IndexOf("DIR")>-1 || command.IndexOf("LS")>-1)command=DIR();	
 					if (command.IndexOf("CAL")>-1 )command=CAL(back);	
-					if (command.IndexOf("COMMAND")>-1 )command=COMMAND();	
+					if (command.IndexOf("DATE")>-1 )command=DATE();	
+
 				}
 			}
 			public string Commands(){
@@ -73,7 +75,7 @@ namespace logic{
 					int t=0;
 					
 					string [] files = Directory.GetFiles(s);
-					for(i=0;i<files.Length;i++)Console.WriteLine("{0}!",files[i]);	
+					for(i=0;i<files.Length;i++)center(files[i],78);	
 						t=files.Length;
 						Console.WriteLine(" {0} files!",t);	
 					}catch{
@@ -96,16 +98,28 @@ namespace logic{
 				return "";
 			}
 			
-			public string COMMAND(){
-				Shells shells = new Shells("");
+			public string PRINT(string  files){
+				string s="";
+				int i=0;
+				string [] ffiles=args(files);
+				if (ffiles.Length>1){
+					for(i=1;i<ffiles.Length;i++){
+						s=s+ffiles[i]+" ";
+					}
+				}
+				center(s,78);	
 				return "";
 			}
 			public string BASH(string  files){
+				string s="";
 				string [] ffiles=args(files);
-				Console.WriteLine("shell {0}!",files);	
-				if (ffiles.Length>1){
-					Shells shells = new Shells(ffiles[1]);
-				}
+				center(files,78);	
+				if (ffiles.Length>1)s=ffiles[1];
+				Shells shells = new Shells(s);
+				return "";
+			}
+			public string DATE(){
+				center(DateTime.Now.ToString(),78);
 				return "";
 			}
 		public string CAL(string files){
@@ -156,10 +170,28 @@ namespace logic{
 			
 		}
 
-		
+			public string SString(string s, int size){
+				string ss="";
+				int i;
+				for(i=0;i<size;i++)ss=ss+s;
+				return ss;
+			}
+			public string SSpaces(int size){
+				return SString(" ",size);
+			}
+			public void center(string s,int size){
+				int sizes=size/2-s.Length/2;
+				string ss=SSpaces(sizes);
+				ss=ss+s;
+				Console.WriteLine("{0}",ss);
+				
+			}
+
 
 		static void Main(string[] args){
-			Shells shells = new Shells("");
+			string s="";
+			if(args.Length>0)s=args[0];
+			Shells shells = new Shells(s);
 
 				
 
