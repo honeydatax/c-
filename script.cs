@@ -9,6 +9,9 @@ namespace logic{
 			private int count=-1;
 			private bool endss=false;
 			public int terminal=78;
+			public string [] vars= new string[251];
+			public string [] value= new string[251];
+			private int countvar=0;
 			public Shells(string files){
 				string command="";
 				string back="";
@@ -167,8 +170,69 @@ namespace logic{
 					if (commands.IndexOf("CLS")==0 || commands.IndexOf("CLEAR")==0)commands=CLEAR();
 					if (commands.IndexOf("DIR")==0 || commands.IndexOf("LS")==0)commands=DIR();	
 					if (commands.IndexOf("CAL")==0 )commands=CAL(back);	
-					if (commands.IndexOf("DATE")==0 )commands=DATE();	
+					if (commands.IndexOf("DATE")==0 )commands=DATE();
+					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);		
+					if (commands.IndexOf("VARS")==0 )commands=VARS();		
 			}
+			public void addvar(string s1, string s2){
+				string s="";
+				if (countvar<250){
+					s=s1.ToUpper();
+					vars[countvar]=s;
+					value[countvar]=s2;
+					countvar++;
+				}
+			}
+			public int search(string s1){
+				int rets=-1;
+				int i=0;
+				string s=s1.ToUpper(); 
+				if (countvar>0){
+					for(i=0;i<countvar;i++){
+						if(vars[i]==s){
+							rets=i;
+							i=countvar+1;
+						}
+					}
+				} 
+				return rets;
+			}
+			public string VARS(){
+				int rets=0;
+				int i=0;
+				center("vars list",terminal);
+				if (countvar>0){
+					for(i=0;i<countvar;i++){
+						center(vars[i]+"="+value[i],terminal);
+					}
+				} 
+				return "";
+			}
+
+			public string getsvalue(int index){
+				return value[index];
+			}
+			public string LET(string files){
+				string s="";
+				string sss="";
+				int i=0;
+				s=files.Trim();
+				sss=s.ToUpper();
+				if (sss.IndexOf("LET")==0){
+					s=s.Remove(0,3);
+				}
+				string [] ss=vvalue(s);
+				if (ss.Length>1){
+					i=search(ss[0]);
+					if (i==-1){
+						addvar(ss[0],ss[1]);
+					}else{
+						value[i]=ss[1];
+					}
+				} 
+				return "";
+			}
+			
 			public string Commands(){
 				string comm="";
 				Console.Write(">>");
@@ -188,6 +252,10 @@ namespace logic{
 			}
 			public string [] commands2(string argc){
 				return argc.Split(';');
+			}
+
+			public string [] vvalue(string argc){
+				return argc.Split('=');
 			}
 
 			public bool EXIT(){
