@@ -10,8 +10,9 @@ namespace logic{
 			private int max=32000;
 			private int count=-1;
 			private bool endss=false;
+			public int terminal=78;
 			public Shells(string files){
-				center("new command",78);	
+				center("new command",terminal);	
 				string [] list=null;
 				if(files!=""){
 					try{
@@ -36,20 +37,25 @@ namespace logic{
 					command=command.Trim();
 					back=command;
 					command=command.ToUpper();
-					if (files!="") center(command,79);	
+					if (files!="") center(command,terminal);	
 					if (command.IndexOf("EXIT")>-1){
 						command="";
 						endss=EXIT();
 					}
 					if (command.IndexOf("CAT")>-1 || command.IndexOf("TYPE")>-1)command=CAT(back);
 					if (command.IndexOf("BASH")>-1 || command.IndexOf("SH")>-1 || command.IndexOf("COMMAND")>-1)command=BASH(back);	
+					if (command.IndexOf("SLEEP")>-1 || command.IndexOf("DELAY")>-1 )command=SLEEP(back);	
 					if (command.IndexOf("ECHO")>-1 || command.IndexOf("PRINTF")>-1 || command.IndexOf("PRINT")>-1)command=PRINT(back);	
 					if (command.IndexOf("CLS")>-1 || command.IndexOf("CLEAR")>-1)command=CLEAR();
 					if (command.IndexOf("DIR")>-1 || command.IndexOf("LS")>-1)command=DIR();	
 					if (command.IndexOf("CAL")>-1 )command=CAL(back);	
 					if (command.IndexOf("DATE")>-1 )command=DATE();	
+					
 
 				}
+			}
+			~Shells(){
+				center("exit this shell",terminal);
 			}
 			public string Commands(){
 				string comm="";
@@ -75,7 +81,7 @@ namespace logic{
 					int t=0;
 					
 					string [] files = Directory.GetFiles(s);
-					for(i=0;i<files.Length;i++)center(files[i],78);	
+					for(i=0;i<files.Length;i++)center(files[i],terminal);	
 						t=files.Length;
 						Console.WriteLine(" {0} files!",t);	
 					}catch{
@@ -107,21 +113,61 @@ namespace logic{
 						s=s+ffiles[i]+" ";
 					}
 				}
-				center(s,78);	
+				center(s,terminal);	
 				return "";
 			}
 			public string BASH(string  files){
 				string s="";
 				string [] ffiles=args(files);
-				center(files,78);	
+				center(files,terminal);	
 				if (ffiles.Length>1)s=ffiles[1];
 				Shells shells = new Shells(s);
+				shells=null;
+				GC.Collect();
 				return "";
 			}
 			public string DATE(){
-				center(DateTime.Now.ToString(),78);
+				center(DateTime.Now.ToString(),terminal);
 				return "";
 			}
+
+			public string SLEEP(string files){
+				int i;
+				string ss="";
+				string [] s=args(files);
+				if(s.Length>1){
+					try{
+						i=Convert.ToInt16(s[1]);
+						sleeps(i);
+					}catch{
+						center("error : not a valid number",terminal);	
+					}
+						
+
+				}
+				return "";
+			}
+
+			public void sleeps( int args){
+			DateTime dt=DateTime.Now;
+			DateTime dt2=DateTime.Now;
+			int ii;
+			int lens=0;
+			char cc;
+			if (args > 0 ){
+				do{
+					dt=DateTime.Now;
+					if(dt.Second!=dt2.Second){
+						dt2=dt;
+						lens++;
+					}
+				}while (lens<args);
+			}
+
+			
+		}
+
+
 		public string CAL(string files){
 			try{
 			int [] Mday = new int[]{31,28,31,30,31,30,31,31,30,31,30,31};
