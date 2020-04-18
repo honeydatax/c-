@@ -12,6 +12,7 @@ namespace logic{
 			public string [] vars= new string[251];
 			public string [] value= new string[251];
 			private int countvar=0;
+			private bool varson=false;
 			public Shells(string files){
 				string command="";
 				string back="";
@@ -64,9 +65,9 @@ namespace logic{
 					commands=command.Trim();
 					back2=commands;
 					commands=removespaces(commands);
+					commands=commands.Replace("  "," ");					
 					back=commands;
 					commands=commands.ToUpper();
-					
 			
 					if (commands.IndexOf("FOR")==0){
 						
@@ -78,6 +79,7 @@ namespace logic{
 							
 								if (argss2.Length>4){
 									svar=argss2[1];
+									ivar=search(svar);
 									if(ivar<0){
 										addvar(argss2[1],"0");
 										svar=argss2[1];
@@ -97,6 +99,8 @@ namespace logic{
 											back2=argss3[1];
 											back2=back2.Trim();
 											back2=removespaces(back2);
+											commands=commands.Replace("  "," ");
+											back2=back2.Replace("  "," ");
 											run(commands,files,back2);
 											
 										}
@@ -179,7 +183,7 @@ namespace logic{
 			public void run(string command ,string files,string back){
 					string commands="";
 					commands=command.Trim();
-					if (files!="") center(commands,terminal);	
+					if (files!="" && varson) center(commands,terminal);	
 					if (commands.IndexOf("EXIT")>-1){
 						commands="";
 						endss=EXIT();
@@ -187,14 +191,18 @@ namespace logic{
 					if (commands.IndexOf("CAT")==0 || commands.IndexOf("TYPE")==0)commands=CAT(back);
 					if (commands.IndexOf("BASH")==0 || commands.IndexOf("SH")==0 || commands.IndexOf("COMMAND")==0)commands=BASH(back);	
 					if (commands.IndexOf("SLEEP")==0 || commands.IndexOf("DELAY")==0 )commands=SLEEP(back);	
-					if (commands.IndexOf("ECHO")==0 || commands.IndexOf("PRINTF")==0 || commands.IndexOf("PRINT")==0)commands=PRINT(back);	
+					if (commands.IndexOf("PRINTF")==0)commands=PRINTF(back);	
+					if (commands.IndexOf("ECHO")==0 || commands.IndexOf("PRINT")==0)commands=PRINT(back);	
+					if (commands.IndexOf("LOGIC")==0 )commands=LOGIC(back);		
+					if (commands.IndexOf("EXPR")==0 )commands=EXPR(back);		
+					if (commands.IndexOf("CAL")==0 )commands=CAL(back);	
 					if (commands.IndexOf("CLS")==0 || commands.IndexOf("CLEAR")==0)commands=CLEAR();
 					if (commands.IndexOf("DIR")==0 || commands.IndexOf("LS")==0)commands=DIR();	
-					if (commands.IndexOf("CAL")==0 )commands=CAL(back);	
 					if (commands.IndexOf("DATE")==0 )commands=DATE();
-					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);		
 					if (commands.IndexOf("VARS")==0 )commands=VARS();		
-					if (commands.IndexOf("EXPR")==0 )commands=EXPR(back);		
+					if (commands.IndexOf("ON")==0 )commands=ON(true);		
+					if (commands.IndexOf("OFF")==0 )commands=ON(false);		
+					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
 			}
 			public void addvar(string s1, string s2){
 				string s="";
@@ -254,6 +262,10 @@ namespace logic{
 				} 
 				return "";
 			}
+			public string ON(bool b){
+				varson=b;
+				return "";
+			}
 			
 			public string Commands(){
 				string comm="";
@@ -279,7 +291,7 @@ namespace logic{
 						if (b){
 							ii=search(sss);
 							if (ii>-1)sss=getsvalue(ii);
-							ss=ss+sss;
+							ss=ss+sss+" ";
 						}
 						b=false;
 						sss="";
@@ -333,6 +345,116 @@ namespace logic{
 					}
 				if (ivar>-1)value[ivar]=Convert.ToString(sums).Trim();
 				return "";
+			}
+			public string LOGIC(string files){
+				int map=0;
+				string sd="";
+				int signals=0;
+				int bsignals=0;
+				int lastsignal=0;
+				int thesignal=1;
+				string s11="";
+				bool sums=false;
+				bool sumslog=false;
+				int ii=0;
+				int ivar=-1;
+				int i=0;
+				string svar="";
+				sd=files.Replace("  "," ");
+				string [] ffile=args(sd);
+					if (ffile.Length>2){
+						ivar=search(ffile[1]);
+						if (ivar<0)addvar(ffile[1],"0");
+						ivar=search(ffile[1]);
+						for(i=2;i<ffile.Length;i++){
+							svar=ffile[i];
+							svar=svar.Trim();
+							bsignals=signals;
+							signals=7;
+							if (svar!=""){
+							try{
+								if (svar[0]=='|')signals=1;
+								if (svar[0]=='&')signals=2;
+								if (svar[0]=='=')signals=3;
+								if (svar[0]=='!')signals=4;
+								if (svar[0]=='>')signals=5;
+								if (svar[0]=='<')signals=6;
+																
+								if (map==0 && signals==7) s11=svar.Trim();
+								if (map==0 && signals!=7) i=ffile[i].Length+1;
+								if (map==1 && signals>=3 && signals<=6)lastsignal=signals; 
+								if (map==1 && (signals<3 || signals>6)) i=ffile[i].Length+1;
+								if (map==2 && signals==7){
+										if(bsignals==3)sums=LIKE(s11,svar);
+										if(bsignals==4)sums=DIFERENT(s11,svar);
+										if(bsignals==5)sums=BIG(s11,svar);
+										if(bsignals==6)sums=LESS(s11,svar);
+																				
+										if(thesignal==1)sumslog=ORS(sumslog,sums); 
+										if(thesignal==2)sumslog=ANDS(sumslog,sums); 
+										
+								}
+								if (map==2 && signals!=7)i=ffile[i].Length+1;
+								if (map==3 && (signals<1 || signals>2))i=ffile[i].Length+1;	
+								if (map==3 && signals>=1 && signals<=2){
+									thesignal=signals;
+									map=-1;
+									
+								}
+								map++;
+							}catch{
+								center("ERROR LOGIC",terminal);
+							}
+						}
+						}
+						i=0;
+						if (sumslog) i=1;
+						value[ivar]=Convert.ToString(i).Trim();
+					}
+
+				return "";
+			}
+
+			public bool ANDS(bool i1,bool i2){
+				return i1 && i2;
+			}
+
+			public bool ORS(bool i1,bool i2){
+				return i1 || i2;
+			}
+
+			public bool LIKE(string i1,string i2){
+				return i1 == i2;
+			}
+
+			public bool DIFERENT(string i1,string i2){
+				
+				return i1 != i2;
+			}
+
+			public bool BIG(string i1,string i2){
+				int ii1=0;
+				int ii2=0;
+				
+				try{
+					ii1=Convert.ToInt16(i1);
+					ii2=Convert.ToInt16(i2);
+				}catch{
+					center("ERROR LOGIC",terminal);
+				}
+				return (ii1 > ii2);
+			}
+			public bool LESS(string i1,string i2){
+				int ii1=0;
+				int ii2=0;
+				
+				try{
+					ii1=Convert.ToInt16(i1);
+					ii2=Convert.ToInt16(i2);
+				}catch{
+					center("ERROR LOGIC",terminal);
+				}
+				return (ii1 < ii2);
 			}
 			public int ADDS(int i1,int i2){
 				return i1+i2;
@@ -398,6 +520,24 @@ namespace logic{
 				center(s,terminal);	
 				return "";
 			}
+			public string PRINTF(string  files){
+				string s="";
+				int i=0;
+				string ss=files.Replace("\\n","\n");
+				ss=ss.Replace("\\t","\t");
+				ss=ss.Replace("\\r","\r");
+				ss=ss.Replace("\\b","\b");
+				ss=ss.Replace("\\a","\a");
+				string [] ffiles=args(ss);
+				if (ffiles.Length>1){
+					for(i=1;i<ffiles.Length;i++){
+						s=s+ffiles[i]+" ";
+					}
+				}
+				Console.Write(s);	
+				return "";
+			}
+
 			public string BASH(string  files){
 				string s="";
 				string [] ffiles=args(files);
