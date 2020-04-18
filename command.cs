@@ -242,8 +242,26 @@ namespace logic{
 			public string removespaces(string s){
 				int i=0;
 				string ss="";
+				bool b=false;
+				string sss="";
+				int ii=0;
 				for (i=0;i<s.Length;i++){
-					if (s[i]>=' ')ss=ss+s[i];
+					if (s[i]>' ' && b){
+						sss=sss+s[i];
+					}
+					if (s[i]=='$'){
+						b=true;
+					}
+					if (s[i]>=' ' && !b)ss=ss+s[i];
+					if (s[i]==' ' || i>=(s.Length-1)){
+						if (b){
+							ii=search(sss);
+							if (ii>-1)sss=getsvalue(ii);
+							ss=ss+sss;
+						}
+						b=false;
+						
+					}
 				}
 				return ss;
 			}
