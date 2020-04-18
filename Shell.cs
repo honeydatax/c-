@@ -67,6 +67,7 @@ namespace logic{
 					back=commands;
 					commands=commands.ToUpper();
 					
+			
 					if (commands.IndexOf("FOR")==0){
 						
 						argss=commands2(commands);
@@ -170,7 +171,7 @@ namespace logic{
 						}
 						commands="";
 					}
-
+					
 
 					if (commands!="")run(commands,files,back);
 			}
@@ -193,6 +194,7 @@ namespace logic{
 					if (commands.IndexOf("DATE")==0 )commands=DATE();
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);		
 					if (commands.IndexOf("VARS")==0 )commands=VARS();		
+					if (commands.IndexOf("EXPR")==0 )commands=EXPR(back);		
 			}
 			public void addvar(string s1, string s2){
 				string s="";
@@ -294,6 +296,56 @@ namespace logic{
 
 			public string [] vvalue(string argc){
 				return argc.Split('=');
+			}
+			public string EXPR(string files){
+				int signals=0;
+				int sums=0;
+				int ii=0;
+				int ivar=-1;
+				int i=0;
+				string svar="";
+				string [] ffile=args(files);
+					if (ffile.Length>2){
+						ivar=search(ffile[1]);
+						if (ivar<0)addvar(ffile[1],"0");
+						ivar=search(ffile[1]);
+						for(i=2;i<ffile.Length;i++){
+							svar=ffile[i];
+							svar=svar.Trim();
+							if (svar[0]=='+')signals=0;
+							if (svar[0]=='-')signals=1;
+							if (svar[0]=='*')signals=2;
+							if (svar[0]=='/')signals=3;
+							if (svar[0]=='\\')signals=3;
+							try{
+								if (svar[0]>='0' && svar[0]<='9'){
+									ii=Convert.ToInt16(svar);
+									if(signals==0)sums=ADDS(sums,ii);
+									if(signals==1)sums=SUBS(sums,ii);
+									if(signals==2)sums=MULS(sums,ii);
+									if(signals==3)sums=DIVS(sums,ii);
+								}
+							}catch{
+								center("ERROR expr",terminal);
+							}
+							
+						}
+					}
+				if (ivar>-1)value[ivar]=Convert.ToString(sums).Trim();
+				return "";
+			}
+			public int ADDS(int i1,int i2){
+				return i1+i2;
+			}
+
+			public int SUBS(int i1,int i2){
+				return i1-i2;
+			}
+			public int DIVS(int i1,int i2){
+				return i1/i2;
+			}
+			public int MULS(int i1,int i2){
+				return i1*i2;
 			}
 
 			public bool EXIT(){
