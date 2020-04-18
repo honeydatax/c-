@@ -43,8 +43,14 @@ namespace logic{
 			~Shells(){
 				center("exit this shell",terminal);
 			}
+			public void Dispose(){
+				center("dispose shell",terminal);
+				GC.SuppressFinalize(this);
+				
+			}
 			public void runs(string command ,string files){
 					string back="";
+					string back2="";
 					string commands="";
 					string [] argss=null;
 					string [] argss2=null;
@@ -53,7 +59,10 @@ namespace logic{
 					int i1=0;
 					int i2=0;					
 					int i3=0;
+					string svar="";
+					int ivar=0;
 					commands=command.Trim();
+					back2=commands;
 					commands=removespaces(commands);
 					back=commands;
 					commands=commands.ToUpper();
@@ -61,22 +70,33 @@ namespace logic{
 					if (commands.IndexOf("FOR")==0){
 						
 						argss=commands2(commands);
-						argss3=commands2(back);
+						argss3=commands2(back2);
 						if (argss.Length>1){
 							argss2=args(argss[0]);
 							try{
 							
-								if (argss2.Length>3){
-									i1=Convert.ToInt16(argss2[1]);
-									i2=Convert.ToInt16(argss2[2]);
-									i3=Convert.ToInt16(argss2[3]);
+								if (argss2.Length>4){
+									svar=argss2[1];
+									if(ivar<0){
+										addvar(argss2[1],"0");
+										svar=argss2[1];
+									}
+									ivar=search(svar);
+									i1=Convert.ToInt16(argss2[2]);
+									i2=Convert.ToInt16(argss2[3]);
+									i3=Convert.ToInt16(argss2[4]);
 									if (i1<i2){
-										commands=argss[1];
-										back=argss3[1];
-										back=back.Trim();
+										
 										for(i=i1;i<i2;i=i+i3){
-											
-											run(commands,files,back);
+											value[ivar]=Convert.ToString(i).Trim();
+											commands=argss3[1];
+											commands=commands.Trim();
+											commands=commands.ToUpper();
+											commands=removespaces(commands);
+											back2=argss3[1];
+											back2=back2.Trim();
+											back2=removespaces(back2);
+											run(commands,files,back2);
 											
 										}
 									}
@@ -260,7 +280,7 @@ namespace logic{
 							ss=ss+sss;
 						}
 						b=false;
-						
+						sss="";
 					}
 				}
 				return ss;
@@ -332,10 +352,13 @@ namespace logic{
 				center(files,terminal);	
 				if (ffiles.Length>1)s=ffiles[1];
 				Shells shells = new Shells(s);
+				shells.Dispose();
 				shells=null;
 				ffiles=null;
 				center(" ",terminal);
+				
 				GC.Collect();
+				
 				
 				return "";
 			}
