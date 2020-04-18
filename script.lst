@@ -1,3 +1,7 @@
 cls
-cat hello.txt
-dir
+a=0
+b=0
+c=10
+d=1
+vars
+for a $b  $c  $d  ; echo $a
