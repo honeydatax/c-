@@ -56,16 +56,17 @@ namespace logic{
 					string [] argss=null;
 					string [] argss2=null;
 					string [] argss3=null;
+					string argvvv="";
 					int i=0;
 					int i1=0;
 					int i2=0;					
 					int i3=0;
 					string svar="";
 					int ivar=0;
-					commands=command.Trim();
+					commands=command.Replace("  "," ");					
 					back2=commands;
 					commands=removespaces(commands);
-					commands=commands.Replace("  "," ");					
+					commands=commands.Trim();
 					back=commands;
 					commands=commands.ToUpper();
 			
@@ -74,7 +75,10 @@ namespace logic{
 						argss=commands2(commands);
 						argss3=commands2(back2);
 						if (argss.Length>1){
-							argss2=args(argss[0]);
+							argvvv=argss[0];
+							argvvv=removespaces(argvvv);
+							argvvv=argvvv.Replace("  "," ");		
+							argss2=args(argvvv);
 							try{
 							
 								if (argss2.Length>4){
@@ -208,6 +212,7 @@ namespace logic{
 				string s="";
 				if (countvar<250){
 					s=s1.ToUpper();
+					s=s.Trim();
 					vars[countvar]=s;
 					value[countvar]=s2;
 					countvar++;
@@ -217,6 +222,7 @@ namespace logic{
 				int rets=-1;
 				int i=0;
 				string s=s1.ToUpper(); 
+				s=s.Trim();
 				if (countvar>0){
 					for(i=0;i<countvar;i++){
 						if(vars[i]==s){
@@ -251,6 +257,8 @@ namespace logic{
 				if (sss.IndexOf("LET")==0){
 					s=s.Remove(0,3);
 				}
+				
+				
 				string [] ss=vvalue(s);
 				if (ss.Length>1){
 					i=search(ss[0]);
@@ -274,28 +282,44 @@ namespace logic{
 				return comm;
 			}
 			public string removespaces(string s){
+				bool b1=false;
 				int i=0;
 				string ss="";
 				bool b=false;
 				string sss="";
 				int ii=0;
 				for (i=0;i<s.Length;i++){
-					if (s[i]>' ' && b){
+					
+					if (s[i]>=' ' && !b && s[i]!='$')ss=ss+s[i];
+					b1=true;
+					if ((s[i]>='A' && s[i]<='Z') || (s[i]>='a' && s[i]<='z')  || (s[i]>='0' && s[i]<='9'))b1=false;
+					if (s[i]>' ' && b && !b1){
 						sss=sss+s[i];
 					}
-					if (s[i]=='$'){
-						b=true;
-					}
-					if (s[i]>=' ' && !b)ss=ss+s[i];
-					if (s[i]==' ' || i>=(s.Length-1)){
-						if (b){
-							ii=search(sss);
-							if (ii>-1)sss=getsvalue(ii);
-							ss=ss+sss+" ";
+
+					if (b) {
+							if (b1 || i>=(s.Length-1)){
+						
+
+								
+								sss=sss.Trim();
+								ii=search(sss);
+
+							
+								if (ii>-1){
+								
+									sss=getsvalue(ii);
+									ss=ss+sss+" ";
+								}
+								
+								sss="";
+								
+								if (!(i>=s.Length-1))ss=ss+s[i];
+								b=false;
+							}
+
 						}
-						b=false;
-						sss="";
-					}
+					if (s[i]=='$')b=true;
 				}
 				return ss;
 			}
