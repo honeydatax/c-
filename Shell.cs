@@ -13,7 +13,10 @@ namespace logic{
 			public string [] value= new string[251];
 			private int countvar=0;
 			private bool varson=false;
+			private string ggotos="";
+			private bool ggoto=false;
 			public Shells(string files){
+				int i=0;
 				string command="";
 				string back="";
 				center("new command",terminal);	
@@ -25,7 +28,10 @@ namespace logic{
 						endss=true;
 					}
 				}
+				
 				while(!endss){
+					ggotos="";
+					ggoto=false;
 					if(files==""){
 						command=Commands();
 						
@@ -39,6 +45,16 @@ namespace logic{
 						}
 					}
 					runs(command,files);
+					if (files!="" && ggoto){
+						count=list.Length;
+						for(i=0;i<list.Length;i++){
+							if (list[i].IndexOf(ggotos)==0){
+								count=i-1;
+								i=list.Length+1;
+							}
+						}
+						
+					}
 				}
 			}
 			~Shells(){
@@ -69,9 +85,11 @@ namespace logic{
 					back3=back2;
 					commands=removespaces(commands);
 					commands=commands.Trim();
+					commands=commands.Replace("  "," ");					
 					back=commands;
 					commands=commands.ToUpper();
-			
+					
+				if (commands.IndexOf(":")!=0 && commands.IndexOf("#")!=0){
 					if (commands.IndexOf("FOR")==0){
 						
 						argss=commands2(commands);
@@ -106,7 +124,7 @@ namespace logic{
 											commands=commands.ToUpper();
 											
 											run(commands,files,back2);
-											
+											if(ggoto)i=i2+1;
 										}
 									}
 								}
@@ -195,7 +213,7 @@ namespace logic{
 						commands="";
 					}
 					
-
+				}
 					if (commands!="")run(commands,files,back);
 			}
 			
@@ -207,7 +225,8 @@ namespace logic{
 				string [] backs;
 				ccommandss=commands2(command);
 				backs=commands2(back);
-				for(i=0;i<ccommandss.Length;i++){	
+				for(i=0;i<ccommandss.Length;i++){
+					
 					commands=ccommandss[i];
 					back=backs[i];
 					back=back.Trim();
@@ -232,9 +251,22 @@ namespace logic{
 					if (commands.IndexOf("VARS")==0 )commands=VARS();		
 					if (commands.IndexOf("ON")==0 )commands=ON(true);		
 					if (commands.IndexOf("OFF")==0 )commands=ON(false);		
-					if (commands.IndexOf("HELP")==0 )commands=HELP();		
+					if (commands.IndexOf("HELP")==0 )commands=HELP();
+					if (commands.IndexOf("GOTO")==0 )commands=GOTO(back);				
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
+					if(ggoto)i=ccommandss.Length+1;
 				}
+			}
+			public string GOTO(string files){
+				string s="";
+				string [] ss=args(files);
+				if (ss.Length>1){
+					ggotos=":"+ss[1].Trim();
+					
+					if (ggotos.Length>1)ggoto=true;
+					
+				}
+				return "";
 			}
 			public void addvar(string s1, string s2){
 				string s="";
