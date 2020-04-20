@@ -53,6 +53,7 @@ namespace logic{
 					string back="";
 					string back2="";
 					string commands="";
+					string back3="";
 					string [] argss=null;
 					string [] argss2=null;
 					string [] argss3=null;
@@ -65,6 +66,7 @@ namespace logic{
 					int ivar=0;
 					commands=command.Replace("  "," ");					
 					back2=commands;
+					back3=back2;
 					commands=removespaces(commands);
 					commands=commands.Trim();
 					back=commands;
@@ -96,15 +98,13 @@ namespace logic{
 										
 										for(i=i1;i<i2;i=i+i3){
 											value[ivar]=Convert.ToString(i).Trim();
-											commands=argss3[1];
+											commands=back3;
 											commands=commands.Trim();
-											commands=commands.ToUpper();
 											commands=removespaces(commands);
-											back2=argss3[1];
-											back2=back2.Trim();
-											back2=removespaces(back2);
 											commands=commands.Replace("  "," ");
-											back2=back2.Replace("  "," ");
+											back2=commands;
+											commands=commands.ToUpper();
+											
 											run(commands,files,back2);
 											
 										}
@@ -132,9 +132,8 @@ namespace logic{
 								TimeSpan t;
 								DateTime dt1=DateTime.Now;
 
-										commands=argss[1];
-										back=argss3[1];
-										back=back.Trim();
+
+										
 										run(commands,files,back);
 											
 								DateTime dt2=DateTime.Now;
@@ -180,10 +179,10 @@ namespace logic{
 									j=false;
 								}	
 								if (j){
-										commands=argss[1];
 										
-										back=argss3[1];
-										back=back.Trim();
+										
+										
+										
 								
 										run(commands,files,back);
 								}			
