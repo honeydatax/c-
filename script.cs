@@ -201,12 +201,23 @@ namespace logic{
 			}
 			
 			public void run(string command ,string files,string back){
-					string commands="";
-					commands=command.Trim();
+				string ss="";
+				int i=0;
+				string commands="";
+				string [] ccommandss;
+				string [] backs;
+				ccommandss=commands2(command);
+				backs=commands2(back);
+				for(i=0;i<ccommandss.Length;i++){	
+					commands=ccommandss[i];
+					back=backs[i];
+					back=back.Trim();
+					commands=commands.Trim();
 					if (files!="" && varson) center(commands,terminal);	
 					if (commands.IndexOf("EXIT")>-1){
 						commands="";
 						endss=EXIT();
+						i=ccommandss.Length+1;
 					}
 					if (commands.IndexOf("CAT")==0 || commands.IndexOf("TYPE")==0)commands=CAT(back);
 					if (commands.IndexOf("BASH")==0 || commands.IndexOf("SH")==0 || commands.IndexOf("COMMAND")==0)commands=BASH(back);	
@@ -224,6 +235,7 @@ namespace logic{
 					if (commands.IndexOf("OFF")==0 )commands=ON(false);		
 					if (commands.IndexOf("HELP")==0 )commands=HELP();		
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
+				}
 			}
 			public void addvar(string s1, string s2){
 				string s="";
