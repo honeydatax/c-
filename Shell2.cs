@@ -118,11 +118,16 @@ namespace logic{
 						commands="";
 					}
 					if (commands.IndexOf("TIME")==0){
+						string s="";
+						string sss="";
 						
 						argss=commands2(commands);
+						
+						sss=argss[0];
 						argss3=commands2(back);
 						if (argss.Length>1){
 							argss2=args(argss[0]);
+							
 							try{
 								TimeSpan t;
 								DateTime dt1=DateTime.Now;
@@ -134,7 +139,18 @@ namespace logic{
 											
 								DateTime dt2=DateTime.Now;
 								t=dt2-dt1;
-								center("Time :"+Convert.ToString(t.Hours)+":"+Convert.ToString(t.Minutes)+":"+Convert.ToString(t.Seconds)+":"+Convert.ToString(t.Milliseconds),terminal);
+								
+								
+				string [] ss=args(sss);
+				if (ss.Length>1){
+					i=search(ss[1]);
+					if (i==-1){
+						addvar(ss[1],Convert.ToString(t.Hours)+":"+Convert.ToString(t.Minutes)+":"+Convert.ToString(t.Seconds)+":"+Convert.ToString(t.Milliseconds));
+					}else{
+						value[i]=Convert.ToString(t.Hours)+":"+Convert.ToString(t.Minutes)+":"+Convert.ToString(t.Seconds)+":"+Convert.ToString(t.Milliseconds);
+					}
+				} 
+				
 
 
 								
@@ -202,7 +218,7 @@ namespace logic{
 					if (commands.IndexOf("CAL")==0 )commands=CAL(back);	
 					if (commands.IndexOf("CLS")==0 || commands.IndexOf("CLEAR")==0)commands=CLEAR();
 					if (commands.IndexOf("DIR")==0 || commands.IndexOf("LS")==0)commands=DIR();	
-					if (commands.IndexOf("DATE")==0 )commands=DATE();
+					if (commands.IndexOf("DATE")==0 )commands=DATE(back);
 					if (commands.IndexOf("VARS")==0 )commands=VARS();		
 					if (commands.IndexOf("ON")==0 )commands=ON(true);		
 					if (commands.IndexOf("OFF")==0 )commands=ON(false);		
@@ -580,9 +596,28 @@ namespace logic{
 			}
 
 
-			public string DATE(){
-				center(DateTime.Now.ToString(),terminal);
+			public string DATE(string files){
+				string s="";
+				string sss="";
+				int i=0;
+				s=files.Trim();
+				sss=s.ToUpper();
+				string [] ss=args(s);
+				if (ss.Length>1){
+					i=search(ss[1]);
+					if (i==-1){
+						addvar(ss[1],DateTime.Now.ToString());
+					}else{
+						value[i]=DateTime.Now.ToString();
+					}
+				} 
+				
+
+
 				return "";
+
+
+
 			}
 
 			public string SLEEP(string files){
