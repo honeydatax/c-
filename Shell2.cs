@@ -222,6 +222,7 @@ namespace logic{
 					if (commands.IndexOf("VARS")==0 )commands=VARS();		
 					if (commands.IndexOf("ON")==0 )commands=ON(true);		
 					if (commands.IndexOf("OFF")==0 )commands=ON(false);		
+					if (commands.IndexOf("HELP")==0 )commands=HELP();		
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
 			}
 			public void addvar(string s1, string s2){
@@ -634,6 +635,29 @@ namespace logic{
 						
 
 				}
+				return "";
+			}
+			public string HELP(){
+				center("help this help",terminal);
+				center("for var $from $into $steep ; echo $var ; # for command",terminal);
+				center("logic var $var1 = $var2 && $var3 ! $var4 ; # bool test",terminal);
+				center("if $var ; echo $var ; # check if a var is false or 0 afther a logic var test",terminal);
+				center("time var ; sleep 6 ; # put the take time run in a var",terminal);
+				center("sleep $var ; # waits seconds",terminal);
+				center("exit ; # exit command line or a bash file",terminal);
+				center("cat $file ; # list a file in the screen",terminal);
+				center("command $file ; # call a command file bash .lst",terminal);
+				center("printf $var \t $var2 \n\r ; # put a message in a screen",terminal);
+				center("echo $var ; # put a message in a screen",terminal);
+				center("expr var $var1 + $var2 - $var3 * $var4 / $var5 ; # mat expressions",terminal);
+				center("cal 2020 4",terminal);
+				center("cls ; # clear screen",terminal);
+				center("dir ; # list all files",terminal);
+				center("dir ; # list all files",terminal);
+				center("date var ; # put data time into a var",terminal);
+				center("on ; # show the command in a bash file",terminal);
+				center("off ; # dont show the command in a bash file",terminal);
+				center("vars ; # list all var in the screen",terminal);
 				return "";
 			}
 
