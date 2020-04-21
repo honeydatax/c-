@@ -11,6 +11,9 @@ namespace logic{
 			public int terminal=78;
 			public string [] vars= new string[251];
 			public string [] value= new string[251];
+			public int [] gosubs= new int[251];
+			private int returns=0;
+			private int returnss=0;
 			private int countvar=0;
 			private bool varson=false;
 			private string ggotos="";
@@ -44,7 +47,9 @@ namespace logic{
 							command=list[count];
 						}
 					}
+					returns=count;
 					runs(command,files);
+					if (returns!=count)count=returns;
 					if (files!="" && ggoto){
 						count=list.Length;
 						for(i=0;i<list.Length;i++){
@@ -252,10 +257,28 @@ namespace logic{
 					if (commands.IndexOf("ON")==0 )commands=ON(true);		
 					if (commands.IndexOf("OFF")==0 )commands=ON(false);		
 					if (commands.IndexOf("HELP")==0 )commands=HELP();
-					if (commands.IndexOf("GOTO")==0 )commands=GOTO(back);				
+					if (commands.IndexOf("GOTO")==0 )commands=GOTO(back);
+					if (commands.IndexOf("GOSUB")==0 )commands=GOSUB(back);
+					if (commands.IndexOf("RETURN")==0 )commands=RETURN();
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
 					if(ggoto)i=ccommandss.Length+1;
 				}
+			}
+			public string RETURN(){
+				if (returnss>0){
+					returnss--;
+					returns=gosubs[returnss];
+				}
+				return "";
+			}
+			public string GOSUB(string files){
+				center("Line"+Convert.ToString(returns),terminal);
+				if (returnss<250){
+					gosubs[returnss]=returns;
+					returnss++;
+				}
+				return GOTO(files);
+				
 			}
 			public string GOTO(string files){
 				string s="";
