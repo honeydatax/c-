@@ -272,7 +272,7 @@ namespace logic{
 				return "";
 			}
 			public string GOSUB(string files){
-				center("Line"+Convert.ToString(returns),terminal);
+				
 				if (returnss<250){
 					gosubs[returnss]=returns;
 					returnss++;
@@ -368,16 +368,19 @@ namespace logic{
 				bool b1=false;
 				int i=0;
 				string ss="";
+				char charback=' ';
 				bool b=false;
 				string sss="";
 				int ii=0;
+				
 				for (i=0;i<s.Length;i++){
 					
 					if (s[i]>=' ' && !b && s[i]!='$')ss=ss+s[i];
 					b1=true;
 					if ((s[i]>='A' && s[i]<='Z') || (s[i]>='a' && s[i]<='z')  || (s[i]>='0' && s[i]<='9'))b1=false;
-					if (s[i]>' ' && b && !b1){
+					if (s[i]>' ' && b && !b1 && !(charback==' ' && s[i]==' ')){
 						sss=sss+s[i];
+						charback=s[i];
 					}
 
 					if (b) {
