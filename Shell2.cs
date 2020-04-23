@@ -263,6 +263,7 @@ namespace logic{
 					if (commands.IndexOf("MID")==0 )commands=MID(back);
 					if (commands.IndexOf("RIGTH")==0 )commands=RIGTH(back);
 					if (commands.IndexOf("LEFT")==0 )commands=LEFT(back);
+					if (commands.IndexOf("READ")==0 )commands=READ(back);
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
 					
 					if(ggoto)i=ccommandss.Length+1;
@@ -378,13 +379,47 @@ namespace logic{
 					value[ivar]=mid(value[ivar],0,i1);
 
 				}catch{
-					center("ERRO RIGTH",terminal);
+					center("ERRO LEFT",terminal);
 				}
 							
 		}	
 		return "";
 		
 		}
+		public string READ(string backs){
+			string [] argss = args(backs);
+			int ivar=0;
+			string svar="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>1){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+										
+					value[ivar]=Console.ReadLine();
+
+				}catch{
+					center("ERRO READ",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
 
 
 
