@@ -261,7 +261,10 @@ namespace logic{
 					if (commands.IndexOf("GOSUB")==0 )commands=GOSUB(back);
 					if (commands.IndexOf("RETURN")==0 )commands=RETURN();
 					if (commands.IndexOf("MID")==0 )commands=MID(back);
+					if (commands.IndexOf("RIGTH")==0 )commands=RIGTH(back);
+					if (commands.IndexOf("LEFT")==0 )commands=LEFT(back);
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
+					
 					if(ggoto)i=ccommandss.Length+1;
 				}
 			}
@@ -310,6 +313,80 @@ namespace logic{
 		return "";
 		
 		}
+
+		public string RIGTH(string backs){
+			string [] argss = args(backs);
+			int ivar=0;
+			string svar="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+					
+					i1=Convert.ToInt16(argss[2]);
+					i2=value[ivar].Length-i1;
+					i1=value[ivar].Length;
+					value[ivar]=mid(value[ivar],i2,i1);
+
+				}catch{
+					center("ERRO RIGTH",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string LEFT(string backs){
+			string [] argss = args(backs);
+			int ivar=0;
+			string svar="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+					
+					i1=Convert.ToInt16(argss[2]);
+					
+					
+					value[ivar]=mid(value[ivar],0,i1);
+
+				}catch{
+					center("ERRO RIGTH",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+
 
 			public string RETURN(){
 				if (returnss>0){
