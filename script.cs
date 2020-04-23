@@ -410,7 +410,12 @@ namespace logic{
 				return ss;
 			}
 			public string [] args(string argc){
-				return argc.Split(' ');
+				int i=0;
+				int size=0;
+				string [] ss =argc.Split(' ');
+				string [] sss = new string[ss.Length];
+				for (i=0;i<ss.Length;i++)sss[i]=ss[i].Trim();
+				return sss ;
 			}
 			public string [] commands2(string argc){
 				return argc.Split(';');
