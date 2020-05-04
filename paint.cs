@@ -12,6 +12,43 @@ using System.Timers;
 
 namespace FormWithButton
 {
+		public class palets{
+			public int x=0;
+			public int y=0;
+			public int w=20;
+			public int h=20;
+			public Brush brush=Brushes.Black;
+			public Pen pen=Pens.Black;
+			public elements elements1 = new elements();
+			public void pdraws(Graphics canvas){
+				Brush [] bb=new Brush[]{Brushes.Black,Brushes.Blue,Brushes.Green,Brushes.Red,Brushes.Cyan,Brushes.Yellow,Brushes.White};
+				Pen [] pp=new Pen[]{Pens.Black,Pens.Blue,Pens.Green,Pens.Red,Pens.Cyan,Pens.Yellow,Pens.White};
+				int i=0;
+				int ii=0;
+				int xx=0;
+				int yy=0;
+				for (i=0;i<bb.Length;i++)elements1.edraws(x+(i*w),y,w,h,bb[i],canvas);
+			}
+			public void check(MouseEventArgs e){
+				Brush [] bb=new Brush[]{Brushes.Black,Brushes.Blue,Brushes.Green,Brushes.Red,Brushes.Cyan,Brushes.Yellow,Brushes.White};
+				Pen [] pp=new Pen[]{Pens.Black,Pens.Blue,Pens.Green,Pens.Red,Pens.Cyan,Pens.Yellow,Pens.White};
+				int i=0;
+				if (e.Button==System.Windows.Forms.MouseButtons.Left){
+					for(i=0;i<bb.Length;i++){
+						if(e.X>x+(i*w) && e.Y>y && e.X<x+((i+1)*w) && e.Y<y+h){
+							pen=pp[i];
+							brush=bb[i];
+						}
+					}
+				}
+			}
+						
+		}
+		public class elements{
+			public void edraws(int x,int y,int w, int h,Brush c, Graphics canvas){
+				canvas.FillRectangle(c,x,y,w,h);				
+			}
+		}
 		public class canva{
 			public int x=0;
 			public int y=0;
@@ -19,6 +56,8 @@ namespace FormWithButton
 			private int y1=0;
 			private int x2=0;
 			private int y2=0;
+			public Brush brush=Brushes.Black;
+			public Pen pen=Pens.Black;
 			public bool todo=false;
 			public int selected=0;
 			public int colors=0;
@@ -46,12 +85,12 @@ namespace FormWithButton
 					todo=false;
 					x2=e.X-x1;
 					y2=e.Y-y1;
-					if (selected==0) fg.FillRectangle(Brushes.Black,x1,y1,x2,y2);
-					if (selected==1) fg.DrawRectangle(Pens.Black,x1,y1,x2,y2);
-					if (selected==2) fg.FillEllipse(Brushes.Black,x1,y1,x2,y2);
-					if (selected==3) fg.DrawEllipse(Pens.Black,x1,y1,x2,y2);
-					if (selected==4) fg.DrawLine(Pens.Black,x1,y1,x2+x1,y2+y1);
-					Console.WriteLine("debug {0}",selected);
+					if (selected==0) fg.FillRectangle(brush,x1,y1,x2,y2);
+					if (selected==1) fg.DrawRectangle(pen,x1,y1,x2,y2);
+					if (selected==2) fg.FillEllipse(brush,x1,y1,x2,y2);
+					if (selected==3) fg.DrawEllipse(pen,x1,y1,x2,y2);
+					if (selected==4) fg.DrawLine(pen,x1,y1,x2+x1,y2+y1);
+					
 				}
 				return b;
 			}
@@ -127,6 +166,7 @@ namespace FormWithButton
     {
 		public int selected=-1;
 		public canva canvas1 =null;
+		public palets pal1 =new palets();
 		public gmenu menu1 = new gmenu(5);
 		private glabel bar1 = new glabel();
 		public Graphics canvas;
@@ -151,8 +191,8 @@ namespace FormWithButton
 			h=(int) this.Height;
 			this.Paint += new PaintEventHandler(OnPaints);
 			canvas1=new canva(w,h);
-			menu1.x=100;
-			menu1.y=20;
+			menu1.x=0;
+			menu1.y=0;
 			menu1.w=140;
 			menu1.h=30;
 			menu1.size=12;
@@ -161,6 +201,9 @@ namespace FormWithButton
 			menu1.caption[2]="fill oval";
 			menu1.caption[3]="oval";
 			menu1.caption[4]="line";
+			pal1.x=150;
+			pal1.y=0;
+			
 			this.MouseDown += new MouseEventHandler(OnMouseDowns);
 			this.MouseUp += new MouseEventHandler(OnMouseUps);
 			this.CenterToScreen();
@@ -173,6 +216,11 @@ namespace FormWithButton
 			if (!b && menu1.visible){
 				selected=menu1.check(e);
 				canvas1.selected=selected;
+				pal1.check(e);
+				if (e.Button==System.Windows.Forms.MouseButtons.Left){
+					canvas1.brush=pal1.brush;
+					canvas1.pen=pal1.pen;
+				}
 			}else{
 				canvas1.check(e);
 			}
@@ -191,6 +239,8 @@ namespace FormWithButton
 			if (menu1.visible){
 				canvas1.visible=!menu1.visible;
 				menu1.drawMenu(canvas);
+				pal1.pdraws(canvas);
+
 			}else{
 				canvas1.visible=!menu1.visible;
 				canvas1.draws(canvas);
