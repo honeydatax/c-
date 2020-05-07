@@ -31,9 +31,13 @@ namespace FormWithButton
 			}
 			public void drawList(Graphics canvas){
 				int i=0;
+				int ii=0;
 				if (ppointer+length>listss.length)ppointer=listss.length-length;
 				if (ppointer<0)ppointer=0;
-				for(i=0;i<length;i++)caption[i]=listss.listss[i+ppointer];
+				ii=length;
+				if (listss.length<length)ii=listss.length;
+				for (i=0;i<length;i++)caption[i]="";
+				for(i=0;i<ii;i++)caption[i]=listss.listss[i+ppointer];
 				for(i=0;i<length;i++)label1.drawLabel(x,y+(i*h),w,h,size,caption[i],canvas);
 			}
 			public int check(MouseEventArgs e){
