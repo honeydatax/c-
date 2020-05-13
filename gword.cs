@@ -32,6 +32,7 @@ namespace FormWithButton
 			}
 			public void drawview(Graphics canvas){
 				int i=0;
+				if (size<7)size=7;
 				fline();
 				box1.drawbox(x,y,w,length*(size+4),size,caption[i],canvas);
 				for(i=0;i<length;i++)line1.drawLabel(x,y+(i*(size+4)),w,h,size,caption[i],canvas);
@@ -51,18 +52,26 @@ namespace FormWithButton
 			}
 			private void fline(){
 				string wword="";
+				string wwword="";
 				int i=0;
+				bool t=false;
 				int lline=0;
 				int ccol=0;
+				if (size<7)size=7;
 				int ncoll=w/size;
+				if (ncoll<1)ncoll=1;
 				int pos=0;
 				for(i=0;i<length;i++)caption[i]="";
 				for(i=0;i<text.Length;i++){
 					if(lline<length && text[i]==' '){
-						caption[lline]=caption[lline]+wword;
-						wword=" ";
-						ccol++;
+						
+							caption[lline]=caption[lline]+wwword+wword;
+							ccol++;
+							wwword=" ";
+							wword="";
+
 					}
+				
 					if(lline<length && text[i]>' '){
 						wword=wword+text[i];
 						ccol++;
@@ -70,20 +79,44 @@ namespace FormWithButton
 					if(text[i]=='\n'){
 						
 						ccol=0;
-						caption[lline]=caption[lline]+wword;
+						caption[lline]=caption[lline]+wwword+wword;
 						lline++;
 						wword="";
+						wwword="";
 						
 						
 					}
 
-					if(ccol>ncoll){
+					if(ccol>=ncoll){
 						
 						ccol=0;
-						lline++;
 						
-						if (lline<length)caption[lline]=wword;
-						wword="";
+						
+						
+							if(i+1>=text.Length){
+								if (lline<length)caption[lline]=caption[lline]+wwword+wword;
+								lline++;
+								wword="";
+								wwword="";
+
+							}else{
+								if(text[i+1]==' '){
+									if (lline<length)caption[lline]=caption[lline]+wwword+wword;
+									i=i+1;
+									lline++;
+									wword="";
+									wwword="";
+								}else{
+									lline++;
+									if (lline<length)caption[lline]=wword;
+									wword="";
+									wwword="";
+									
+
+								}
+							}
+							
+						
 					}
 
 					if(lline>=length){
@@ -93,9 +126,9 @@ namespace FormWithButton
 				}
 					
 						
+			}		
 					
-					
-			}
+			
 			
 		}
 		
