@@ -56,14 +56,14 @@ namespace FormWithButton
 				int ncoll=w/size;
 				for(i=0;i<length;i++)caption[i]="";
 				for(i=0;i<text.Length;i++){
+					if(lline<length && text[i]>=' '){
+						caption[lline]=caption[lline]+text[i];
+						ccol++;
+					}
 					if(text[i]=='\n' || ccol>ncoll){
-						Console.WriteLine("{0}",caption[lline]);
 						ccol=0;
 						lline++;
 						
-					}
-					if(lline<length && text[i]>=' '){
-						caption[lline]=caption[lline]+text[i];
 					}
 					if(lline>=length){
 						i=text.Length+1;
@@ -153,10 +153,10 @@ namespace FormWithButton
 			this.Paint += new PaintEventHandler(OnPaints);
 			view1.x=100;
 			view1.y=20;
-			view1.w=100;
+			view1.w=300;
 			view1.h=30;
 			view1.size=12;
-			for(i=0;i<view1.length;i++)view1.text=view1.text+"line " + Convert.ToString(i)+"\n\r";
+			for(i=0;i<128;i++)view1.text=view1.text+"hello world : " + Convert.ToString(i)+" ";
 			this.MouseDown += new MouseEventHandler(OnMouseDowns);
 			this.CenterToScreen();
         }
