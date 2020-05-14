@@ -52,8 +52,8 @@ namespace FormWithButton
 						if(focus[i]){
 							if(e.KeyChar>=' ')insert(e.KeyChar,i);
 							if(Convert.ToInt16(e.KeyChar)==8)delets(i);
-							if(e.KeyChar<' ')Console.WriteLine("{0}",Convert.ToInt16(e.KeyChar));
-							//if(e.KeyCode==Keys.Back) Console.WriteLine("key");
+							
+							
 							ii=i;
 							i=length+1;
 						}
@@ -64,12 +64,46 @@ namespace FormWithButton
 			public int keys(KeyEventArgs e){
 				int i=0;
 				int ii=-1;
+				int iii=0;
 					for (i=0;i<length;i++){
 						if(focus[i]){
 							if(e.KeyCode==Keys.Left)backs(i);
 							if(e.KeyCode==Keys.Right)rigth(i);
-							if(e.KeyCode==Keys.Up || e.KeyCode==Keys.Home)cursor[i]=0;
-							if(e.KeyCode==Keys.Down || e.KeyCode==Keys.End)cursor[i]=text[i].Length;
+							if(e.KeyCode==Keys.Home)cursor[i]=0;
+							if(e.KeyCode==Keys.End)cursor[i]=text[i].Length;
+							if(e.KeyCode==Keys.Up || e.KeyCode==Keys.PageUp){
+								for(iii=0;iii<length;iii++){
+									if (focus[iii]==true){
+										focus[iii]=false;
+										iii=iii-1;
+										if (iii<0)iii=0;
+										focus[iii]=true;
+									}
+								}
+							}
+							if(e.KeyCode==Keys.Down || e.KeyCode==Keys.PageDown){
+								for(iii=0;iii<length;iii++){
+									if (focus[iii]==true){
+										focus[iii]=false;
+										iii=iii+1;
+										if (iii>=length)iii=length-1;
+										focus[iii]=true;
+									}
+								}
+
+							}
+							if(e.KeyCode==Keys.Enter){
+								for(iii=0;iii<length;iii++){
+									if (focus[iii]==true){
+										focus[iii]=false;
+										iii=iii+1;
+										if (iii>=length)iii=0;
+										focus[iii]=true;
+									}
+								}
+
+							}
+
 							ii=i;
 							i=length+1;
 						}
@@ -165,7 +199,7 @@ namespace FormWithButton
 		 
     {
 		public int selected=-1;
-		public gtext text1 = new gtext(1);
+		public gtext text1 = new gtext(8);
 		private glabel bar1 = new glabel();
 		public Graphics canvas;
 		public Bitmap bitmap;
@@ -188,9 +222,9 @@ namespace FormWithButton
 			w=(int) this.Width;
 			h=(int) this.Height-20;
 			this.Paint += new PaintEventHandler(OnPaints);
-			text1.x=100;
-			text1.y=20;
-			text1.w=100;
+			text1.x=000;
+			text1.y=0;
+			text1.w=200;
 			text1.h=30;
 			text1.size=12;
 			for(i=0;i<text1.length;i++)text1.caption[i]=" ";
