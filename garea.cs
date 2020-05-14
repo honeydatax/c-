@@ -89,11 +89,20 @@ namespace FormWithButton
 							if(e.KeyCode==Keys.Right)rigth(i);
 							if(e.KeyCode==Keys.Home)cursor=0;
 							if(e.KeyCode==Keys.End)cursor=texts[i+nline].Length;
-							ii=i;
+							if(e.KeyCode==Keys.Enter){
+								insert('\n',focused);	
+							}
 							 if (e.KeyCode==Keys.PageUp){
 									  nline=nline-length;
 									  if(nline<0)nline=0;
 							 }
+ 							if(e.KeyCode==Keys.PageDown){
+								if (nline<texts.Length-length-1)nline=nline+length;
+								if(nline>=texts.Length-length-1)nline=texts.Length-length-1;
+
+							}
+
+							 ii=i;
 							if(e.KeyCode==Keys.Up && nline>-1){
 							  
 								for(iiii=0;iiii<length;iiii++){
@@ -140,22 +149,6 @@ namespace FormWithButton
 								}
 
 							}
-							/*
-							if(e.KeyCode==Keys.Enter){
-								for(iiii=0;iiii<length;iiii++){
-									if (focus[iiii]==true){
-										focus[iiii]=false;
-										iiii=iiii+1;
-										if (iiii>=length)iiii=0;
-										focus[iiii]=true;
-										ii=iiii;
-										if (cursor>texts[iiii+nline].Length)cursor=texts[iiii+nline].Length;
-										iiii=length+1;
-									}
-								}
-
-							}
-							*/
 							
 							i=length+1;
 						}
