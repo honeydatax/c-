@@ -44,11 +44,13 @@ namespace FormWithButton
 				focus[0]=true;
 			}
 			public void drawtext(Graphics canvas){
+				string ss="";
 				int i=0;
 				texts=null;
 				texts=text.Split('\n');
 				for(i=0;i<length;i++){
-					if(focus[i]){
+					caption[i]="";
+					if(focus[i] && i<texts.Length){
 						focused=i;
 						if(cursor>texts[i+nline].Length)cursor=texts[i+nline].Length;
 						showcaptionfocus();
@@ -56,8 +58,10 @@ namespace FormWithButton
 					}
 				}
 				for(i=0;i<length;i++){
-					if (i!=focused)showcaption(i);
-					label1.drawLabel(x,y+(i*(size+8)),w,size+8,size,caption[i],canvas);
+					ss="";
+					if (i<texts.Length && i!=focused)showcaption(i);
+					if (i<texts.Length)ss=caption[i];
+					label1.drawLabel(x,y+(i*(size+8)),w,size+8,size,ss,canvas);
 				}
 			}
 			public int check(KeyPressEventArgs e){
@@ -96,10 +100,11 @@ namespace FormWithButton
 									  nline=nline-length;
 									  if(nline<0)nline=0;
 							 }
- 							if(e.KeyCode==Keys.PageDown){
+							if(e.KeyCode==Keys.PageDown && texts.Length>length){
+								
+								if(texts.Length<nline)nline=texts.Length;
 								if (nline<texts.Length-length-1)nline=nline+length;
 								if(nline>=texts.Length-length-1)nline=texts.Length-length-1;
-
 							}
 
 							 ii=i;
@@ -122,12 +127,12 @@ namespace FormWithButton
 								   }
 								  }
 							}
-							if(e.KeyCode==Keys.PageDown){
-								if (nline<texts.Length-length-1)nline=nline+length;
-								if(nline>=texts.Length-length-1)nline=texts.Length-length-1;
+							
 
-							}
-							if(e.KeyCode==Keys.Down && nline<texts.Length){
+							if(e.KeyCode==Keys.Down && focused+1<texts.Length){
+								int llength=length;
+								
+								
 								for(iiii=0;iiii<length;iiii++){
 								  if(iiii==length-1 && focus[iiii]==true){
 									  if (nline<texts.Length-length-1)nline++;
