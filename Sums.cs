@@ -53,6 +53,18 @@ namespace logic{
 				number2=ss2[0];
 				imaginary2=ss2[1];
 			}
+			number1=number1.Replace(",","");
+			imaginary1=imaginary1.Replace(",","");
+			number2=number2.Replace(",","");
+			imaginary2=imaginary2.Replace(",","");
+
+			number1=number1.Replace("'","");
+			imaginary1=imaginary1.Replace("'","");
+			number2=number2.Replace("'","");
+			imaginary2=imaginary2.Replace("'","");
+
+
+
 			n1=number1.Length;
 			n2=imaginary1.Length;
 			n3=number2.Length;
@@ -86,6 +98,7 @@ namespace logic{
 				img=true;
 			}
 			imaginary1out=sinvert(imaginary1out);
+			imaginary1out=separetes(imaginary1out);
 			number1out=mats(number1,number2);
 			
 			if (img){
@@ -95,9 +108,25 @@ namespace logic{
 				number1=sinvert(number1);
 				number1out=mats(number1,number1out);
 			}
+			number1out=separetes(number1out);
 			number1out=sinvert(number1out);
 			number=number1out+"."+imaginary1out;
+			if (errors) number="ERROR ILIGAL CHAR";
 			return number;
+		}
+		private string separetes(string s1){
+			string s2="";
+			int counter=0;
+			int i=0;
+			for(i=0;i<s1.Length;i++){
+				s2=s2+s1[i];
+				counter++;
+				if (counter>2){
+					if (!(i+1>=s1.Length))s2=s2+",";
+					counter=0;
+				}
+			}
+			return s2;
 		}
 		private string mats(string s1, string s2){
 			int n1=s1.Length;
@@ -164,8 +193,8 @@ namespace logic{
 	class logics{
 		static void Main(string[] args){
 			SUM sums =new SUM();
-			string s1="1233564890123456789012345678901234567890.123";
-			string s2="1111111101111111110111111111011111111101.111";
+			string s1="1,233,564,890,123,456,789,012,345,678,901,234,567,890.123";
+			string s2="1,111,111,101,111,111,110,111,111,111,011,111,111,101.111";
 			Console.WriteLine(" {0}",s1);
 			Console.WriteLine(" {0}",s2);
 			Console.WriteLine(" +");
