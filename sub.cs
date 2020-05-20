@@ -83,7 +83,6 @@ namespace logic{
 				n7=n4;
 				
 			}
-			n7++;
 			
 			imaginary1=sfillsrigth(imaginary1,n7);
 			imaginary2=sfillsrigth(imaginary2,n7);
@@ -130,7 +129,7 @@ namespace logic{
 				n4=n6;
 			}
 
-			n1++;
+			
 			number1=sfills(number1,n1);
 			number2=sfills(number2,n1);
 			number1=sinvert(number1);
@@ -318,7 +317,7 @@ namespace logic{
 	class logics{
 		static void Main(string[] args){
 			SUBS subs =new SUBS();
-			string s1="987,654,321,000,987,654,321,000.0";
+			string s1="987,654,321,000,987,654,321,000.0111111";
 			string s2="111,111,111,111,111,111,111,111.9";
 			Console.WriteLine("  {0}",s1);
 			Console.WriteLine("  {0}",s2);
