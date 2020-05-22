@@ -157,8 +157,9 @@ namespace logic{
 					errors=true;
 					i=n1+1;
 				}
-				if(overflow)s3=s3+"1";
+				
 			}
+			if(overflow)s3=s3+"1";
 			return s3;
 		}
 		public string left(string s1,int ii){
@@ -194,7 +195,7 @@ namespace logic{
 		static void Main(string[] args){
 			SUM sums =new SUM();
 			string s1="1,233,564,890,123,456,789,012,345,678,901,234,567,890.123";
-			string s2="1,111,111,101,111,111,110,111,111,111,011,111,111,101.111";
+			string s2="1,111,111,111,111,111,111,111,111,111,111,111,111,101.111";
 			Console.WriteLine(" {0}",s1);
 			Console.WriteLine(" {0}",s2);
 			Console.WriteLine(" +");
