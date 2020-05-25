@@ -10,6 +10,7 @@ namespace logic{
 		public string  number2="0";
 		public string  number="0";
 		public int pos=0;
+		public int pos1=0;
 		public MULS(){
 			int i=0;
 			for(i=0;i<8000;i++)item[i]="";
@@ -18,6 +19,7 @@ namespace logic{
 			int i=0;
 			int point1s=0; 
 			int point2s=0;
+			int point3s=0;
 			string number3="";
 			string ssss="";
 			int st=0;
@@ -77,9 +79,17 @@ namespace logic{
 			number1=number1.Replace(".0","");
 			number1=number1.Replace(".","");
 			number="";
+			point3s=point1s;
 			point1s=number1.Length-point1s-1;
 			
-			if (point1s<0)point1s=0;
+			if (point1s<0){
+				pos1=-point1s;
+				for(i=0;i<pos1;i++)number1="0"+number1;
+				//point1s=0;
+			}
+			
+			point1s=number1.Length-point3s-1;
+			
 			ss1="";
 			ss0="";
 			for (i=0;i<number1.Length;i++){
@@ -358,8 +368,8 @@ namespace logic{
 		static void Main(string[] args){
 
 			MULS mulss =new MULS();
-			string s1="654,321,000";
-			string s2="123,456,000";
+			string s1="0.122";//"654,321,000";
+			string s2="0.0666";//"123,456,000";
 			string s3=mulss.math(s1,s2,true);
 				
 
