@@ -198,11 +198,17 @@ namespace FormWithButton
 					length++;
 				}
 			}
+			public void clear(){
+				length=0;
+			}
 			public void remove(int index){
 				int i=0;
+				int ii=0;
 				if (index<=length && index>-1){
 					for(i=index;i<length;i++){
-						tabless[i].colsn[0]=tabless[i+1].colsn[0];
+						for(ii=index;ii<tabless[i].colsn.Length;ii++){
+							tabless[i].colsn[ii]=tabless[i+1].colsn[ii];
+						}
 					}
 					if (length>0)length--;
 				}
