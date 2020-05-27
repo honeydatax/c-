@@ -268,6 +268,9 @@ namespace logic{
 					if (commands.IndexOf("READ")==0 )commands=READ(back);
 					if (commands.IndexOf("SPLIT")==0 )commands=SPLIT(back);
 					if (commands.IndexOf("INDEX")==0 )commands=INDEX(back);
+					if (commands.IndexOf("REPLACE")==0 )commands=REPLACE(back);
+					if (commands.IndexOf("FIND")==0 )commands=FIND(back);
+					if (commands.IndexOf("CHR")==0 )commands=CHR(back);
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
 					
 					if(ggoto)i=ccommandss.Length+1;
@@ -491,6 +494,180 @@ namespace logic{
 		return "";
 		
 		}
+
+
+		public string REPLACE(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>3){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+						
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(svar3,"0");
+
+					}
+					ivar3=search(svar3);
+					value[ivar]=value[ivar].Replace(value[ivar2],value[ivar3]);
+
+
+
+				}catch{
+					center("ERRO REPLACE",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string FIND(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>3){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+						
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(svar3,"0");
+
+					}
+					ivar3=search(svar3);
+					value[ivar]=Convert.ToString(value[ivar2].IndexOf(value[ivar3]));
+
+
+
+				}catch{
+					center("ERRO FIND",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+
+
+		public string CHR(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					value[ivar]=""+Convert.ToChar(Convert.ToInt16(svar2));
+
+
+
+				}catch{
+					center("ERRO CHR",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+
+
+
+
+
+
+
 
 		public string INDEX(string backs){
 			string [] argss = args(backs);
