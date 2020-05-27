@@ -123,9 +123,10 @@ namespace logic{
 											value[ivar]=Convert.ToString(i).Trim();
 											commands=back3;
 											commands=commands.Trim();
-											commands=removespaces(commands);
 											commands=commands.Replace("  "," ");
 											back2=commands;
+											commands=removespaces(commands);
+											commands=commands.Replace("  "," ");
 											commands=commands.ToUpper();
 											
 											run(commands,files,back2);
@@ -234,6 +235,7 @@ namespace logic{
 					
 					commands=ccommandss[i];
 					back=backs[i];
+					back=removespaces(back);
 					back=back.Trim();
 					commands=commands.Trim();
 					if (files!="" && varson) center(commands,terminal);	
@@ -264,6 +266,8 @@ namespace logic{
 					if (commands.IndexOf("RIGTH")==0 )commands=RIGTH(back);
 					if (commands.IndexOf("LEFT")==0 )commands=LEFT(back);
 					if (commands.IndexOf("READ")==0 )commands=READ(back);
+					if (commands.IndexOf("SPLIT")==0 )commands=SPLIT(back);
+					if (commands.IndexOf("INDEX")==0 )commands=INDEX(back);
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
 					
 					if(ggoto)i=ccommandss.Length+1;
@@ -413,6 +417,123 @@ namespace logic{
 
 				}catch{
 					center("ERRO READ",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string SPLIT(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+										
+					argss2=value[ivar].Split(value[ivar2][0]);
+					value[ivar]=Convert.ToString(argss2.Length);
+					svar3=argss[1];
+					for(i=0;i<argss2.Length;i++){
+						svar3=argss[1]+Convert.ToInt16(i);
+						
+						ivar3=search(svar3);
+					
+						if(ivar3<0){
+							addvar(svar3,"0");
+
+						}
+						ivar2=search(svar3);
+
+						
+						value[ivar2]=argss2[i];
+					
+						
+					}
+
+				}catch{
+					center("ERRO SPLIT",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string INDEX(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>3){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2].Trim()+argss[3].Trim();
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+					
+					value[ivar]=value[ivar2];
+					
+				}catch{
+					center("ERRO INDEX",terminal);
 				}
 							
 		}	
