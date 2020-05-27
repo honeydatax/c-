@@ -2,17 +2,17 @@ using System;
 
 namespace logic{
 	public class DIVS{
-		private string number1n;
-		private string number2n;
-		public string number;
-		private string number1;
-		private string number2;
-		private string imaginary1;
-		private string imaginary2;
-		private string number1out;
-		private string number2out;
-		private string imaginary1out;
-		private string imaginary2out;
+		private string number1n="";
+		private string number2n="";
+		public string number="";
+		private string number1="";
+		private string number2="";
+		private string imaginary1="";
+		private string imaginary2="";
+		private string number1out="";
+		private string number2out="";
+		private string imaginary1out="";
+		private string imaginary2out="";
 		private bool errors=false;
 		private bool bover=false;
 		private SUBS sub=new SUBS();
@@ -28,8 +28,14 @@ namespace logic{
 			bool exits=false;
 			bool exits2=false;
 			int pos=0;
+			int st=0;
 			bool b=false;
+			int point1s=0;
+			int point2s=0;
+			int point3s=0;
+			int pos1=0;
 			number="";
+			string ss0="";
 			string ss1=s1;
 			string ss2=s2;
 			
@@ -41,8 +47,21 @@ namespace logic{
 			ss2=ss2.Replace(",","");
 			ss1=ss1.Replace("'","");
 			ss2=ss2.Replace("'","");
+			st=ss1.IndexOf(".");
+			
+			
+			if(st<0)st=ss1.Length;
+			point1s=ss1.Length-st-1;
+			if(point2s<0)point2s=0;
+			st=ss2.IndexOf(".");
+			if(st<0)st=ss2.Length;
+			
+			point2s=ss2.Length-st-1;
+			if(point2s<0)point2s=0;
+			
 			ss1=ss1.Replace(".","");
 			ss2=ss2.Replace(".","");
+
 			if(ss1.Length<ss2.Length){
 				number="0";
 				exits=true;
@@ -69,7 +88,7 @@ namespace logic{
 						exits2=true;
 					}
 					
-					if(pos>=ss1.Length)exits2=true;
+					if(pos>ss1.Length)exits2=true;
 				}
 				number1=Removezeros(number1);
 				if (shows)Console.WriteLine("{0}",number1);
@@ -114,10 +133,39 @@ namespace logic{
 			if (shows)Console.WriteLine("----------------");
 			if(number=="")number="0";
 			number=Removezeros(number).Trim();
-			number=mul.sinvert(number);
-			number=mul.separetes(number);
 			
-			number=mul.sinvert(number);
+			point3s=point1s;
+			point1s=number.Length-point1s-1;
+			
+			if (point1s<0){
+				pos1=-point1s;
+				for(i=0;i<pos1;i++)number="0"+number;
+			}
+			if (point2s>0){
+				pos1=point2s;
+				for(i=0;i<pos1;i++)number=number+"0";
+			}
+
+			
+			point1s=number.Length-point3s-1;
+			
+			ss1="";
+			ss0="";
+			for (i=0;i<number.Length;i++){
+				if(i<=point1s){
+					ss0=ss0+number[i];
+				}else{
+					ss1=ss1+number[i];
+				}
+					
+				
+			}
+			ss0=mul.sinvert(ss0);
+			ss0=mul.separetes(ss0);
+			ss0=mul.sinvert(ss0);
+			ss1=mul.separetes(ss1);
+			number=ss0+"."+ss1;
+			
 			if (shows)Console.WriteLine( " {0}",number);
 			return number;
 		}
@@ -814,8 +862,8 @@ namespace logic{
 		static void Main(string[] args){
 
 			DIVS div =new DIVS();
-			string s1="12,345,678";
-			string s2="123";
+			string s1="0.0500,000,0";
+			string s2="0.22";
 			string s3=div.math(s1,s2,true);
 				
 
