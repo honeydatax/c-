@@ -123,9 +123,10 @@ namespace logic{
 											value[ivar]=Convert.ToString(i).Trim();
 											commands=back3;
 											commands=commands.Trim();
-											commands=removespaces(commands);
 											commands=commands.Replace("  "," ");
 											back2=commands;
+											commands=removespaces(commands);
+											commands=commands.Replace("  "," ");
 											commands=commands.ToUpper();
 											
 											run(commands,files,back2);
@@ -234,6 +235,7 @@ namespace logic{
 					
 					commands=ccommandss[i];
 					back=backs[i];
+					back=removespaces(back);
 					back=back.Trim();
 					commands=commands.Trim();
 					if (files!="" && varson) center(commands,terminal);	
@@ -264,6 +266,20 @@ namespace logic{
 					if (commands.IndexOf("RIGTH")==0 )commands=RIGTH(back);
 					if (commands.IndexOf("LEFT")==0 )commands=LEFT(back);
 					if (commands.IndexOf("READ")==0 )commands=READ(back);
+					if (commands.IndexOf("SPLIT")==0 )commands=SPLIT(back);
+					if (commands.IndexOf("INDEX")==0 )commands=INDEX(back);
+					if (commands.IndexOf("REPLACE")==0 )commands=REPLACE(back);
+					if (commands.IndexOf("FIND")==0 )commands=FIND(back);
+					if (commands.IndexOf("CHR")==0 )commands=CHR(back);
+					if (commands.IndexOf("WRITE")==0 )commands=WRITE(back);
+					if (commands.IndexOf("LOAD")==0 )commands=LOAD(back);
+					if (commands.IndexOf("SPACE")==0 )commands=SPACE(back);
+					if (commands.IndexOf("STRING")==0 )commands=STRING(back);
+					if (commands.IndexOf("CONCAT")==0 )commands=COMCAT(back);
+					if (commands.IndexOf("APPEND")==0 )commands=APPEND(back);
+					if (commands.IndexOf("LEN")==0 )commands=LEN(back);
+					if (commands.IndexOf("GREP")==0 )commands=GREP(back);
+					if (commands.IndexOf("ARRAY")==0 )commands=ARRAY(back);
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
 					
 					if(ggoto)i=ccommandss.Length+1;
@@ -413,6 +429,852 @@ namespace logic{
 
 				}catch{
 					center("ERRO READ",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string SPLIT(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+										
+					argss2=value[ivar].Split(value[ivar2][0]);
+					value[ivar]=Convert.ToString(argss2.Length);
+					svar3=argss[1];
+					for(i=0;i<argss2.Length;i++){
+						svar3=argss[1]+Convert.ToInt16(i);
+						
+						ivar3=search(svar3);
+					
+						if(ivar3<0){
+							addvar(svar3,"0");
+
+						}
+						ivar2=search(svar3);
+
+						
+						value[ivar2]=argss2[i];
+					
+						
+					}
+
+				}catch{
+					center("ERRO SPLIT",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+
+		public string GREP(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>3){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+
+										
+					argss2=value[ivar2].Split('\n');
+					value[ivar]="";
+					
+					for(i=0;i<argss2.Length;i++){
+						
+						
+						if (argss2[i].IndexOf(value[ivar3])>-1)value[ivar]=value[ivar]+"\n\r"+argss2[i];
+					
+					
+						
+					}
+
+				}catch{
+					center("ERRO grep",terminal);
+				}
+							
+			}	
+			return "";
+		
+		}
+
+		public string ARRAY(string backs){
+			string [] argss = args(backs);
+			string [] argss2=null;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string svar4="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>4){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+
+					svar4=argss[4];					
+					if(value[ivar3].Length>0)argss2=value[ivar2].Split(value[ivar3][0]);
+					value[ivar]="";
+					
+					if(value[ivar3].Length>0){
+						for(i=0;i<argss2.Length;i++){
+						
+						
+							if (i==Convert.ToInt16(svar4))value[ivar]=argss2[i];
+					
+					
+						
+						}
+
+					}
+				}catch{
+					center("ERRO grep",terminal);
+				}
+							
+			}	
+			return "";
+		
+		}
+
+
+
+
+
+
+		public string REPLACE(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>3){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+						
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(svar3,"0");
+
+					}
+					ivar3=search(svar3);
+					value[ivar]=value[ivar].Replace(value[ivar2],value[ivar3]);
+
+
+
+				}catch{
+					center("ERRO REPLACE",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string FIND(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>3){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+						
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(svar3,"0");
+
+					}
+					ivar3=search(svar3);
+					value[ivar]=Convert.ToString(value[ivar2].IndexOf(value[ivar3]));
+
+
+
+				}catch{
+					center("ERRO FIND",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+
+
+		public string CHR(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					value[ivar]=""+Convert.ToChar(Convert.ToInt16(svar2));
+
+
+
+				}catch{
+					center("ERRO CHR",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+
+
+		public string WRITE(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length==3){
+				
+				try{
+					svar=argss[1];
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+					value[ivar2]="";
+					File.WriteAllText(svar,value[ivar2]);
+
+
+
+				}catch{
+					center("ERRO Write",terminal);
+				}
+			}
+			if (argss.Length==2){
+				
+				try{
+					
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+
+					Console.WriteLine("{0}",value[ivar]);
+
+
+
+				}catch{
+					center("ERRO Write",terminal);
+				}
+
+
+							
+			}	
+			return "";
+		
+		}
+
+		public string LOAD(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length==3){
+				
+				try{
+					svar=argss[1];
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+
+					value[ivar2]=File.ReadAllText(svar);
+
+
+
+				}catch{
+					center("ERRO LOAD",terminal);
+				}
+			}
+			if (argss.Length==2){
+				
+				try{
+					
+					svar=argss[1];
+					ss=File.ReadAllText(svar);
+					Console.WriteLine("{0}",ss);
+
+
+
+				}catch{
+					center("ERRO LOAD",terminal);
+				}
+
+
+							
+			}	
+			return "";
+		
+		}
+
+		public string SPACE(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[2];
+					svar2=argss[1];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+					value[ivar2]="";
+					for (i=0;i<Convert.ToInt16(svar);i++){
+						value[ivar2]=value[ivar2]+" ";
+					}
+
+
+				}catch{
+					center("ERRO space",terminal);
+				}
+			}
+
+							
+				
+			return "";
+		
+		}
+
+
+
+
+
+
+		public string STRING(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>3){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+					svar3=argss[3];
+					value[ivar]="";
+					for (i=0;i<Convert.ToInt16(svar3);i++){
+						value[ivar]=value[ivar]+value[ivar2];
+					}
+
+
+				}catch{
+					center("ERRO STRING",terminal);
+				}
+			}
+
+							
+				
+			return "";
+		
+		}
+
+		public string LEN(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+					
+					
+					
+					value[ivar]=Convert.ToString(value[ivar2].Length);
+
+
+				}catch{
+					center("ERRO LEN",terminal);
+				}
+			}
+
+							
+				
+			return "";
+		
+		}
+
+
+
+		public string APPEND(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int iiii=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>3){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+					svar3=argss[3];
+					ss="";
+					iiii=Convert.ToInt16(svar3);
+					for (i=0;i<value[ivar].Length;i++){
+						if(i==iiii){
+							ss=ss+value[ivar2];
+						}
+						
+						ss=ss+value[ivar][i];
+						
+					}
+
+					value[ivar]=ss;
+				}catch{
+					center("ERRO STRING",terminal);
+				}
+			}
+
+							
+				
+			return "";
+		
+		}
+
+
+
+
+		public string COMCAT(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+
+					for (i=2;i<argss.Length;i++){
+						
+						svar2=argss[i];
+						ivar2=search(svar2);
+					
+						if(ivar2<0){
+						addvar(svar2,"0");
+
+						}
+						ivar2=search(svar2);
+
+						value[ivar]=value[ivar]+value[ivar2];
+					}
+
+
+				}catch{
+					center("ERRO COMCAT",terminal);
+				}
+			}
+
+							
+				
+			return "";
+		
+		}
+
+
+
+
+
+
+
+		public string INDEX(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>3){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2].Trim()+argss[3].Trim();
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+					
+					value[ivar]=value[ivar2];
+					
+				}catch{
+					center("ERRO INDEX",terminal);
 				}
 							
 		}	
