@@ -278,6 +278,8 @@ namespace logic{
 					if (commands.IndexOf("CONCAT")==0 )commands=COMCAT(back);
 					if (commands.IndexOf("APPEND")==0 )commands=APPEND(back);
 					if (commands.IndexOf("LEN")==0 )commands=LEN(back);
+					if (commands.IndexOf("GREP")==0 )commands=GREP(back);
+					if (commands.IndexOf("ARRAY")==0 )commands=ARRAY(back);
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
 					
 					if(ggoto)i=ccommandss.Length+1;
@@ -501,6 +503,154 @@ namespace logic{
 		return "";
 		
 		}
+
+
+		public string GREP(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>3){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+
+										
+					argss2=value[ivar2].Split('\n');
+					value[ivar]="";
+					
+					for(i=0;i<argss2.Length;i++){
+						
+						
+						if (argss2[i].IndexOf(value[ivar3])>-1)value[ivar]=value[ivar]+"\n\r"+argss2[i];
+					
+					
+						
+					}
+
+				}catch{
+					center("ERRO grep",terminal);
+				}
+							
+			}	
+			return "";
+		
+		}
+
+		public string ARRAY(string backs){
+			string [] argss = args(backs);
+			string [] argss2=null;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string svar4="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>4){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+
+					svar4=argss[4];					
+					if(value[ivar3].Length>0)argss2=value[ivar2].Split(value[ivar3][0]);
+					value[ivar]="";
+					
+					if(value[ivar3].Length>0){
+						for(i=0;i<argss2.Length;i++){
+						
+						
+							if (i==Convert.ToInt16(svar4))value[ivar]=argss2[i];
+					
+					
+						
+						}
+
+					}
+				}catch{
+					center("ERRO grep",terminal);
+				}
+							
+			}	
+			return "";
+		
+		}
+
+
+
+
 
 
 		public string REPLACE(string backs){
