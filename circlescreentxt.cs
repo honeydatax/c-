@@ -29,6 +29,21 @@ namespace logic{
 
 			}
 			
+			public void pstring(int x,int y,string s){
+				int i=0;
+				int ii=x;
+				int iii=s.Length;
+				if (ii+iii>78)iii=iii+x-78;
+				for(i=0;i<iii;i++){
+					mapstar(i+x,y,s[i]);
+				}
+			}
+			public void center(int y,string s){
+				int x=78/2;
+				x=x-s.Length/2;
+				if (x<0)x=0;
+				pstring(x,y,s);
+			}
 	
 		}
 
@@ -50,6 +65,7 @@ namespace logic{
 					mp.mapstar(Convert.ToInt16(d),Convert.ToInt16(dd),'-');
 				}
 			}
+			mp.center(8,"circle");
 			mp.Println();	
 		}
 
