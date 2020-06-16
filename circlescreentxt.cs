@@ -4,8 +4,8 @@ namespace logic{
 	
 	class logics{
 		public class maps{
-			private int count=25;
-			private int col=25;
+			public int count=25;
+			public int col=25;
 			private char [] screen= null;
 			
 
@@ -48,26 +48,52 @@ namespace logic{
 				if (x<0)x=0;
 				pstring(x,y,s);
 			}
+			public void circle(int x,int y,int r,char s){
+				double d=0.00f;
+				double dd=0.00f;
+				double ddd=0.00f;
+				double xx=Convert.ToDouble(x);
+				double yy=Convert.ToDouble(y);
+				double rr=Convert.ToDouble(r);
+				int i=0;
+				int ii=0;
+				int iii=0;
+				
+				ddd=Math.PI*2.00f*rr+5.00;
+				iii=Convert.ToInt16(ddd);
+				ddd=ddd/2;
+				for (i=0;i<iii;i++){
+					d=xx+rr*Math.Cos(Convert.ToDouble(i)/(ddd)*Math.PI);
+					dd=yy+rr*Math.Sin(Convert.ToDouble(i)/(ddd)*Math.PI);
+					mapstar(Convert.ToInt16(d),Convert.ToInt16(dd),s);
+				}
+
+			}
+			public void horline(int x, int y, int w , char c){
+				int i=x;
+				int ii=w;
+				for (i=x;i<x+w;i++){
+					mapstar(i,y,c);
+				}
+			}
+			public void rect(int x, int y, int w ,int h, char c){
+					int i=0;
+					for (i=y;i<y+h;i++){
+						horline(x,i,w,c);
+					}
+				
+			}
 	
 		}
 
 		static void Main(string[] args){
-			double d=0.00f;
-			double dd=0.00f;
-			double ddd=0.00f;
-			int i=0;
+			
 			int ii=0;
-			int iii=0;
+			
 			maps mp = new maps(80,20);
-			for (ii=2;ii<8;ii++){
-				ddd=Math.PI*2.00f*Convert.ToDouble(ii)+5.00;
-				iii=Convert.ToInt16(ddd);
-				ddd=ddd/2;
-				for (i=0;i<iii;i++){
-					d=38.00f+Convert.ToDouble(ii)*Math.Cos(Convert.ToDouble(i)/(ddd)*Math.PI);
-					dd=8.00f+Convert.ToDouble(ii)*Math.Sin(Convert.ToDouble(i)/(ddd)*Math.PI);
-					mp.mapstar(Convert.ToInt16(d),Convert.ToInt16(dd),'-');
-				}
+			mp.rect(30,5,20,10,':');
+			for (ii=0;ii<8;ii++){
+				mp.circle((mp.col/2),(mp.count)/2,ii,'-');
 			}
 			mp.center(8,"circle");
 			mp.Println();	
