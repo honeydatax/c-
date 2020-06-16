@@ -42,6 +42,21 @@ namespace logic{
 					mapstar(i+x,y,s[i]);
 				}
 			}
+			public void vstring(int x,int y,string s){
+				int i=0;
+				int ii=y;
+				int iii=s.Length;
+				if (ii+iii>count)iii=iii+y-count;
+				for(i=0;i<iii;i++){
+					mapstar(x,y+i,s[i]);
+				}
+			}
+			public void vcenter(int x,string s){
+				int y=count/2;
+				y=y-s.Length/2;
+				if (y<0)y=0;
+				vstring(x,y,s);
+			}
 			public void center(int y,string s){
 				int x=col/2;
 				x=x-s.Length/2;
@@ -59,7 +74,7 @@ namespace logic{
 				int ii=0;
 				int iii=0;
 				
-				ddd=Math.PI*2.00f*rr+5.00;
+				ddd=Math.PI*Math.PI*rr+5.00f;
 				iii=Convert.ToInt16(ddd);
 				ddd=ddd/2;
 				for (i=0;i<iii;i++){
@@ -122,7 +137,9 @@ namespace logic{
 			mp.lrect(1,1,10,10,',');
 			mp.rect(30,5,20,10,':');
 			mp.fillcircle((mp.col/2),(mp.count)/2,8,'-');
+			mp.vstring(10,2,"vertical");
 			mp.pstring(1,1,"lrect");
+			mp.vcenter(8,"vcenter");
 			mp.center(8,"circle");
 			mp.Println();	
 		}
