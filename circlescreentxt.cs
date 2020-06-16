@@ -76,6 +76,13 @@ namespace logic{
 					mapstar(i,y,c);
 				}
 			}
+			public void fillcircle(int x,int y,int r,char s){
+				int i=0;
+				for (i=0;i<r;i++){
+					circle(x,y,i,s);
+				}
+				
+			}
 			public void verline(int x, int y, int h , char c){
 				int i=x;
 				int ii=h;
@@ -114,9 +121,8 @@ namespace logic{
 			mp.grid(0,0,mp.col,mp.count,5,'>');
 			mp.lrect(1,1,10,10,',');
 			mp.rect(30,5,20,10,':');
-			for (ii=0;ii<8;ii++){
-				mp.circle((mp.col/2),(mp.count)/2,ii,'-');
-			}
+			mp.fillcircle((mp.col/2),(mp.count)/2,8,'-');
+			mp.pstring(1,1,"lrect");
 			mp.center(8,"circle");
 			mp.Println();	
 		}
