@@ -5,25 +5,29 @@ namespace logic{
 	class logics{
 		public class maps{
 			private int count=25;
-			private char [] screen= new char[79*20];
+			private int col=25;
+			private char [] screen= null;
 			
 
-			public maps(){
+			public maps(int x, int y){
 				int i;
-				for (i=0;i<(79*20);i++) screen[i]=' ';
+				count=y;
+				col=x;
+				screen= new char[col*count];
+				for (i=0;i<(col*count);i++) screen[i]=' ';
 			}
 	
 			public void  mapstar(int x,int y,char c){
-				if (x>-1 && x<79 && y>-1 && y<20)screen[y*79+x]=c;
+				if (x>-1 && x<col && y>-1 && y<count)screen[y*col+x]=c;
 			}
 			
 			public void Println(){
 				int i;
 				int ii;
 				string s="";
-				for (ii=0;ii<20;ii++){
+				for (ii=0;ii<count;ii++){
 					s="";
-					for (i=0;i<79;i++)s=s+screen[ii*79+i].ToString();
+					for (i=0;i<col;i++)s=s+screen[ii*col+i].ToString();
 					Console.WriteLine("{0}",s);
 				}
 
@@ -33,13 +37,13 @@ namespace logic{
 				int i=0;
 				int ii=x;
 				int iii=s.Length;
-				if (ii+iii>78)iii=iii+x-78;
+				if (ii+iii>col)iii=iii+x-col;
 				for(i=0;i<iii;i++){
 					mapstar(i+x,y,s[i]);
 				}
 			}
 			public void center(int y,string s){
-				int x=78/2;
+				int x=col/2;
 				x=x-s.Length/2;
 				if (x<0)x=0;
 				pstring(x,y,s);
@@ -54,7 +58,7 @@ namespace logic{
 			int i=0;
 			int ii=0;
 			int iii=0;
-			maps mp = new maps();
+			maps mp = new maps(80,20);
 			for (ii=2;ii<8;ii++){
 				ddd=Math.PI*2.00f*Convert.ToDouble(ii)+5.00;
 				iii=Convert.ToInt16(ddd);
