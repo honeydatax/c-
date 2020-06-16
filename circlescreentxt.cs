@@ -5,7 +5,7 @@ namespace logic{
 	class logics{
 		public class maps{
 			public int count=25;
-			public int col=25;
+			public int col=80;
 			private char [] screen= null;
 			
 
@@ -76,6 +76,26 @@ namespace logic{
 					mapstar(i,y,c);
 				}
 			}
+			public void verline(int x, int y, int h , char c){
+				int i=x;
+				int ii=h;
+				for (i=y;i<y+h;i++){
+					mapstar(x,i,c);
+				}
+			}
+			public void grid(int x, int y, int w ,int h,int steep ,char c){
+				int i=0;
+				for(i=y;i<y+h;i=i+steep)horline(x,i,w,c);
+				for(i=x;i<x+w;i=i+steep)verline(i,y,h,c);
+			}	
+			public void lrect(int x, int y, int w ,int h, char c){
+				horline(x,y,w,c);
+				horline(x,y+h,w,c);
+				verline(x,y,h+1,c);
+				verline(x+w,y,h+1,c);
+
+			}
+
 			public void rect(int x, int y, int w ,int h, char c){
 					int i=0;
 					for (i=y;i<y+h;i++){
@@ -91,6 +111,8 @@ namespace logic{
 			int ii=0;
 			
 			maps mp = new maps(80,20);
+			mp.grid(0,0,mp.col,mp.count,5,'>');
+			mp.lrect(1,1,10,10,',');
 			mp.rect(30,5,20,10,':');
 			for (ii=0;ii<8;ii++){
 				mp.circle((mp.col/2),(mp.count)/2,ii,'-');
