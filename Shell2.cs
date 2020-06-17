@@ -281,7 +281,9 @@ namespace logic{
 					if (commands.IndexOf("GREP")==0 )commands=GREP(back);
 					if (commands.IndexOf("ARRAY")==0 )commands=ARRAY(back);
 					if (commands.IndexOf("COPY")==0 || commands.IndexOf("CP")==0 )commands=COPY(back);
+					if (commands.IndexOf("MORE")==0)commands=MORE(back);
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
+					
 					
 					if(ggoto)i=ccommandss.Length+1;
 				}
@@ -1687,6 +1689,34 @@ namespace logic{
 				}
 				return "";
 			}
+			public string MORE(string files){
+				string [] ss=null;
+				string [] s=args(files);
+				int i=0;
+				int ii=0;
+				string s1="";
+				if(s.Length>1){
+					try{
+						ss=File.ReadAllLines(s[1]);
+					    for(i=0;i<ss.Length;i++){
+						Console.WriteLine("{0}",ss[i]);	
+						ii++;
+						if (ii>21){
+							Console.Write("-----------");
+							s1=Console.ReadLine();
+							if (s1.Length>0)i=ss.Length+1;
+							ii=0;
+						}
+					}
+
+					}catch{
+						Console.WriteLine("error: {0}!",s[1]);	
+					}
+					
+				}
+				return "";
+			}
+
 			
 			public string PRINT(string  files){
 				string s="";
