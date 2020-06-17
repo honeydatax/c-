@@ -48,7 +48,11 @@ namespace logic{
 						}
 					}
 					returns=count;
-					runs(command,files);
+					try{
+						runs(command,files);
+					}catch{
+						Console.WriteLine("ERROR : in Command");
+					}
 					if (returns!=count)count=returns;
 					if (files!="" && ggoto){
 						count=list.Length;
