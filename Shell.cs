@@ -280,6 +280,7 @@ namespace logic{
 					if (commands.IndexOf("LEN")==0 )commands=LEN(back);
 					if (commands.IndexOf("GREP")==0 )commands=GREP(back);
 					if (commands.IndexOf("ARRAY")==0 )commands=ARRAY(back);
+					if (commands.IndexOf("COPY")==0 || commands.IndexOf("CP")==0 )commands=COPY(back);
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
 					
 					if(ggoto)i=ccommandss.Length+1;
@@ -849,7 +850,8 @@ namespace logic{
 
 					}
 					ivar2=search(svar2);
-					value[ivar2]="";
+					
+					
 					File.WriteAllText(svar,value[ivar2]);
 
 
@@ -1227,6 +1229,48 @@ namespace logic{
 		
 		}
 
+
+		public string COPY(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					ss="";
+					for (i=2;i<argss.Length;i++){
+						svar2=argss[i];
+						
+						ss=ss+File.ReadAllText(svar2);
+						
+					}
+					
+					File.WriteAllText(svar,ss);
+
+				}catch{
+					center("ERRO COPY",terminal);
+				}
+			}
+
+							
+				
+			return "";
+		
+		}
 
 
 
