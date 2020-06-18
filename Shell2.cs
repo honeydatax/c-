@@ -286,6 +286,7 @@ namespace logic{
 					if (commands.IndexOf("ARRAY")==0 )commands=ARRAY(back);
 					if (commands.IndexOf("COPY")==0 || commands.IndexOf("CP")==0 )commands=COPY(back);
 					if (commands.IndexOf("MORE")==0)commands=MORE(back);
+					if (commands.IndexOf("EDITOR")==0)commands=EDITOR(back);
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
 					
 					
@@ -1720,6 +1721,120 @@ namespace logic{
 				}
 				return "";
 			}
+
+			public string EDITOR(string files){
+				string sss="";
+				string [] ss=null;
+				string [] s=args(files);
+				string ss1="";
+				string sss2="";
+				bool exits2=false;
+				bool saves=true;
+				bool ldel=false;
+				int lline=-1;
+				int i=0;
+				int ii=0;
+				int i1;
+				
+				string s1="";
+				if(s.Length>1){
+				  center("#editor: "+s[1],terminal);
+				  while(!exits2){
+					 try{
+						ss=File.ReadAllLines(s[1]);
+						if (lline<0)lline=ss.Length+1;
+						if (lline>ss.Length)lline=ss.Length+1;
+					}catch{
+						ss=new string[]{""};	
+						center("#creating : "+s[1],terminal);
+					}
+					
+					saves=true;
+					sss=Console.ReadLine();
+					ldel=false;
+					sss=sss.Trim();
+					if(sss.Length>0){
+						if(sss[0]=='@'){
+							if(sss.Length==1){
+								exits2=true;
+								saves=false;
+							}else{
+								if (sss.Length>1){
+									if(sss[1]>='0' && sss[1]<='9'){
+										sss2="";
+										for(i1=1;i1<sss.Length;i1++){
+											sss2=sss2+sss[i1];
+										}
+										
+										sss2=sss2.Trim();
+										lline=Convert.ToInt16(sss2);
+										center("#cursor: "+lline.ToString(),terminal);
+										saves=false;
+									}
+									if(sss[1]=='+'){
+										saves=false;
+										lline=sss.Length;
+										
+									}
+									if(sss[1]=='-'){
+										saves=false;
+										lline=0;
+									}
+									if(sss[1]=='!'){
+										
+										saves=false;
+										for(i=0;i<ss.Length;i++){
+											
+											Console.WriteLine("%-{0}",ss[i]);
+										}
+									}
+									ldel=false;
+									if(sss[1]=='#'){
+										ldel=true;
+										saves=true;
+									}
+
+								}
+							}
+						}
+
+									
+
+
+					} 
+					
+							
+				
+					
+						ss1="";
+						if(ldel && lline>=ss.Length)lline=ss.Length+1;
+						if(lline<0)lline=0;
+					    for(i=0;i<ss.Length;i++){
+							if(i==lline && !ldel)ss1=ss1+sss+"\r\n"; 
+							if(!(ldel && lline==i))ss1=ss1+ss[i]+"\r\n";
+								
+						}
+						if(lline>ss.Length-1 && !ldel)ss1=ss1+sss+"\r\n"; 
+						
+						try{
+							if(saves){
+								lline=lline+1;
+								File.WriteAllText(s[1],ss1);
+							}
+							
+							
+
+						}catch{
+							center("Error: file protected:"+s[1],terminal);
+						}
+
+					
+				  } 
+				  center("#ending writing: "+s[1],terminal);
+				}
+				return "";
+			}
+
 
 			
 			public string PRINT(string  files){
