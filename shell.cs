@@ -48,7 +48,11 @@ namespace logic{
 						}
 					}
 					returns=count;
-					runs(command,files);
+					try{
+						runs(command,files);
+					}catch{
+						Console.WriteLine("ERROR : in Command");
+					}
 					if (returns!=count)count=returns;
 					if (files!="" && ggoto){
 						count=list.Length;
@@ -278,7 +282,13 @@ namespace logic{
 					if (commands.IndexOf("CONCAT")==0 )commands=COMCAT(back);
 					if (commands.IndexOf("APPEND")==0 )commands=APPEND(back);
 					if (commands.IndexOf("LEN")==0 )commands=LEN(back);
+					if (commands.IndexOf("GREP")==0 )commands=GREP(back);
+					if (commands.IndexOf("ARRAY")==0 )commands=ARRAY(back);
+					if (commands.IndexOf("COPY")==0 || commands.IndexOf("CP")==0 )commands=COPY(back);
+					if (commands.IndexOf("MORE")==0)commands=MORE(back);
+					if (commands.IndexOf("EDITOR")==0)commands=EDITOR(back);
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
+					
 					
 					if(ggoto)i=ccommandss.Length+1;
 				}
@@ -503,6 +513,154 @@ namespace logic{
 		}
 
 
+		public string GREP(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>3){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+
+										
+					argss2=value[ivar2].Split('\n');
+					value[ivar]="";
+					
+					for(i=0;i<argss2.Length;i++){
+						
+						
+						if (argss2[i].IndexOf(value[ivar3])>-1)value[ivar]=value[ivar]+"\n\r"+argss2[i];
+					
+					
+						
+					}
+
+				}catch{
+					center("ERRO grep",terminal);
+				}
+							
+			}	
+			return "";
+		
+		}
+
+		public string ARRAY(string backs){
+			string [] argss = args(backs);
+			string [] argss2=null;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string svar4="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>4){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+
+					svar4=argss[4];					
+					if(value[ivar3].Length>0)argss2=value[ivar2].Split(value[ivar3][0]);
+					value[ivar]="";
+					
+					if(value[ivar3].Length>0){
+						for(i=0;i<argss2.Length;i++){
+						
+						
+							if (i==Convert.ToInt16(svar4))value[ivar]=argss2[i];
+					
+					
+						
+						}
+
+					}
+				}catch{
+					center("ERRO grep",terminal);
+				}
+							
+			}	
+			return "";
+		
+		}
+
+
+
+
+
+
 		public string REPLACE(string backs){
 			string [] argss = args(backs);
 			string [] argss2;
@@ -699,7 +857,8 @@ namespace logic{
 
 					}
 					ivar2=search(svar2);
-					value[ivar2]="";
+					
+					
 					File.WriteAllText(svar,value[ivar2]);
 
 
@@ -1077,6 +1236,48 @@ namespace logic{
 		
 		}
 
+
+		public string COPY(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					ss="";
+					for (i=2;i<argss.Length;i++){
+						svar2=argss[i];
+						
+						ss=ss+File.ReadAllText(svar2);
+						
+					}
+					
+					File.WriteAllText(svar,ss);
+
+				}catch{
+					center("ERRO COPY",terminal);
+				}
+			}
+
+							
+				
+			return "";
+		
+		}
 
 
 
@@ -1493,6 +1694,148 @@ namespace logic{
 				}
 				return "";
 			}
+			public string MORE(string files){
+				string [] ss=null;
+				string [] s=args(files);
+				int i=0;
+				int ii=0;
+				string s1="";
+				if(s.Length>1){
+					try{
+						ss=File.ReadAllLines(s[1]);
+					    for(i=0;i<ss.Length;i++){
+						Console.WriteLine("{0}",ss[i]);	
+						ii++;
+						if (ii>21){
+							Console.Write("-----------");
+							s1=Console.ReadLine();
+							if (s1.Length>0)i=ss.Length+1;
+							ii=0;
+						}
+					}
+
+					}catch{
+						Console.WriteLine("error: {0}!",s[1]);	
+					}
+					
+				}
+				return "";
+			}
+
+			public string EDITOR(string files){
+				string sss="";
+				string [] ss=null;
+				string [] s=args(files);
+				string ss1="";
+				string sss2="";
+				bool exits2=false;
+				bool saves=true;
+				bool ldel=false;
+				int lline=-1;
+				int i=0;
+				int ii=0;
+				int i1;
+				
+				string s1="";
+				if(s.Length>1){
+				  center("#editor: "+s[1],terminal);
+				  while(!exits2){
+					 try{
+						ss=File.ReadAllLines(s[1]);
+						if (lline<0)lline=ss.Length+1;
+						if (lline>ss.Length)lline=ss.Length+1;
+					}catch{
+						ss=new string[]{""};	
+						center("#creating : "+s[1],terminal);
+					}
+					
+					saves=true;
+					sss=Console.ReadLine();
+					ldel=false;
+					sss=sss.Trim();
+					if(sss.Length>0){
+						if(sss[0]=='@'){
+							if(sss.Length==1){
+								exits2=true;
+								saves=false;
+							}else{
+								if (sss.Length>1){
+									if(sss[1]>='0' && sss[1]<='9'){
+										sss2="";
+										for(i1=1;i1<sss.Length;i1++){
+											sss2=sss2+sss[i1];
+										}
+										
+										sss2=sss2.Trim();
+										lline=Convert.ToInt16(sss2);
+										center("#cursor: "+lline.ToString(),terminal);
+										saves=false;
+									}
+									if(sss[1]=='+'){
+										saves=false;
+										lline=sss.Length;
+										
+									}
+									if(sss[1]=='-'){
+										saves=false;
+										lline=0;
+									}
+									if(sss[1]=='!'){
+										
+										saves=false;
+										for(i=0;i<ss.Length;i++){
+											
+											Console.WriteLine("%-{0}",ss[i]);
+										}
+									}
+									ldel=false;
+									if(sss[1]=='#'){
+										ldel=true;
+										saves=true;
+									}
+
+								}
+							}
+						}
+
+									
+
+
+					} 
+					
+							
+				
+					
+						ss1="";
+						if(ldel && lline>=ss.Length)lline=ss.Length+1;
+						if(lline<0)lline=0;
+					    for(i=0;i<ss.Length;i++){
+							if(i==lline && !ldel)ss1=ss1+sss+"\r\n"; 
+							if(!(ldel && lline==i))ss1=ss1+ss[i]+"\r\n";
+								
+						}
+						if(lline>ss.Length-1 && !ldel)ss1=ss1+sss+"\r\n"; 
+						
+						try{
+							if(saves){
+								lline=lline+1;
+								File.WriteAllText(s[1],ss1);
+							}
+							
+							
+
+						}catch{
+							center("Error: file protected:"+s[1],terminal);
+						}
+
+					
+				  } 
+				  center("#ending writing: "+s[1],terminal);
+				}
+				return "";
+			}
+
+
 			
 			public string PRINT(string  files){
 				string s="";
