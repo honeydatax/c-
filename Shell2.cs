@@ -66,6 +66,10 @@ namespace logic{
 						}
 						
 					}
+					if(Console.KeyAvailable){
+							if(Convert.ToByte(Console.ReadKey(true).Key)==27)endss=true;
+					}
+
 				}
 			}
 			~Shells(){
@@ -245,7 +249,7 @@ namespace logic{
 					back=back.Trim();
 					commands=commands.Trim();
 					if (files!="" && varson) center(commands,terminal);	
-					if (commands.IndexOf("EXIT")>-1){
+					if (commands.IndexOf("EXIT")==0){
 						commands="";
 						endss=EXIT();
 						i=ccommandss.Length+1;
@@ -289,6 +293,8 @@ namespace logic{
 					if (commands.IndexOf("COPY")==0 || commands.IndexOf("CP")==0 )commands=COPY(back);
 					if (commands.IndexOf("MORE")==0)commands=MORE(back);
 					if (commands.IndexOf("EDITOR")==0)commands=EDITOR(back);
+					if (commands.IndexOf("TRIM")==0)commands=TRIM(back);
+					if (commands.IndexOf("INKEY")==0)commands=INKEY(back);
 					if (commands.IndexOf("REFRESH")==0)commands=REFRESH();
 					if (commands.IndexOf("PSTRING")==0)commands=PSTRING(back);
 					if (commands.IndexOf("VSTRING")==0)commands=VSTRING(back);
@@ -2480,6 +2486,65 @@ namespace logic{
 				}
 				return "";
 			}
+			public string TRIM(string files){
+				string ss="";
+				string svar="";
+				int ivar=0;
+				string [] s=args(files);
+				if(s.Length>1){
+					svar=s[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(s[1],"0");
+
+					}
+					ivar=search(svar);
+
+					try{
+						value[ivar]=value[ivar].Trim();
+					}catch{
+						Console.WriteLine("error: trim!");	
+					}
+						
+
+				}
+				return "";
+			}
+
+			public string INKEY(string files){
+				string ss="";
+				string svar="";
+				bool bb=false;
+				int ivar=0;
+				string [] s=args(files);
+				if(s.Length>1){
+					svar=s[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(s[1],"0");
+
+					}
+					ivar=search(svar);
+
+					try{
+						if(Console.KeyAvailable){
+							value[ivar]=Convert.ToString(Convert.ToByte(Console.ReadKey(true).Key));
+						}else{
+							value[ivar]="0";
+						}
+					}catch{
+						Console.WriteLine("error: trim!");	
+					}
+						
+
+				}
+				return "";
+			}
+
+
+
 			public string MORE(string files){
 				string [] ss=null;
 				string [] s=args(files);
