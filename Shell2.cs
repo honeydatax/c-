@@ -2449,13 +2449,11 @@ namespace logic{
 				return true;
 			}
 			public string CLEAR(){
+				Console.SetCursorPosition(0,0);
 				Console.Clear();
 				return "";
 			}
 			public string REFRESH(){
-				//Console.Clear();
-				Console.SetCursorPosition(0,0);
-				mp.Println();
 				return "";
 			}
 
@@ -2891,21 +2889,18 @@ namespace logic{
 		public class maps{
 			public int count=25;
 			public int col=80;
-			private char [] screen= null;
+
 			
 
 			public maps(int x, int y){
 				int i;
 				count=y;
 				col=x;
-				screen= new char[col*count];
-				for (i=0;i<(col*count);i++) screen[i]=' ';
 			}
 	
-			public void  mapstar(int x,int y,char c){
-				string ssss=c.ToString();
+			public void  mapstar(int x,int y,string ssss){
+				
 				if (x>-1 && x<col && y>-1 && y<count){
-					//screen[y*col+x]=c;
 					Console.SetCursorPosition(x,y);
 					Console.Write(ssss);
 				}
@@ -2915,12 +2910,6 @@ namespace logic{
 				int i;
 				int ii;
 				string s="";
-				for (ii=0;ii<count;ii++){
-					s="";
-					//for (i=0;i<col;i++)s=s+screen[ii*col+i].ToString();
-					//Console.WriteLine("{0}",s);
-				}
-
 			}
 			
 			public void pstring(int x,int y,string s){
@@ -2928,18 +2917,21 @@ namespace logic{
 				int ii=x;
 				int iii=s.Length;
 				if (ii+iii>col)iii=iii+x-col;
-				for(i=0;i<iii;i++){
-					mapstar(i+x,y,s[i]);
-				}
+				
+					mapstar(x,y,s);
+				
 			}
 			public void vstring(int x,int y,string s){
 				int i=0;
 				int ii=y;
 				int iii=s.Length;
+				string ssss="";
 				if (ii+iii>count)iii=iii+y-count;
 				for(i=0;i<iii;i++){
-					mapstar(x,y+i,s[i]);
+					ssss=s[i]+"\r\n";
 				}
+					mapstar(x,y,ssss);
+				
 			}
 			public void vcenter(int x,string s){
 				int y=count/2;
@@ -2970,16 +2962,18 @@ namespace logic{
 				for (i=0;i<iii;i++){
 					d=xx+rr*Math.Cos(Convert.ToDouble(i)/(ddd)*Math.PI);
 					dd=yy+rr*Math.Sin(Convert.ToDouble(i)/(ddd)*Math.PI);
-					mapstar(Convert.ToInt16(d),Convert.ToInt16(dd),s);
+					mapstar(Convert.ToInt16(d),Convert.ToInt16(dd),s.ToString());
 				}
 
 			}
 			public void horline(int x, int y, int w , char c){
 				int i=x;
 				int ii=w;
+				string ssss="";
 				for (i=x;i<x+w;i++){
-					mapstar(i,y,c);
+					ssss=ssss+c;
 				}
+				mapstar(x,y,ssss);
 			}
 			public void fillcircle(int x,int y,int r,char s){
 				int i=0;
@@ -2991,9 +2985,11 @@ namespace logic{
 			public void verline(int x, int y, int h , char c){
 				int i=x;
 				int ii=h;
+				string ssss="";
 				for (i=y;i<y+h;i++){
-					mapstar(x,i,c);
+					ssss=ssss+c+"\r\n";
 				}
+				mapstar(x,y,ssss);
 			}
 			public void grid(int x, int y, int w ,int h,int steep ,char c){
 				int i=0;
