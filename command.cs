@@ -2976,9 +2976,28 @@ namespace logic{
 				mapstar(x,y,ssss);
 			}
 			public void fillcircle(int x,int y,int r,char s){
+				int [] half=new int[2000];
+				double d=0.00f;
+				double dd=0.00f;
+				double ddd=0.00f;
+				double d1=0.00f;
+				double ddd1=0.00f;
+				double rr=Convert.ToDouble(r);
+				string ss="";
+
 				int i=0;
-				for (i=0;i<r;i++){
-					circle(x,y,i,s);
+				ddd1=rr*2.00;
+				ddd=ddd1*2.00;
+				
+				for (d1=0.00;d1<ddd;d1=d1+1.00){
+					
+					i=Convert.ToInt16(d1);
+					half[i]=Convert.ToInt16(rr*Math.Cos(d1/(ddd1)*Math.PI));
+					
+				}
+				
+				for (i=0;i<r*2;i++){
+					horline(x-half[i],i+(y-r),half[i]*2,s);
 				}
 				
 			}
