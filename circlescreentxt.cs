@@ -33,21 +33,21 @@ namespace logic{
 				int i=0;
 				int ii=x;
 				int iii=s.Length;
+				string ss="";
 				if (ii+iii>col)iii=iii+x-col;
-				
-					mapstar(x,y,s);
+					for(i=0;i<iii;i++)ss=ss+s[i];
+					mapstar(x,y,ss);
 				
 			}
 			public void vstring(int x,int y,string s){
 				int i=0;
 				int ii=y;
 				int iii=s.Length;
-				string ssss="";
 				if (ii+iii>count)iii=iii+y-count;
 				for(i=0;i<iii;i++){
-					ssss=s[i]+"\r\n";
+					mapstar(x,i+y,s[i].ToString());
 				}
-					mapstar(x,y,ssss);
+					
 				
 			}
 			public void vcenter(int x,string s){
@@ -85,9 +85,13 @@ namespace logic{
 			}
 			public void horline(int x, int y, int w , char c){
 				int i=x;
-				int ii=w;
+				int ii=x;
+				int iii=w;
+				string ss="";
+				if (ii+iii>col)iii=iii+x-col;
+
 				string ssss="";
-				for (i=x;i<x+w;i++){
+				for (i=0;i<iii;i++){
 					ssss=ssss+c;
 				}
 				mapstar(x,y,ssss);
@@ -108,19 +112,21 @@ namespace logic{
 				
 				
 				for (i=0;i<r*2;i++){
-					half[i]=Convert.ToInt16(rr*Math.Cos(Convert.ToDouble(i)/ddd1*Math.PI));
+					half[i]=Convert.ToInt16(rr*Math.Sin(Convert.ToDouble(i)/ddd1*Math.PI));
 					horline(x-half[i],i+(y-r),half[i]*2,s);
 				}
 				
 			}
 			public void verline(int x, int y, int h , char c){
 				int i=x;
-				int ii=h;
+				int ii=y;
+				int iii=h;
+				if (ii+iii>count)iii=iii+y-count;
 				string ssss="";
-				for (i=y;i<y+h;i++){
-					ssss=ssss+c+"\r\n";
+				for (i=y;i<y+iii;i++){
+					mapstar(x,i,c.ToString());
 				}
-				mapstar(x,y,ssss);
+				
 			}
 			public void grid(int x, int y, int w ,int h,int steep ,char c){
 				int i=0;
