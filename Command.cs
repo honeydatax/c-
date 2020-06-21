@@ -301,6 +301,7 @@ namespace logic{
 					if (commands.IndexOf("PCENTER")==0)commands=PCENTER(back);
 					if (commands.IndexOf("VCENTER")==0)commands=VCENTER(back);
 					if (commands.IndexOf("CIRCLE")==0)commands=CIRCLE(back);
+					if (commands.IndexOf("FILLCIRCLE")==0)commands=FILLCIRCLE(back);
 					if (commands.IndexOf("FILLRECT")==0)commands=FILLRECT(back);
 					if (commands.IndexOf("RECT")==0)commands=RECT(back);
 					if (commands.IndexOf("GRID")==0)commands=GRID(back);
@@ -720,6 +721,7 @@ namespace logic{
 		return "";
 		
 		}
+
 		public string HLINE(string backs){
 			string [] argss = args(backs);
 			string [] argss2;
@@ -2451,7 +2453,8 @@ namespace logic{
 				return "";
 			}
 			public string REFRESH(){
-				Console.Clear();
+				//Console.Clear();
+				Console.SetCursorPosition(0,0);
 				mp.Println();
 				return "";
 			}
@@ -2900,7 +2903,12 @@ namespace logic{
 			}
 	
 			public void  mapstar(int x,int y,char c){
-				if (x>-1 && x<col && y>-1 && y<count)screen[y*col+x]=c;
+				string ssss=c.ToString();
+				if (x>-1 && x<col && y>-1 && y<count){
+					//screen[y*col+x]=c;
+					Console.SetCursorPosition(x,y);
+					Console.Write(ssss);
+				}
 			}
 			
 			public void Println(){
@@ -2909,8 +2917,8 @@ namespace logic{
 				string s="";
 				for (ii=0;ii<count;ii++){
 					s="";
-					for (i=0;i<col;i++)s=s+screen[ii*col+i].ToString();
-					Console.WriteLine("{0}",s);
+					//for (i=0;i<col;i++)s=s+screen[ii*col+i].ToString();
+					//Console.WriteLine("{0}",s);
 				}
 
 			}
