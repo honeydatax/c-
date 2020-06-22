@@ -265,6 +265,8 @@ namespace logic{
 					if (commands.IndexOf("CLS")==0 || commands.IndexOf("CLEAR")==0)commands=CLEAR();
 					if (commands.IndexOf("DIR")==0 || commands.IndexOf("LS")==0)commands=DIR();	
 					if (commands.IndexOf("DATE")==0 )commands=DATE(back);
+					if (commands.IndexOf("COLOR")==0 )commands=COLOR(back);
+					if (commands.IndexOf("BACK")==0 )commands=BACK(back);
 					if (commands.IndexOf("VARS")==0 )commands=VARS();		
 					if (commands.IndexOf("ON")==0 )commands=ON(true);		
 					if (commands.IndexOf("OFF")==0 )commands=ON(false);		
@@ -2760,6 +2762,48 @@ namespace logic{
 
 
 			}
+
+			public string COLOR(string files){
+				string s="";
+				string sss="";
+				int i=0;
+				s=files.Trim();
+				sss=s.ToUpper();
+				string [] ss=args(s);
+				if (ss.Length>1){
+					Console.ForegroundColor=(ConsoleColor) Convert.ToInt16(ss[1]);
+
+				} 
+				
+
+
+				return "";
+
+
+
+			}
+
+			public string BACK(string files){
+				string s="";
+				string sss="";
+				int i=0;
+				s=files.Trim();
+				sss=s.ToUpper();
+				string [] ss=args(s);
+				if (ss.Length>1){
+					Console.BackgroundColor=(ConsoleColor) Convert.ToInt16(ss[1]);
+
+				} 
+				
+
+
+				return "";
+
+
+
+			}
+
+
 
 			public string SLEEP(string files){
 				int i;
