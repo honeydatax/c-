@@ -2554,14 +2554,25 @@ namespace logic{
 			}
 			public string CAT(string files){
 				string ss="";
+				string svar="";
+				int ivar=0;
 				string [] s=args(files);
-				if(s.Length>1){
+				if(s.Length>2){
 					try{
-						ss=File.ReadAllText(s[1]);
+					svar=s[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(s[1],"0");
+
+					}
+					ivar=search(svar);
+
+						value[ivar]=File.ReadAllText(s[2]);
 					}catch{
 						Console.WriteLine("error: {0}!",s[1]);	
 					}
-						Console.WriteLine("{0}!",ss);	
+						
 
 				}
 				return "";
