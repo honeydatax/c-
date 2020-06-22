@@ -257,8 +257,8 @@ namespace logic{
 					if (commands.IndexOf("CAT ")==0 || commands.IndexOf("TYPE ")==0)commands=CAT(back);
 					if (commands.IndexOf("BASH")==0 || commands.IndexOf("SH")==0 || commands.IndexOf("COMMAND")==0)commands=BASH(back);	
 					if (commands.IndexOf("SLEEP ")==0 || commands.IndexOf("DELAY ")==0 )commands=SLEEP(back);	
-					if (commands.IndexOf("PRINTF ")==0)commands=PRINTF(back);	
-					if (commands.IndexOf("ECHO ")==0 || commands.IndexOf("PRINT ")==0)commands=PRINT(back);	
+					if (commands.IndexOf("PRINTF ")==0)commands=WRITE(back);	
+					if (commands.IndexOf("ECHO ")==0 || commands.IndexOf("PRINT ")==0)commands=WRITE(back);	
 					if (commands.IndexOf("LOGIC ")==0 )commands=LOGIC(back);		
 					if (commands.IndexOf("EXPR ")==0 )commands=EXPR(back);		
 					if (commands.IndexOf("CAL ")==0 )commands=CAL(back);	
@@ -333,6 +333,10 @@ namespace logic{
 			string [] argss = args(backs);
 			int ivar=0;
 			string svar="";
+			int ivar2=0;
+			string svar2="";
+			int ivar3=0;
+			string svar3="";
 			int i0=0;
 			int i1=0;
 			int i2=0;
@@ -350,9 +354,28 @@ namespace logic{
 
 					}
 					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
 					
-					i1=Convert.ToInt16(argss[2]);
-					i2=Convert.ToInt16(argss[3]);
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+					
+					i1=Convert.ToInt16(value[ivar2]);
+					i2=Convert.ToInt16(value[ivar3]);
 					value[ivar]=mid(value[ivar],i1,i2);
 
 				}catch{
@@ -368,6 +391,9 @@ namespace logic{
 			string [] argss = args(backs);
 			int ivar=0;
 			string svar="";
+			int ivar2=0;
+			string svar2="";
+
 			int i0=0;
 			int i1=0;
 			int i2=0;
@@ -386,7 +412,16 @@ namespace logic{
 					}
 					ivar=search(svar);
 					
-					i1=Convert.ToInt16(argss[2]);
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+					
+					i1=Convert.ToInt16(value[ivar2]);
 					i2=value[ivar].Length-i1;
 					i1=value[ivar].Length;
 					value[ivar]=mid(value[ivar],i2,i1);
@@ -404,6 +439,9 @@ namespace logic{
 			string [] argss = args(backs);
 			int ivar=0;
 			string svar="";
+			int ivar2=0;
+			string svar2="";
+
 			int i0=0;
 			int i1=0;
 			int i2=0;
@@ -422,7 +460,17 @@ namespace logic{
 					}
 					ivar=search(svar);
 					
-					i1=Convert.ToInt16(argss[2]);
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+
+					i1=Convert.ToInt16(value[ivar2]);
 					
 					
 					value[ivar]=mid(value[ivar],0,i1);
@@ -559,9 +607,24 @@ namespace logic{
 				try{
 					svar=argss[1];
 					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
 
 					svar2=argss[2];
-					Console.Beep(Convert.ToInt32(svar),Convert.ToInt32(svar2));
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+
+
+					Console.Beep(Convert.ToInt32(value[ivar]),Convert.ToInt32(value[ivar2]));
 										
 
 				}catch{
@@ -1457,6 +1520,7 @@ namespace logic{
 			int ivar=0;
 			int ivar2=0;
 			int ivar3=0;
+			int ivar4=0;
 			string svar="";
 			string svar2="";
 			string svar3="";
@@ -1498,8 +1562,18 @@ namespace logic{
 					}
 					ivar3=search(svar3);
 
+					svar4=argss[4];
+					ivar4=search(svar4);
+					
+					if(ivar4<0){
+						addvar(argss[4],"0");
 
-					svar4=argss[4];					
+					}
+					ivar4=search(svar4);
+
+
+
+					svar4=value[ivar4];					
 					if(value[ivar3].Length>0)argss2=value[ivar2].Split(value[ivar3][0]);
 					value[ivar]="";
 					
@@ -1680,7 +1754,15 @@ namespace logic{
 					ivar=search(svar);
 
 					svar2=argss[2];
-					value[ivar]=""+Convert.ToChar(Convert.ToInt16(svar2));
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+					
+					value[ivar]=""+Convert.ToChar(Convert.ToInt16(value[ivar2]));
 
 
 
@@ -1783,6 +1865,15 @@ namespace logic{
 				
 				try{
 					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+
+
 					svar2=argss[2];
 					ivar2=search(svar2);
 					
@@ -1792,7 +1883,7 @@ namespace logic{
 					}
 					ivar2=search(svar2);
 
-					value[ivar2]=File.ReadAllText(svar);
+					value[ivar2]=File.ReadAllText(value[ivar]);
 
 
 
@@ -1842,6 +1933,14 @@ namespace logic{
 				
 				try{
 					svar=argss[2];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+
 					svar2=argss[1];
 					ivar2=search(svar2);
 					
@@ -1851,7 +1950,7 @@ namespace logic{
 					}
 					ivar2=search(svar2);
 					value[ivar2]="";
-					for (i=0;i<Convert.ToInt16(svar);i++){
+					for (i=0;i<Convert.ToInt16(value[ivar]);i++){
 						value[ivar2]=value[ivar2]+" ";
 					}
 
@@ -1909,7 +2008,19 @@ namespace logic{
 
 					}
 					ivar2=search(svar2);
+
 					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(svar3,"0");
+
+					}
+					ivar3=search(svar3);
+
+
+
+					svar3=value[ivar3];
 					value[ivar]="";
 					for (i=0;i<Convert.ToInt16(svar3);i++){
 						value[ivar]=value[ivar]+value[ivar2];
@@ -2021,7 +2132,18 @@ namespace logic{
 
 					}
 					ivar2=search(svar2);
+
 					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(svar3,"0");
+
+					}
+					ivar3=search(svar3);
+
+
+					svar3=value[ivar3];
 					ss="";
 					iiii=Convert.ToInt16(svar3);
 					for (i=0;i<value[ivar].Length;i++){
@@ -2125,9 +2247,27 @@ namespace logic{
 				
 				try{
 					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+					svar=value[ivar];
 					ss="";
 					for (i=2;i<argss.Length;i++){
 						svar2=argss[i];
+						
+						ivar2=search(svar2);
+					
+						if(ivar2<0){
+							addvar(svar2,"0");
+
+						}
+						ivar2=search(svar2);
+						svar2=value[ivar2];
+
 						
 						ss=ss+File.ReadAllText(svar2);
 						
@@ -2180,7 +2320,17 @@ namespace logic{
 					}
 					ivar=search(svar);
 
-					svar2=argss[2].Trim()+argss[3].Trim();
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+					svar2=argss[2].Trim()+value[ivar3].Trim();
+					Console.WriteLine(svar2);
 					ivar2=search(svar2);
 					
 					if(ivar2<0){
@@ -2571,7 +2721,9 @@ namespace logic{
 			public string CAT(string files){
 				string ss="";
 				string svar="";
+				string svar2="";
 				int ivar=0;
+				int ivar2=0;
 				string [] s=args(files);
 				if(s.Length>2){
 					try{
@@ -2584,9 +2736,20 @@ namespace logic{
 					}
 					ivar=search(svar);
 
-						value[ivar]=File.ReadAllText(s[2]);
+					svar2=s[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(s[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+
+
+						value[ivar]=File.ReadAllText(value[ivar2]);
 					}catch{
-						Console.WriteLine("error: {0}!",s[1]);	
+						Console.WriteLine("error: cat!");	
 					}
 						
 
@@ -2871,11 +3034,22 @@ namespace logic{
 				string s="";
 				string sss="";
 				int i=0;
+				int ivar=0;
+				string svar="";
 				s=files.Trim();
-				sss=s.ToUpper();
+				
 				string [] ss=args(s);
 				if (ss.Length>1){
-					Console.ForegroundColor=(ConsoleColor) Convert.ToInt16(ss[1]);
+					svar=ss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(ss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					Console.ForegroundColor=(ConsoleColor) Convert.ToInt16(value[ivar]);
 
 				} 
 				
@@ -2891,11 +3065,22 @@ namespace logic{
 				string s="";
 				string sss="";
 				int i=0;
+				int ivar=0;
+				string svar="";
 				s=files.Trim();
-				sss=s.ToUpper();
+
 				string [] ss=args(s);
 				if (ss.Length>1){
-					Console.BackgroundColor=(ConsoleColor) Convert.ToInt16(ss[1]);
+					svar=ss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(ss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					Console.BackgroundColor=(ConsoleColor) Convert.ToInt16(value[ivar]);
 
 				} 
 				
@@ -2912,10 +3097,22 @@ namespace logic{
 			public string SLEEP(string files){
 				int i;
 				string ss="";
+				int ivar=0;
+				string svar="";
 				string [] s=args(files);
 				if(s.Length>1){
 					try{
-						i=Convert.ToInt16(s[1]);
+											svar=s[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(s[1],"0");
+
+					}
+					ivar=search(svar);
+
+
+						i=Convert.ToInt16(value[ivar]);
 						sleeps(i);
 					}catch{
 						center("error : not a valid number",terminal);	
@@ -2978,31 +3175,60 @@ namespace logic{
 			try{
 				int ii;
 				string svar="";
+				string svar2="";
+				string svar3="";
 				string ss="";
 				int ivar=0;
+				int ivar1=0;
+				int ivar2=0;
+				int ivar3=0;
+				int ivar22=0;
+				int ivar33=0;
 				string [] ffiles=args(files);
 				svar=ffiles[1];
 				ivar=search(svar);
-					
+								
 				if(ivar<0){
 					addvar(ffiles[1],"0");
 
 				}
 				ivar=search(svar);
+
+				svar2=ffiles[2];
+				ivar2=search(svar2);
+					
+				if(ivar2<0){
+					addvar(ffiles[2],"0");
+
+				}
+				ivar2=search(svar2);
+				ivar22=Convert.ToInt16(value[ivar2]);
+
+				svar3=ffiles[3];
+				ivar3=search(svar3);
+					
+				if(ivar3<0){
+					addvar(ffiles[3],"0");
+
+				}
+				ivar3=search(svar3);
+				ivar33=Convert.ToInt16(value[ivar3]);
+
+				
 				value[ivar]="";
 			int [] Mday = new int[]{31,28,31,30,31,30,31,31,30,31,30,31};
 			DateTime d = new DateTime();
 			
 			
-			int month=Convert.ToInt16(ffiles[3]);
-			int year=Convert.ToInt16(ffiles[2]);
+			int month=ivar33;
+			int year=ivar22;
 			string space="";
 			int i;
 			int max=Mday[month-1];
 			int wd=0;
 			
 		  
-			d=Convert.ToDateTime(Convert.ToString(1)+"/"+ffiles[3]+"/"+ffiles[2]+" 12:0:0");
+			d=Convert.ToDateTime(Convert.ToString(1)+"/"+value[ivar3]+"/"+value[ivar2]+" 12:0:0");
 			if (month==2){
 				i=year/4;
 				i=i*4;
