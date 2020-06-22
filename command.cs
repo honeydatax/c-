@@ -9,9 +9,9 @@ namespace logic{
 			private int count=-1;
 			private bool endss=false;
 			public int terminal=78;
-			public string [] vars= new string[251];
-			public string [] value= new string[251];
-			public int [] gosubs= new int[251];
+			public string [] vars= new string[2049];
+			public string [] value= new string[2049];
+			public int [] gosubs= new int[2049];
 			private int returns=0;
 			private int returnss=0;
 			private int countvar=0;
@@ -254,64 +254,64 @@ namespace logic{
 						endss=EXIT();
 						i=ccommandss.Length+1;
 					}
-					if (commands.IndexOf("CAT")==0 || commands.IndexOf("TYPE")==0)commands=CAT(back);
+					if (commands.IndexOf("CAT ")==0 || commands.IndexOf("TYPE ")==0)commands=CAT(back);
 					if (commands.IndexOf("BASH")==0 || commands.IndexOf("SH")==0 || commands.IndexOf("COMMAND")==0)commands=BASH(back);	
-					if (commands.IndexOf("SLEEP")==0 || commands.IndexOf("DELAY")==0 )commands=SLEEP(back);	
-					if (commands.IndexOf("PRINTF")==0)commands=PRINTF(back);	
-					if (commands.IndexOf("ECHO")==0 || commands.IndexOf("PRINT")==0)commands=PRINT(back);	
-					if (commands.IndexOf("LOGIC")==0 )commands=LOGIC(back);		
-					if (commands.IndexOf("EXPR")==0 )commands=EXPR(back);		
-					if (commands.IndexOf("CAL")==0 )commands=CAL(back);	
+					if (commands.IndexOf("SLEEP ")==0 || commands.IndexOf("DELAY ")==0 )commands=SLEEP(back);	
+					if (commands.IndexOf("PRINTF ")==0)commands=PRINTF(back);	
+					if (commands.IndexOf("ECHO ")==0 || commands.IndexOf("PRINT ")==0)commands=PRINT(back);	
+					if (commands.IndexOf("LOGIC ")==0 )commands=LOGIC(back);		
+					if (commands.IndexOf("EXPR ")==0 )commands=EXPR(back);		
+					if (commands.IndexOf("CAL ")==0 )commands=CAL(back);	
 					if (commands.IndexOf("CLS")==0 || commands.IndexOf("CLEAR")==0)commands=CLEAR();
-					if (commands.IndexOf("DIR")==0 || commands.IndexOf("LS")==0)commands=DIR();	
-					if (commands.IndexOf("DATE")==0 )commands=DATE(back);
-					if (commands.IndexOf("COLOR")==0 )commands=COLOR(back);
-					if (commands.IndexOf("BACK")==0 )commands=BACK(back);
+					if (commands.IndexOf("DIR ")==0 || commands.IndexOf("LS")==0)commands=DIR(back);	
+					if (commands.IndexOf("DATE ")==0 )commands=DATE(back);
+					if (commands.IndexOf("COLOR ")==0 )commands=COLOR(back);
+					if (commands.IndexOf("BACK ")==0 )commands=BACK(back);
 					if (commands.IndexOf("VARS")==0 )commands=VARS();		
 					if (commands.IndexOf("ON")==0 )commands=ON(true);		
 					if (commands.IndexOf("OFF")==0 )commands=ON(false);		
 					if (commands.IndexOf("HELP")==0 )commands=HELP();
 					if (commands.IndexOf("BEEP")==0 )commands=BEEP();
-					if (commands.IndexOf("GOTO")==0 )commands=GOTO(back);
-					if (commands.IndexOf("GOSUB")==0 )commands=GOSUB(back);
+					if (commands.IndexOf("GOTO ")==0 )commands=GOTO(back);
+					if (commands.IndexOf("GOSUB ")==0 )commands=GOSUB(back);
 					if (commands.IndexOf("RETURN")==0 )commands=RETURN();
-					if (commands.IndexOf("MID")==0 )commands=MID(back);
-					if (commands.IndexOf("RIGTH")==0 )commands=RIGTH(back);
-					if (commands.IndexOf("LEFT")==0 )commands=LEFT(back);
-					if (commands.IndexOf("READ")==0 )commands=READ(back);
-					if (commands.IndexOf("SPLIT")==0 )commands=SPLIT(back);
-					if (commands.IndexOf("INDEX")==0 )commands=INDEX(back);
-					if (commands.IndexOf("REPLACE")==0 )commands=REPLACE(back);
-					if (commands.IndexOf("FIND")==0 )commands=FIND(back);
-					if (commands.IndexOf("CHR")==0 )commands=CHR(back);
-					if (commands.IndexOf("WRITE")==0 )commands=WRITE(back);
-					if (commands.IndexOf("LOAD")==0 )commands=LOAD(back);
-					if (commands.IndexOf("SPACE")==0 )commands=SPACE(back);
-					if (commands.IndexOf("STRING")==0 )commands=STRING(back);
-					if (commands.IndexOf("SOUND")==0 )commands=SOUND(back);
-					if (commands.IndexOf("LOCATE")==0 )commands=LOCATE(back);
-					if (commands.IndexOf("CONCAT")==0 )commands=COMCAT(back);
-					if (commands.IndexOf("APPEND")==0 )commands=APPEND(back);
-					if (commands.IndexOf("LEN")==0 )commands=LEN(back);
-					if (commands.IndexOf("GREP")==0 )commands=GREP(back);
-					if (commands.IndexOf("ARRAY")==0 )commands=ARRAY(back);
-					if (commands.IndexOf("COPY")==0 || commands.IndexOf("CP")==0 )commands=COPY(back);
-					if (commands.IndexOf("MORE")==0)commands=MORE(back);
-					if (commands.IndexOf("EDITOR")==0)commands=EDITOR(back);
-					if (commands.IndexOf("TRIM")==0)commands=TRIM(back);
-					if (commands.IndexOf("INKEY")==0)commands=INKEY(back);
+					if (commands.IndexOf("MID ")==0 )commands=MID(back);
+					if (commands.IndexOf("RIGTH ")==0 )commands=RIGTH(back);
+					if (commands.IndexOf("LEFT ")==0 )commands=LEFT(back);
+					if (commands.IndexOf("READ ")==0 )commands=READ(back);
+					if (commands.IndexOf("SPLIT ")==0 )commands=SPLIT(back);
+					if (commands.IndexOf("INDEX ")==0 )commands=INDEX(back);
+					if (commands.IndexOf("REPLACE ")==0 )commands=REPLACE(back);
+					if (commands.IndexOf("FIND ")==0 )commands=FIND(back);
+					if (commands.IndexOf("CHR ")==0 )commands=CHR(back);
+					if (commands.IndexOf("WRITE ")==0 )commands=WRITE(back);
+					if (commands.IndexOf("LOAD ")==0 )commands=LOAD(back);
+					if (commands.IndexOf("SPACE ")==0 )commands=SPACE(back);
+					if (commands.IndexOf("STRING ")==0 )commands=STRING(back);
+					if (commands.IndexOf("SOUND ")==0 )commands=SOUND(back);
+					if (commands.IndexOf("LOCATE ")==0 )commands=LOCATE(back);
+					if (commands.IndexOf("CONCAT ")==0 )commands=COMCAT(back);
+					if (commands.IndexOf("APPEND ")==0 )commands=APPEND(back);
+					if (commands.IndexOf("LEN ")==0 )commands=LEN(back);
+					if (commands.IndexOf("GREP ")==0 )commands=GREP(back);
+					if (commands.IndexOf("ARRAY ")==0 )commands=ARRAY(back);
+					if (commands.IndexOf("COPY ")==0 || commands.IndexOf("CP")==0 )commands=COPY(back);
+					if (commands.IndexOf("MORE ")==0)commands=MORE(back);
+					if (commands.IndexOf("EDITOR ")==0)commands=EDITOR(back);
+					if (commands.IndexOf("TRIM ")==0)commands=TRIM(back);
+					if (commands.IndexOf("INKEY ")==0)commands=INKEY(back);
 					if (commands.IndexOf("REFRESH")==0)commands=REFRESH();
-					if (commands.IndexOf("PSTRING")==0)commands=PSTRING(back);
-					if (commands.IndexOf("VSTRING")==0)commands=VSTRING(back);
-					if (commands.IndexOf("PCENTER")==0)commands=PCENTER(back);
-					if (commands.IndexOf("VCENTER")==0)commands=VCENTER(back);
-					if (commands.IndexOf("CIRCLE")==0)commands=CIRCLE(back);
-					if (commands.IndexOf("FILLCIRCLE")==0)commands=FILLCIRCLE(back);
-					if (commands.IndexOf("FILLRECT")==0)commands=FILLRECT(back);
-					if (commands.IndexOf("RECT")==0)commands=RECT(back);
-					if (commands.IndexOf("GRID")==0)commands=GRID(back);
-					if (commands.IndexOf("HLINE")==0)commands=HLINE(back);
-					if (commands.IndexOf("VLINE")==0)commands=VLINE(back);
+					if (commands.IndexOf("PSTRING ")==0)commands=PSTRING(back);
+					if (commands.IndexOf("VSTRING ")==0)commands=VSTRING(back);
+					if (commands.IndexOf("PCENTER ")==0)commands=PCENTER(back);
+					if (commands.IndexOf("VCENTER ")==0)commands=VCENTER(back);
+					if (commands.IndexOf("CIRCLE ")==0)commands=CIRCLE(back);
+					if (commands.IndexOf("FILLCIRCLE ")==0)commands=FILLCIRCLE(back);
+					if (commands.IndexOf("FILLRECT ")==0)commands=FILLRECT(back);
+					if (commands.IndexOf("RECT ")==0)commands=RECT(back);
+					if (commands.IndexOf("GRID ")==0)commands=GRID(back);
+					if (commands.IndexOf("HLINE ")==0)commands=HLINE(back);
+					if (commands.IndexOf("VLINE ")==0)commands=VLINE(back);
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
 					
 					
@@ -2212,7 +2212,7 @@ namespace logic{
 			}
 			public string GOSUB(string files){
 				
-				if (returnss<250){
+				if (returnss<2047){
 					gosubs[returnss]=returns;
 					returnss++;
 				}
@@ -2232,7 +2232,7 @@ namespace logic{
 			}
 			public void addvar(string s1, string s2){
 				string s="";
-				if (countvar<250){
+				if (countvar<2047){
 					s=s1.ToUpper();
 					s=s.Trim();
 					vars[countvar]=s;
@@ -2536,19 +2536,35 @@ namespace logic{
 				return "";
 			}
 
-			public string DIR(){
-					
+			public string DIR(string filess){
+				string sss="";
+				string svar="";
+				int ivar=0;
+				string [] ss=args(filess);
+				
 				string s=".";
 				try{
 					int i=0;
 					int t=0;
+				if(ss.Length>1){
+
+					svar=ss[1];
+					ivar=search(svar);
 					
+					if(ivar<0){
+						addvar(ss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					value[ivar]="";
 					string [] files = Directory.GetFiles(s);
-					for(i=0;i<files.Length;i++)center(files[i],terminal);	
-						t=files.Length;
-						Console.WriteLine(" {0} files!",t);	
+					for(i=0;i<files.Length;i++)value[ivar]=value[ivar]+files[i].Replace("./", "")+";";	
+					
+						
+				}
 					}catch{
-						Console.WriteLine("error: {0}!",s);	
+						Console.WriteLine("error: dir ");	
 					}
 				return "";
 			}
@@ -2960,48 +2976,64 @@ namespace logic{
 
 		public string CAL(string files){
 			try{
+				int ii;
+				string svar="";
+				string ss="";
+				int ivar=0;
+				string [] ffiles=args(files);
+				svar=ffiles[1];
+				ivar=search(svar);
+					
+				if(ivar<0){
+					addvar(ffiles[1],"0");
+
+				}
+				ivar=search(svar);
+				value[ivar]="";
 			int [] Mday = new int[]{31,28,31,30,31,30,31,31,30,31,30,31};
 			DateTime d = new DateTime();
-			string [] ffiles=args(files);
-			int month=Convert.ToInt16(ffiles[2]);
-			int year=Convert.ToInt16(ffiles[1]);
+			
+			
+			int month=Convert.ToInt16(ffiles[3]);
+			int year=Convert.ToInt16(ffiles[2]);
 			string space="";
 			int i;
 			int max=Mday[month-1];
 			int wd=0;
 			
 		  
-			d=Convert.ToDateTime(Convert.ToString(1)+"/"+ffiles[2]+"/"+ffiles[1]+" 12:0:0");
+			d=Convert.ToDateTime(Convert.ToString(1)+"/"+ffiles[3]+"/"+ffiles[2]+" 12:0:0");
 			if (month==2){
 				i=year/4;
 				i=i*4;
 				if(year==i)max++;
 			}
-			Console.WriteLine("");
-			Console.WriteLine(" {0}",Convert.ToString(year));
-			Console.WriteLine(" {0}",Convert.ToString(month));
-			Console.WriteLine("Su Mo Tu We Th Fr Sa");
+			
+			value[ivar]=value[ivar]+Convert.ToString(year)+"\r\n";
+			value[ivar]=value[ivar]+Convert.ToString(month)+"\r\n";
+			value[ivar]=value[ivar]+"Su Mo Tu We Th Fr Sa"+"\r\n";
 			wd=Convert.ToInt16(d.DayOfWeek);
 			for(i=0;i<wd;i++){
-				Console.Write("   ");
+				value[ivar]=value[ivar]+"   ";
 			}
 			for(i=0;i<max;i++){
 				space="";
 				if (i < 9)space=" ";
-				Console.Write("{0}{1} ",space,Convert.ToString(i+1));
+					value[ivar]=value[ivar]+space+Convert.ToString(i+1)+" ";
 				wd++;
 				if(wd>6){
-					Console.WriteLine("");
+					value[ivar]=value[ivar]+"\r\n";
 					wd=0;
 				}
 			}
+			value[ivar]=value[ivar]+"\r\n";
 		  }catch{
-			  Console.WriteLine("");
+			  Console.WriteLine("error on calender value");
 		  }
 		
 			
 			
-			Console.WriteLine("");
+			
 			return "";
 			
 		}
