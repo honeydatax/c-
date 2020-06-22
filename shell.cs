@@ -18,7 +18,9 @@ namespace logic{
 			private bool varson=false;
 			private string ggotos="";
 			private bool ggoto=false;
+			public maps mp = new maps(80,20);
 			public Shells(string files){
+			
 				int i=0;
 				string command="";
 				string back="";
@@ -64,6 +66,10 @@ namespace logic{
 						}
 						
 					}
+					if(Console.KeyAvailable){
+							if(Convert.ToByte(Console.ReadKey(true).Key)==27)endss=true;
+					}
+
 				}
 			}
 			~Shells(){
@@ -243,7 +249,7 @@ namespace logic{
 					back=back.Trim();
 					commands=commands.Trim();
 					if (files!="" && varson) center(commands,terminal);	
-					if (commands.IndexOf("EXIT")>-1){
+					if (commands.IndexOf("EXIT")==0){
 						commands="";
 						endss=EXIT();
 						i=ccommandss.Length+1;
@@ -259,6 +265,8 @@ namespace logic{
 					if (commands.IndexOf("CLS")==0 || commands.IndexOf("CLEAR")==0)commands=CLEAR();
 					if (commands.IndexOf("DIR")==0 || commands.IndexOf("LS")==0)commands=DIR();	
 					if (commands.IndexOf("DATE")==0 )commands=DATE(back);
+					if (commands.IndexOf("COLOR")==0 )commands=COLOR(back);
+					if (commands.IndexOf("BACK")==0 )commands=BACK(back);
 					if (commands.IndexOf("VARS")==0 )commands=VARS();		
 					if (commands.IndexOf("ON")==0 )commands=ON(true);		
 					if (commands.IndexOf("OFF")==0 )commands=ON(false);		
@@ -287,6 +295,20 @@ namespace logic{
 					if (commands.IndexOf("COPY")==0 || commands.IndexOf("CP")==0 )commands=COPY(back);
 					if (commands.IndexOf("MORE")==0)commands=MORE(back);
 					if (commands.IndexOf("EDITOR")==0)commands=EDITOR(back);
+					if (commands.IndexOf("TRIM")==0)commands=TRIM(back);
+					if (commands.IndexOf("INKEY")==0)commands=INKEY(back);
+					if (commands.IndexOf("REFRESH")==0)commands=REFRESH();
+					if (commands.IndexOf("PSTRING")==0)commands=PSTRING(back);
+					if (commands.IndexOf("VSTRING")==0)commands=VSTRING(back);
+					if (commands.IndexOf("PCENTER")==0)commands=PCENTER(back);
+					if (commands.IndexOf("VCENTER")==0)commands=VCENTER(back);
+					if (commands.IndexOf("CIRCLE")==0)commands=CIRCLE(back);
+					if (commands.IndexOf("FILLCIRCLE")==0)commands=FILLCIRCLE(back);
+					if (commands.IndexOf("FILLRECT")==0)commands=FILLRECT(back);
+					if (commands.IndexOf("RECT")==0)commands=RECT(back);
+					if (commands.IndexOf("GRID")==0)commands=GRID(back);
+					if (commands.IndexOf("HLINE")==0)commands=HLINE(back);
+					if (commands.IndexOf("VLINE")==0)commands=VLINE(back);
 					if (commands.IndexOf("=")>-1 || commands.IndexOf("LET")==0 )commands=LET(back);							
 					
 					
@@ -511,6 +533,774 @@ namespace logic{
 		return "";
 		
 		}
+
+		public string PSTRING(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>3){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+					mp.pstring(Convert.ToInt16(value[ivar]),Convert.ToInt16(value[ivar2]),value[ivar3]);
+										
+
+				}catch{
+					center("ERRO Pstring",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string VSTRING(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>3){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+					mp.vstring(Convert.ToInt16(value[ivar]),Convert.ToInt16(value[ivar2]),value[ivar3]);
+										
+
+				}catch{
+					center("ERRO Vstring",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string CIRCLE(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			int ivar4=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string svar4="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>4){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+					svar4=argss[4];
+					ivar4=search(svar4);
+					
+					if(ivar4<0){
+						addvar(argss[4],"0");
+
+					}
+					ivar4=search(svar4);
+
+
+
+					mp.circle(Convert.ToInt16(value[ivar]),Convert.ToInt16(value[ivar2]),Convert.ToInt16(value[ivar3]),value[ivar4][0]);
+										
+
+				}catch{
+					center("ERRO circle",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string HLINE(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			int ivar4=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string svar4="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>4){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+					svar4=argss[4];
+					ivar4=search(svar4);
+					
+					if(ivar4<0){
+						addvar(argss[4],"0");
+
+					}
+					ivar4=search(svar4);
+
+
+
+					mp.horline(Convert.ToInt16(value[ivar]),Convert.ToInt16(value[ivar2]),Convert.ToInt16(value[ivar3]),value[ivar4][0]);
+										
+
+				}catch{
+					center("ERRO hline",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string VLINE(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			int ivar4=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string svar4="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>4){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+					svar4=argss[4];
+					ivar4=search(svar4);
+					
+					if(ivar4<0){
+						addvar(argss[4],"0");
+
+					}
+					ivar4=search(svar4);
+
+
+
+					mp.verline(Convert.ToInt16(value[ivar]),Convert.ToInt16(value[ivar2]),Convert.ToInt16(value[ivar3]),value[ivar4][0]);
+										
+
+				}catch{
+					center("ERRO hline",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+
+		public string FILLCIRCLE(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			int ivar4=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string svar4="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>4){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+					svar4=argss[4];
+					ivar4=search(svar4);
+					
+					if(ivar4<0){
+						addvar(argss[4],"0");
+
+					}
+					ivar4=search(svar4);
+
+
+
+					mp.fillcircle(Convert.ToInt16(value[ivar]),Convert.ToInt16(value[ivar2]),Convert.ToInt16(value[ivar3]),value[ivar4][0]);
+										
+
+				}catch{
+					center("ERRO fillcircle",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string FILLRECT(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			int ivar4=0;
+			int ivar5=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string svar4="";
+			string svar5="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>5){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+					svar4=argss[4];
+					ivar4=search(svar4);
+					
+					if(ivar4<0){
+						addvar(argss[4],"0");
+
+					}
+					ivar4=search(svar4);
+
+					svar5=argss[5];
+					ivar5=search(svar5);
+					
+					if(ivar5<0){
+						addvar(argss[5],"0");
+
+					}
+					ivar5=search(svar5);
+
+
+					mp.rect(Convert.ToInt16(value[ivar]),Convert.ToInt16(value[ivar2]),Convert.ToInt16(value[ivar3]),Convert.ToInt16(value[ivar4]),value[ivar5][0]);
+										
+
+				}catch{
+					center("ERRO fillrect",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string RECT(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			int ivar4=0;
+			int ivar5=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string svar4="";
+			string svar5="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>5){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+					svar4=argss[4];
+					ivar4=search(svar4);
+					
+					if(ivar4<0){
+						addvar(argss[4],"0");
+
+					}
+					ivar4=search(svar4);
+
+					svar5=argss[5];
+					ivar5=search(svar5);
+					
+					if(ivar5<0){
+						addvar(argss[5],"0");
+
+					}
+					ivar5=search(svar5);
+
+
+					mp.lrect(Convert.ToInt16(value[ivar]),Convert.ToInt16(value[ivar2]),Convert.ToInt16(value[ivar3]),Convert.ToInt16(value[ivar4]),value[ivar5][0]);
+										
+
+				}catch{
+					center("ERRO rect",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string GRID(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			int ivar4=0;
+			int ivar5=0;
+			int ivar6=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string svar4="";
+			string svar5="";
+			string svar6="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>6){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					svar3=argss[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(argss[3],"0");
+
+					}
+					ivar3=search(svar3);
+
+					svar4=argss[4];
+					ivar4=search(svar4);
+					
+					if(ivar4<0){
+						addvar(argss[4],"0");
+
+					}
+					ivar4=search(svar4);
+
+					svar5=argss[5];
+					ivar5=search(svar5);
+					
+					if(ivar5<0){
+						addvar(argss[5],"0");
+
+					}
+					ivar5=search(svar5);
+
+					svar6=argss[6];
+					ivar6=search(svar6);
+					
+					if(ivar6<0){
+						addvar(argss[6],"0");
+
+					}
+					ivar6=search(svar6);
+
+
+					mp.grid(Convert.ToInt16(value[ivar]),Convert.ToInt16(value[ivar2]),Convert.ToInt16(value[ivar3]),Convert.ToInt16(value[ivar4]),Convert.ToInt16(value[ivar5]),value[ivar6][0]);
+										
+
+				}catch{
+					center("ERRO rect",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+
+
+
+		public string PCENTER(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					mp.center(Convert.ToInt16(value[ivar]),value[ivar2]);
+										
+
+				}catch{
+					center("ERRO Pcenter",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string VCENTER(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+					mp.vcenter(Convert.ToInt16(value[ivar]),value[ivar2]);
+										
+
+				}catch{
+					center("ERRO Vcenter",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
 
 
 		public string GREP(string backs){
@@ -1661,9 +2451,14 @@ namespace logic{
 				return true;
 			}
 			public string CLEAR(){
+				Console.SetCursorPosition(0,0);
 				Console.Clear();
 				return "";
 			}
+			public string REFRESH(){
+				return "";
+			}
+
 			public string DIR(){
 					
 				string s=".";
@@ -1694,6 +2489,65 @@ namespace logic{
 				}
 				return "";
 			}
+			public string TRIM(string files){
+				string ss="";
+				string svar="";
+				int ivar=0;
+				string [] s=args(files);
+				if(s.Length>1){
+					svar=s[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(s[1],"0");
+
+					}
+					ivar=search(svar);
+
+					try{
+						value[ivar]=value[ivar].Trim();
+					}catch{
+						Console.WriteLine("error: trim!");	
+					}
+						
+
+				}
+				return "";
+			}
+
+			public string INKEY(string files){
+				string ss="";
+				string svar="";
+				bool bb=false;
+				int ivar=0;
+				string [] s=args(files);
+				if(s.Length>1){
+					svar=s[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(s[1],"0");
+
+					}
+					ivar=search(svar);
+
+					try{
+						if(Console.KeyAvailable){
+							value[ivar]=Convert.ToString(Convert.ToByte(Console.ReadKey(true).Key));
+						}else{
+							value[ivar]="0";
+						}
+					}catch{
+						Console.WriteLine("error: trim!");	
+					}
+						
+
+				}
+				return "";
+			}
+
+
+
 			public string MORE(string files){
 				string [] ss=null;
 				string [] s=args(files);
@@ -1909,6 +2763,48 @@ namespace logic{
 
 			}
 
+			public string COLOR(string files){
+				string s="";
+				string sss="";
+				int i=0;
+				s=files.Trim();
+				sss=s.ToUpper();
+				string [] ss=args(s);
+				if (ss.Length>1){
+					Console.ForegroundColor=(ConsoleColor) Convert.ToInt16(ss[1]);
+
+				} 
+				
+
+
+				return "";
+
+
+
+			}
+
+			public string BACK(string files){
+				string s="";
+				string sss="";
+				int i=0;
+				s=files.Trim();
+				sss=s.ToUpper();
+				string [] ss=args(s);
+				if (ss.Length>1){
+					Console.BackgroundColor=(ConsoleColor) Convert.ToInt16(ss[1]);
+
+				} 
+				
+
+
+				return "";
+
+
+
+			}
+
+
+
 			public string SLEEP(string files){
 				int i;
 				string ss="";
@@ -2033,6 +2929,154 @@ namespace logic{
 				Console.WriteLine("{0}",ss);
 				
 			}
+
+		public class maps{
+			public int count=25;
+			public int col=80;
+
+			
+
+			public maps(int x, int y){
+				int i;
+				count=y;
+				col=x;
+			}
+	
+			public void  mapstar(int x,int y,string ssss){
+				
+				if (x>-1 && x<col && y>-1 && y<count){
+					Console.SetCursorPosition(x,y);
+					Console.Write(ssss);
+				}
+			}
+			
+			public void Println(){
+				int i;
+				int ii;
+				string s="";
+			}
+			
+			public void pstring(int x,int y,string s){
+				int i=0;
+				int ii=x;
+				int iii=s.Length;
+				string ss="";
+				if (ii+iii>col)iii=iii+x-col;
+					for(i=0;i<iii;i++)ss=ss+s[i];
+					mapstar(x,y,ss);
+				
+			}
+			public void vstring(int x,int y,string s){
+				int i=0;
+				int ii=y;
+				int iii=s.Length;
+				if (ii+iii>count)iii=iii+y-count;
+				for(i=0;i<iii;i++){
+					mapstar(x,i+y,s[i].ToString());
+				}
+					
+				
+			}
+			public void vcenter(int x,string s){
+				int y=count/2;
+				y=y-s.Length/2;
+				if (y<0)y=0;
+				vstring(x,y,s);
+			}
+			public void center(int y,string s){
+				int x=col/2;
+				x=x-s.Length/2;
+				if (x<0)x=0;
+				pstring(x,y,s);
+			}
+			public void circle(int x,int y,int r,char s){
+				double d=0.00f;
+				double dd=0.00f;
+				double ddd=0.00f;
+				double xx=Convert.ToDouble(x);
+				double yy=Convert.ToDouble(y);
+				double rr=Convert.ToDouble(r);
+				int i=0;
+				int ii=0;
+				int iii=0;
+				
+				ddd=Math.PI*Math.PI*rr+5.00f;
+				iii=Convert.ToInt16(ddd);
+				ddd=ddd/2;
+				for (i=0;i<iii;i++){
+					d=xx+rr*Math.Cos(Convert.ToDouble(i)/(ddd)*Math.PI);
+					dd=yy+rr*Math.Sin(Convert.ToDouble(i)/(ddd)*Math.PI);
+					mapstar(Convert.ToInt16(d),Convert.ToInt16(dd),s.ToString());
+				}
+
+			}
+			public void horline(int x, int y, int w , char c){
+				int i=x;
+				int ii=x;
+				int iii=w;
+				string ss="";
+				if (ii+iii>col)iii=iii+x-col;
+
+				string ssss="";
+				for (i=0;i<iii;i++){
+					ssss=ssss+c;
+				}
+				mapstar(x,y,ssss);
+			}
+			public void fillcircle(int x,int y,int r,char s){
+				int [] half=new int[2000];
+				double d=0.00f;
+				double dd=0.00f;
+				double ddd=0.00f;
+				double d1=0.00f;
+				double ddd1=0.00f;
+				double rr=Convert.ToDouble(r);
+				string ss="";
+
+				int i=0;
+				ddd1=rr*2.00f;
+				ddd=ddd1*2.00f;
+				
+				
+				for (i=0;i<r*2;i++){
+					half[i]=Convert.ToInt16(rr*Math.Sin(Convert.ToDouble(i)/ddd1*Math.PI));
+					horline(x-half[i],i+(y-r),half[i]*2,s);
+				}
+				
+			}
+			public void verline(int x, int y, int h , char c){
+				int i=x;
+				int ii=y;
+				int iii=h;
+				if (ii+iii>count)iii=iii+y-count;
+				string ssss="";
+				for (i=y;i<y+iii;i++){
+					mapstar(x,i,c.ToString());
+				}
+				
+			}
+			public void grid(int x, int y, int w ,int h,int steep ,char c){
+				int i=0;
+				for(i=y;i<y+h;i=i+steep)horline(x,i,w,c);
+				for(i=x;i<x+w;i=i+steep)verline(i,y,h,c);
+			}	
+			public void lrect(int x, int y, int w ,int h, char c){
+				horline(x,y,w,c);
+				horline(x,y+h,w,c);
+				verline(x,y,h+1,c);
+				verline(x+w,y,h+1,c);
+
+			}
+
+			public void rect(int x, int y, int w ,int h, char c){
+					int i=0;
+					for (i=y;i<y+h;i++){
+						horline(x,i,w,c);
+					}
+				
+			}
+	
+		}
 
 
 		static void Main(string[] args){
