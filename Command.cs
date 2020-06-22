@@ -20,7 +20,7 @@ namespace logic{
 			private bool ggoto=false;
 			public maps mp = new maps(80,20);
 			public Shells(string files){
-			
+				Console.TreatControlCAsInput=true;
 				int i=0;
 				string command="";
 				string back="";
@@ -271,6 +271,7 @@ namespace logic{
 					if (commands.IndexOf("ON")==0 )commands=ON(true);		
 					if (commands.IndexOf("OFF")==0 )commands=ON(false);		
 					if (commands.IndexOf("HELP")==0 )commands=HELP();
+					if (commands.IndexOf("BEEP")==0 )commands=BEEP();
 					if (commands.IndexOf("GOTO")==0 )commands=GOTO(back);
 					if (commands.IndexOf("GOSUB")==0 )commands=GOSUB(back);
 					if (commands.IndexOf("RETURN")==0 )commands=RETURN();
@@ -287,6 +288,8 @@ namespace logic{
 					if (commands.IndexOf("LOAD")==0 )commands=LOAD(back);
 					if (commands.IndexOf("SPACE")==0 )commands=SPACE(back);
 					if (commands.IndexOf("STRING")==0 )commands=STRING(back);
+					if (commands.IndexOf("SOUND")==0 )commands=SOUND(back);
+					if (commands.IndexOf("LOCATE")==0 )commands=LOCATE(back);
 					if (commands.IndexOf("CONCAT")==0 )commands=COMCAT(back);
 					if (commands.IndexOf("APPEND")==0 )commands=APPEND(back);
 					if (commands.IndexOf("LEN")==0 )commands=LEN(back);
@@ -533,6 +536,80 @@ namespace logic{
 		return "";
 		
 		}
+
+		public string SOUND(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					ivar=search(svar);
+
+					svar2=argss[2];
+					Console.Beep(Convert.ToInt32(svar),Convert.ToInt32(svar2));
+										
+
+				}catch{
+					center("ERRO sound",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+		public string LOCATE(string backs){
+			string [] argss = args(backs);
+			string [] argss2;
+			int i=0;
+			int ivar=0;
+			int ivar2=0;
+			int ivar3=0;
+			string svar="";
+			string svar2="";
+			string svar3="";
+			string ss="";
+			int i0=0;
+			int i1=0;
+			int i2=0;
+			int i3=0;
+			int i4=0;
+			
+			if (argss.Length>2){
+				
+				try{
+					svar=argss[1];
+					
+
+					svar2=argss[2];
+					Console.SetCursorPosition(Convert.ToInt32(svar),Convert.ToInt32(svar2));
+										
+
+				}catch{
+					center("ERRO LOCATE",terminal);
+				}
+							
+		}	
+		return "";
+		
+		}
+
+
 
 		public string PSTRING(string backs){
 			string [] argss = args(backs);
@@ -2819,6 +2896,11 @@ namespace logic{
 						
 
 				}
+				return "";
+			}
+			public string BEEP(){
+				Console.Beep(415,1500);
+				
 				return "";
 			}
 			public string HELP(){
