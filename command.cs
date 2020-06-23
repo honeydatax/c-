@@ -657,9 +657,27 @@ namespace logic{
 				
 				try{
 					svar=argss[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(argss[1],"0");
+
+					}
+					ivar=search(svar);
+					svar=value[ivar];
+					
+					svar2=argss[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(argss[2],"0");
+
+					}
+					ivar2=search(svar2);
+					svar2=value[ivar2];
 					
 
-					svar2=argss[2];
+
 					Console.SetCursorPosition(Convert.ToInt32(svar),Convert.ToInt32(svar2));
 										
 
@@ -2255,6 +2273,7 @@ namespace logic{
 					}
 					ivar=search(svar);
 					svar=value[ivar];
+					Console.WriteLine("{0}= {1}",svar,ivar);
 					ss="";
 					for (i=2;i<argss.Length;i++){
 						svar2=argss[i];
@@ -2266,13 +2285,14 @@ namespace logic{
 
 						}
 						ivar2=search(svar2);
+						
 						svar2=value[ivar2];
-
+						Console.WriteLine("{0}= {1}",svar2,ivar2);
 						
 						ss=ss+File.ReadAllText(svar2);
 						
 					}
-					
+					Console.WriteLine("{0}= {1}",svar,ivar);
 					File.WriteAllText(svar,ss);
 
 				}catch{
@@ -2432,12 +2452,18 @@ namespace logic{
 				
 				
 				string [] ss=vvalue(s);
+				s=ss[1].Replace("\\n","\n");
+				s=s.Replace("\\t","\t");
+				s=s.Replace("\\r","\r");
+				s=s.Replace("\\b","\b");
+				s=s.Replace("\\a","\a");
+
 				if (ss.Length>1){
 					i=search(ss[0]);
 					if (i==-1){
-						addvar(ss[0],ss[1]);
+						addvar(ss[0],s);
 					}else{
-						value[i]=ss[1];
+						value[i]=s;
 					}
 				} 
 				return "";
