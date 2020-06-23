@@ -334,6 +334,8 @@ namespace logic{
 					if (commands.IndexOf("READ ")==0 )commands=READ(back);
 					if (commands.IndexOf("SPLIT ")==0 )commands=SPLIT(back);
 					if (commands.IndexOf("CONST ")==0 )commands=CONST(back);
+					if (commands.IndexOf("BINARY ")==0 )commands=BINARY(back);
+					if (commands.IndexOf("HEX ")==0 )commands=HEXS(back);
 					if (commands.IndexOf("INDEX ")==0 )commands=INDEX(back);
 					if (commands.IndexOf("REPLACE ")==0 )commands=REPLACE(back);
 					if (commands.IndexOf("FIND ")==0 )commands=FIND(back);
@@ -2524,22 +2526,24 @@ namespace logic{
 			}
 			
 			public string CONST(string files){
+				int i=0;
 				int ivar=0;
 				string svar="";
 				string sss="";
 				string [] s=args(files);
-				int i=0;
+				
 				try{
-					svar=s[1];
+				for(i=1;i<s.Length;i++){
+					svar=s[i];
 					ivar=search(svar);
-					
+				
 					if(ivar<0){
-						addvar(s[1],s[1]);
+						addvar(s[i],s[i]);
 
 					}
 					ivar=search(svar);
-					value[ivar]=s[1];
-					
+					value[ivar]=s[i];
+				}
 					
 				}catch{
 					center("ERROR CONST:",terminal);
@@ -2915,6 +2919,89 @@ namespace logic{
 				}
 				return "";
 			}
+
+			public string BINARY(string files){
+				string ss="";
+				string svar="";
+				string svar2="";
+				int ivar=0;
+				int ivar2=0;
+				string [] s=args(files);
+				if(s.Length>2){
+					try{
+					svar=s[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(s[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=s[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(s[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+
+						Binary bin = new Binary(Convert.ToByte(value[ivar2]));
+						value[ivar]=bin.report();
+					}catch{
+						Console.WriteLine("error: hex!");	
+					}
+						
+
+				}
+				return "";
+			}
+
+			
+			public string HEXS(string files){
+				string ss="";
+				string svar="";
+				string svar2="";
+				int ivar=0;
+				int ivar2=0;
+				string [] s=args(files);
+				if(s.Length>2){
+					try{
+					svar=s[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(s[1],"0");
+
+					}
+					ivar=search(svar);
+
+					svar2=s[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(s[2],"0");
+
+					}
+					ivar2=search(svar2);
+
+
+						HEX hex = new HEX(Convert.ToByte(value[ivar2]));
+						value[ivar]=hex.print();
+					}catch{
+						Console.WriteLine("error: hexs!");	
+					}
+						
+
+				}
+				return "";
+			}
+
+			
+			
+			
 			public string TRIM(string files){
 				string ss="";
 				string svar="";
@@ -3586,6 +3673,112 @@ namespace logic{
 				
 			}
 	
+		}
+
+		public class Binary{
+			public byte value =0;
+			public bool [] bits = new bool[8];
+			public Binary(byte b){
+				int i=0;
+				value=b;
+				reset();
+				solve(value);
+			}
+			public void reset(){
+				int i=0;
+				for(i=0;i<8;i++)bits[i]=false;
+			}
+			public byte back(){
+				int i=0;
+				byte bb=1;
+				byte bbb=2;
+				value=0;
+				for(i=0;i<8;i++){
+					if(bits[i])value=Convert.ToByte(value | bb);
+					bb=Convert.ToByte((bb*bbb) & 255);
+					
+				}
+				
+				
+				return value;
+			}
+			public void solve(byte b){
+				int i=0;
+				byte bb=1;
+				byte bbb=2;
+				value=b;
+				for(i=0;i<8;i++){
+					bits[i]=(value & bb)!=0;
+					bb=Convert.ToByte((bb*bbb) & 255);
+					
+				}
+				
+				
+				
+			}
+			public string report(){
+				int i=0;
+				string s="";
+				for(i=7;i>-1;i--){
+					if(bits[i]){
+						s=s+"1";
+					}else{
+						s=s+"0";
+					}
+				}
+				return s;
+			}
+		}
+		
+
+		public class HEX{
+			public byte value=0;
+			public byte low=0;
+			public byte high=0;
+			public string s="";
+			public HEX(byte b){
+				value=b;
+				solve(value);
+			}
+			public void solve(byte b){
+				value=b;
+				high=highs(b);
+				low=lows(b);
+				s=""+values(high);
+				s=s+values(low);
+				
+			}
+			public byte back(){
+				byte b=0;
+				low=Convert.ToByte(low & 15);
+				high=Convert.ToByte(high & 15);
+				b=Convert.ToByte(high*16);
+				b=Convert.ToByte(b | low);
+				
+				value=b;
+				s=""+values(high);
+				s=s+values(low);
+				
+				return b;
+			}
+			public byte highs(byte b){
+				byte bb=16;
+				bb=Convert.ToByte(b/bb);
+				return bb;
+			}
+			public byte lows(byte b){
+				return Convert.ToByte(b & 15);
+			}
+			public char values(byte b){
+				byte bb=Convert.ToByte(b & 15);
+				string s="0123456789ABCDEF";
+				return s[bb];
+			}
+			public string print(){
+
+				return s;
+			}
+
 		}
 
 
