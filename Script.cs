@@ -95,6 +95,13 @@ namespace logic{
 					int i3=0;
 					string svar="";
 					int ivar=0;
+					string svar2="";
+					int ivar2=0;
+					string svar3="";
+					int ivar3=0;
+					string svar4="";
+					int ivar4=0;
+
 					commands=command.Replace("  "," ");					
 					back2=commands;
 					back3=back2;
@@ -105,7 +112,7 @@ namespace logic{
 					commands=commands.ToUpper();
 					
 				if (commands.IndexOf(":")!=0 && commands.IndexOf("#")!=0){
-					if (commands.IndexOf("FOR")==0){
+					if (commands.IndexOf("FOR ")==0){
 						
 						argss=commands2(commands);
 						argss3=commands2(back2);
@@ -124,9 +131,43 @@ namespace logic{
 										svar=argss2[1];
 									}
 									ivar=search(svar);
-									i1=Convert.ToInt16(argss2[2]);
-									i2=Convert.ToInt16(argss2[3]);
-									i3=Convert.ToInt16(argss2[4]);
+									
+									
+									svar2=argss2[2];
+					ivar2=search(svar2);
+					
+					if(ivar2<0){
+						addvar(svar2,"0");
+
+					}
+					ivar2=search(svar2);
+					
+
+									svar3=argss2[3];
+					ivar3=search(svar3);
+					
+					if(ivar3<0){
+						addvar(svar3,"0");
+
+					}
+					ivar3=search(svar3);
+					
+									svar4=argss2[4];
+					ivar4=search(svar4);
+					
+					if(ivar4<0){
+						addvar(svar4,"0");
+
+					}
+					ivar4=search(svar4);
+					
+									
+									
+									
+																
+									i1=Convert.ToInt16(value[ivar2]);
+									i2=Convert.ToInt16(value[ivar3]);
+									i3=Convert.ToInt16(value[ivar4]);
 									if (i1<i2){
 										
 										for(i=i1;i<i2;i=i+i3){
@@ -151,7 +192,7 @@ namespace logic{
 						}
 						commands="";
 					}
-					if (commands.IndexOf("TIME")==0){
+					if (commands.IndexOf("TIME ")==0){
 						string s="";
 						string sss="";
 						
@@ -161,7 +202,7 @@ namespace logic{
 						argss3=commands2(back);
 						if (argss.Length>1){
 							argss2=args(argss[0]);
-							
+									svar=argss2[1];
 							try{
 								TimeSpan t;
 								DateTime dt1=DateTime.Now;
@@ -195,7 +236,7 @@ namespace logic{
 						commands="";
 					}
 
-					if (commands.IndexOf("IF")==0){
+					if (commands.IndexOf("IF ")==0){
 						
 						argss=commands2(commands);
 						argss3=commands2(back);
@@ -205,7 +246,19 @@ namespace logic{
 								bool j=true;
 								string h="";
 								if (argss2.Length>1){
-									h=argss2[1];
+									svar=argss2[1];
+									
+									ivar=search(svar);
+					
+									if(ivar<0){
+										addvar(svar,"0");
+
+									}
+									ivar=search(svar);
+
+
+									h=value[ivar];
+									h=h.ToUpper();
 									h=h.Trim();
 									
 									if (h[0]=='0' || h=="FALSE")j=false;
@@ -280,6 +333,7 @@ namespace logic{
 					if (commands.IndexOf("LEFT ")==0 )commands=LEFT(back);
 					if (commands.IndexOf("READ ")==0 )commands=READ(back);
 					if (commands.IndexOf("SPLIT ")==0 )commands=SPLIT(back);
+					if (commands.IndexOf("CONST ")==0 )commands=CONST(back);
 					if (commands.IndexOf("INDEX ")==0 )commands=INDEX(back);
 					if (commands.IndexOf("REPLACE ")==0 )commands=REPLACE(back);
 					if (commands.IndexOf("FIND ")==0 )commands=FIND(back);
@@ -2449,7 +2503,7 @@ namespace logic{
 				if (sss.IndexOf("LET")==0){
 					s=s.Remove(0,3);
 				}
-				
+
 				
 				string [] ss=vvalue(s);
 				s=ss[1].Replace("\\n","\n");
@@ -2468,6 +2522,33 @@ namespace logic{
 				} 
 				return "";
 			}
+			
+			public string CONST(string files){
+				int ivar=0;
+				string svar="";
+				string sss="";
+				string [] s=args(files);
+				int i=0;
+				try{
+					svar=s[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(s[1],s[1]);
+
+					}
+					ivar=search(svar);
+					value[ivar]=s[1];
+					
+					
+				}catch{
+					center("ERROR CONST:",terminal);
+				}
+
+				return "";
+			}
+			
+			
 			public string ON(bool b){
 				varson=b;
 				return "";
@@ -2545,12 +2626,23 @@ namespace logic{
 				int ii=0;
 				int ivar=-1;
 				int i=0;
+				int ivars=0;
 				string svar="";
 				string [] ffile=args(files);
 					if (ffile.Length>2){
-						ivar=search(ffile[1]);
-						if (ivar<0)addvar(ffile[1],"0");
-						ivar=search(ffile[1]);
+						
+					svar=ffile[1];
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivars=search(svar);
+					
+
+
+
 						for(i=2;i<ffile.Length;i++){
 							svar=ffile[i];
 							svar=svar.Trim();
@@ -2560,7 +2652,17 @@ namespace logic{
 							if (svar[0]=='/')signals=3;
 							if (svar[0]=='\\')signals=3;
 							try{
-								if (svar[0]>='0' && svar[0]<='9'){
+								if (svar[0]!='+' && svar[0]!='-' && svar[0]!='*' && svar[0]!='\\' && svar[0]!='/' ){
+								svar=svar;
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+					svar=value[ivar];
+
 									ii=Convert.ToInt16(svar);
 									if(signals==0)sums=ADDS(sums,ii);
 									if(signals==1)sums=SUBS(sums,ii);
@@ -2573,7 +2675,7 @@ namespace logic{
 							
 						}
 					}
-				if (ivar>-1)value[ivar]=Convert.ToString(sums).Trim();
+				if (ivar>-1)value[ivars]=Convert.ToString(sums).Trim();
 				return "";
 			}
 			public string LOGIC(string files){
@@ -2590,12 +2692,19 @@ namespace logic{
 				int ivar=-1;
 				int i=0;
 				string svar="";
+				int ivars=0;
 				sd=files.Replace("  "," ");
 				string [] ffile=args(sd);
 					if (ffile.Length>2){
-						ivar=search(ffile[1]);
-						if (ivar<0)addvar(ffile[1],"0");
-						ivar=search(ffile[1]);
+						
+					ivar=search(ffile[1]);
+					
+					if(ivar<0){
+						addvar(ffile[1],"0");
+
+					}
+					ivars=search(ffile[1]);
+						
 						for(i=2;i<ffile.Length;i++){
 							svar=ffile[i];
 							svar=svar.Trim();
@@ -2609,16 +2718,40 @@ namespace logic{
 								if (svar[0]=='!')signals=4;
 								if (svar[0]=='>')signals=5;
 								if (svar[0]=='<')signals=6;
-																
-								if (map==0 && signals==7) s11=svar.Trim();
+
+								if (map==0 && signals==7){
+							ivar=search(svar);
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+					svar=value[ivar];
+
+									s11=svar.Trim();
+								}
 								if (map==0 && signals!=7) i=ffile[i].Length+1;
 								if (map==1 && signals>=3 && signals<=6)lastsignal=signals; 
 								if (map==1 && (signals<3 || signals>6)) i=ffile[i].Length+1;
 								if (map==2 && signals==7){
+														
+					if(bsignals>=3 && bsignals<=6){
+					
+					ivar=search(svar);
+					
+					if(ivar<0){
+						addvar(svar,"0");
+
+					}
+					ivar=search(svar);
+					svar=value[ivar];
+
+
 										if(bsignals==3)sums=LIKE(s11,svar);
 										if(bsignals==4)sums=DIFERENT(s11,svar);
 										if(bsignals==5)sums=BIG(s11,svar);
 										if(bsignals==6)sums=LESS(s11,svar);
+					}
 																				
 										if(thesignal==1)sumslog=ORS(sumslog,sums); 
 										if(thesignal==2)sumslog=ANDS(sumslog,sums); 
@@ -2639,7 +2772,7 @@ namespace logic{
 						}
 						i=0;
 						if (sumslog) i=1;
-						value[ivar]=Convert.ToString(i).Trim();
+						value[ivars]=Convert.ToString(i).Trim();
 					}
 
 				return "";
@@ -3155,20 +3288,20 @@ namespace logic{
 			}
 			public string HELP(){
 				center("help this help",terminal);
-				center("for var $from $into $steep ; echo $var ; # for command",terminal);
+				center("for var from into steep ; echo var ; # for command",terminal);
 				center("logic var $var1 = $var2 && $var3 ! $var4 ; # bool test",terminal);
-				center("if $var ; echo $var ; # check if a var is false or 0 afther a logic var test",terminal);
-				center("time var ; sleep 6 ; # put the take time run in a var",terminal);
-				center("sleep $var ; # waits seconds",terminal);
+				center("if $var ; echo var ; # check if a var is false or 0 afther a logic var test",terminal);
+				center("time var ; sleep var ; # put the take time run in a var",terminal);
+				center("sleep var ; # waits seconds",terminal);
 				center("exit ; # exit command line or a bash file",terminal);
-				center("cat $file ; # list a file in the screen",terminal);
+				center("cat file ; # list a file in the screen",terminal);
 				center("command $file ; # call a command file bash .lst",terminal);
-				center("printf $var \t $var2 \n\r ; # put a message in a screen",terminal);
-				center("echo $var ; # put a message in a screen",terminal);
+				center("printf var ; # put a message in a screen",terminal);
+				center("echo var ; # put a message in a screen",terminal);
 				center("expr var $var1 + $var2 - $var3 * $var4 / $var5 ; # mat expressions",terminal);
-				center("cal 2020 4",terminal);
+				center("cal var year moth",terminal);
 				center("cls ; # clear screen",terminal);
-				center("dir ; # list all files",terminal);
+				center("dir var; # list all files",terminal);
 				center("dir ; # list all files",terminal);
 				center("date var ; # put data time into a var",terminal);
 				center("on ; # show the command in a bash file",terminal);
