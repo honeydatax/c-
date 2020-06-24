@@ -4,7 +4,7 @@ namespace logic{
 	
 	class logics{
 		public class lineInsert{
-			public string value ="t";
+			public string value ="";
 			public int x=0;
 			public int y=0;
 			public int length=0;
@@ -103,7 +103,7 @@ namespace logic{
 					
 					}
 					
-					if(b>31 && length<max){
+					if(key.KeyChar>=' ' && length<max){
 					
 						value=value.Replace("_",key.KeyChar.ToString());
 						
