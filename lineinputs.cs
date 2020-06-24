@@ -12,7 +12,7 @@ namespace logic{
 			
 			public lineInput(){
 			}
-			public string input(){
+			public string input(string back){
 				ConsoleKeyInfo key=new ConsoleKeyInfo();
 				string s="";
 				char last=' ';
@@ -28,9 +28,25 @@ namespace logic{
 					try{
 						key=Console.ReadKey(true);
 						b=Convert.ToInt16(key.Key);
-						if(b<32){
-							
-							if(b==8 && length>0){
+					}catch{
+						b=0;
+					}
+					
+					if(key.Key==ConsoleKey.UpArrow || key.Key==ConsoleKey.DownArrow || key.Key==ConsoleKey.Home || key.Key==ConsoleKey.LeftArrow || key.Key==ConsoleKey.RightArrow || key.Key==ConsoleKey.End || key.Key==ConsoleKey.PageDown || key.Key==ConsoleKey.PageUp){
+								value=back;
+								length=back.Length;
+								Console.CursorLeft=x;
+								Console.CursorTop=y;
+								Console.Write(value+"  ");
+								Console.CursorLeft=x+length;
+								Console.CursorTop=y;
+
+								bb=0;
+								b=1;
+
+					}
+					if(key.Key==ConsoleKey.Enter)exits=true;
+					if((key.Key==ConsoleKey.Delete || key.Key==ConsoleKey.Backspace) && length>0){
 								
 								s="";
 								length--;
@@ -45,17 +61,8 @@ namespace logic{
 
 								bb=0;
 								b=1;
-							}
 							
-						}
-						
-
-					}catch{
-						b=0;
 					}
-					
-					//b=;
-					if (key.KeyChar=='\n')exits=true;
 					
 					if(b>31 && b <255){
 						value=value+key.KeyChar;
@@ -63,16 +70,6 @@ namespace logic{
 						Console.Write(key.KeyChar);
 					}
 
-					/*
-					if (!Console.CapsLock && b>=65 && b<=65+24){
-						b=b+32;
-					}
-					
-					last=Convert.ToChar(Convert.ToByte(b));
-					if(b<32 && b>0){
-						Console.Write("!{0}",b);
-					}
-					*/
 				}
 				return value;	
 			}
@@ -82,7 +79,7 @@ namespace logic{
 		static void Main(string[] args){
 			lineInput inputs = new lineInput();
 			
-			Console.Write("\n!{0}",inputs.input());
+			Console.Write("\n!{0}",inputs.input("back line..."));
 				
 
 		}
