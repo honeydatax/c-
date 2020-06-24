@@ -64,7 +64,7 @@ namespace logic{
 							
 					}
 					
-					if(b>31 && b <255){
+					if(key.KeyChar>' ' && length<max){
 						value=value+key.KeyChar;
 						length++;
 						Console.Write(key.KeyChar);
