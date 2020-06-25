@@ -5,6 +5,11 @@ namespace logic{
 	
 	class logics{
 		public class lineNew{
+			public int x=0;
+			public int y=0;
+			public int w=76;
+			public int h=20;
+			public int start;
 			public int length=0;
 			private int lengths=0;
 			const int max=32002;
@@ -122,30 +127,53 @@ namespace logic{
 					del[i]=false;
 				}
 			}
+		public string mid(string ss,int start,int size){
+			int i;
+			string s="";
+			int sizes=size+start;
+			int starts=start;
+			if (start>ss.Length)starts=ss.Length-1;
+			if (starts<0)starts=0;
+			if (sizes>ss.Length)sizes=ss.Length;
+			for(i=start;i<sizes;i++)s=s+ss[i];
+			return s;
+		}
+
 			public void report(){
 				int i=0;
-				Console.WriteLine("-------------");
-				for(i=0;i<length;i++)Console.WriteLine(" {0} ",listss[lint[i]]);
+				string s="";
+				int ii=h;
+				if(length<h)ii=length;
+				if(start+ii>length)start=length-h;
+				if(start<-1)start=0;
+				for(i=start;i<ii;i++){
+					Console.CursorTop=y+i;
+					Console.CursorLeft=x;
+					if(listss[lint[i]].Length<w){
+						Console.Write(listss[lint[i]]);
+					}else{
+						s=mid(listss[lint[i]],0,w);
+						Console.Write(s);
+					}
+
+				}
+				Console.CursorTop=y+i;
+				Console.CursorLeft=0;
+
 			}
 		}
 		static void Main(string[] args){
 			lineNew list1 = new lineNew();
 			int i=0;
 			int count=0;
-
-			list1.add("arm",list1.length+1);
-			list1.add("pc",list1.length+1);
-			list1.add("x86",list1.length+1);
-			list1.add("80186",list1.length+1);
-			list1.add("80286",list1.length+1);
-			list1.add("80386",list1.length+1);
-			list1.add("80486",list1.length+1);
+			Console.Clear();
+			list1.x=10;
+			list1.w=50;
+			list1.y=10;
+			list1.h=8;
+			for(i=0;i<31;i++)list1.add("LINE :" +i.ToString(),list1.length+1);
 			list1.report();
 
-			list1.remove(1);
-			list1.add("new",1);
-			list1.add("80586",list1.length+1);
-			list1.report();
 		}
 
 		
