@@ -143,11 +143,14 @@ namespace logic{
 				int i=0;
 				string s="";
 				int ii=h;
+				if(start<0)start=0;
 				if(length<h)ii=length;
 				if(start+ii>length)start=length-h;
-				if(start<-1)start=0;
+				if(start<0)start=0;
+				if(length>h)ii=start+ii;
+				
 				for(i=start;i<ii;i++){
-					Console.CursorTop=y+i;
+					Console.CursorTop=y+i-start;
 					Console.CursorLeft=x;
 					if(listss[lint[i]].Length<w){
 						Console.Write(listss[lint[i]]);
@@ -157,7 +160,7 @@ namespace logic{
 					}
 
 				}
-				Console.CursorTop=y+i;
+				Console.CursorTop=y+i-start;
 				Console.CursorLeft=0;
 
 			}
@@ -171,7 +174,8 @@ namespace logic{
 			list1.w=50;
 			list1.y=10;
 			list1.h=8;
-			for(i=0;i<31;i++)list1.add("LINE :" +i.ToString(),list1.length+1);
+			list1.start=14;
+			for(i=0;i<60;i++)list1.add("LINE :" +i.ToString(),list1.length+1);
 			list1.report();
 
 		}
