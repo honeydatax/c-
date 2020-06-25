@@ -10,10 +10,10 @@ namespace logic{
 			public int length=0;
 			public int max=79;
 			int cursor=0;
-			
+			public int line=0;			
 			public lineInsert(){
 			}
-			public string input(string back){
+			public string input(string [] back){
 				ConsoleKeyInfo key=new ConsoleKeyInfo();
 				string s="";
 				char last=' ';
@@ -23,8 +23,10 @@ namespace logic{
 				int bb=32;
 				bool exits=false;
 				int i=0;
+				line=back.Length-1;
 				x=Console.CursorLeft;
 				y=Console.CursorTop;
+				
 				cursor=value.Length;
 				cursorinsert();
 				while(!exits){
@@ -35,16 +37,30 @@ namespace logic{
 						b=0;
 					}
 					
-					if(key.Key==ConsoleKey.UpArrow || key.Key==ConsoleKey.DownArrow || key.Key==ConsoleKey.PageDown || key.Key==ConsoleKey.PageUp){
-								value=back;
-								length=back.Length;
-								cursor=value.Length;
-								cursorinsert();
-								bb=0;
-								b=1;
-
+					if(key.Key==ConsoleKey.UpArrow){
+							line--;
+							if(line<0)line=0;
+							cursor=back[line].Length;
+							refresh(back);
+						
 					}
-					//if(key.Key==ConsoleKey.UpArrow || key.Key==ConsoleKey.DownArrow || key.Key==ConsoleKey.Home || key.Key==ConsoleKey.LeftArrow || key.Key==ConsoleKey.RightArrow || key.Key==ConsoleKey.End || key.Key==ConsoleKey.PageDown || key.Key==ConsoleKey.PageUp){
+					if(key.Key==ConsoleKey.DownArrow){
+							line++;
+							if(line>back.Length-1)line=back.Length-1;
+							cursor=back[line].Length;
+							refresh(back);
+					}
+					
+					if(key.Key==ConsoleKey.PageDown){
+							line=back.Length-1;
+							refresh(back);
+					}
+					if(key.Key==ConsoleKey.PageUp){
+							line=0;
+							refresh(back);
+					}
+
+					
 					if(key.Key==ConsoleKey.LeftArrow ){
 
 								value=value.Replace("_","");
@@ -143,13 +159,30 @@ namespace logic{
 
 				
 			}
+			public void refresh(string [] back){
+				if(back.Length>0){
+					if(line>back.Length-1)line=back.Length-1;
+					if(line<0)line=0;
+					value=back[line];
+					length=back[line].Length;
+					Console.CursorLeft=x;
+					Console.CursorTop=y;
+					Console.Write(value+"  ");
+					Console.CursorLeft=x+length;
+					Console.CursorTop=y;
+				}
+			}
+
 
 		}
 		
 		static void Main(string[] args){
 			lineInsert inputs = new lineInsert();
+			string [] s = new string[12];
+			int i=0;
+			for(i=0;i<s.Length;i++)s[i]="line "+ i.ToString();  
 			
-			Console.Write("\n!{0}",inputs.input("back line..."));
+			Console.Write("\n!{0}",inputs.input(s));
 				
 
 		}
