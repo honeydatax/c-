@@ -19,7 +19,12 @@ namespace logic{
 			private string ggotos="";
 			private bool ggoto=false;
 			public maps mp = new maps(80,20);
+			public string [] history1=new string[2048];
+			public string [] history2=new string[2048];
+			public int history1len=0;
+			public int history2len=0;
 			public Shells(string files){
+
 				Console.TreatControlCAsInput=true;
 				int i=0;
 				string command="";
@@ -33,6 +38,11 @@ namespace logic{
 						endss=true;
 					}
 				}
+				history1[0]="exit";
+				history1len=1;
+				history2[0]="exit";
+				history2len=1;
+
 				
 				while(!endss){
 					ggotos="";
@@ -553,6 +563,7 @@ namespace logic{
 			if (argss.Length>1){
 				
 				try{
+					lineInsert inputs = new lineInsert();
 					svar=argss[1];
 					ivar=search(svar);
 					
@@ -562,7 +573,12 @@ namespace logic{
 					}
 					ivar=search(svar);
 										
-					value[ivar]=Console.ReadLine();
+					value[ivar]=inputs.input(history1,history1len);
+					if(history1len<2047){
+						history1[history1len]=value[ivar];
+						history1len++;
+					}
+						
 
 				}catch{
 					center("ERRO READ",terminal);
@@ -2559,9 +2575,19 @@ namespace logic{
 			}
 			
 			public string Commands(){
+				
 				string comm="";
+				try{
+				lineInsert inputs = new lineInsert();
 				Console.Write(">>");
-				comm=Console.ReadLine();
+				comm=inputs.input(history2,history2len);
+					if(history2len<2047){
+						history2[history2len]=comm;
+						history2len++;
+					}
+				}catch{
+					
+				}
 				return comm;
 			}
 			public string removespaces(string s){
@@ -3780,6 +3806,181 @@ namespace logic{
 			}
 
 		}
+
+		public class lineInsert{
+			public string value ="";
+			public int x=0;
+			public int y=0;
+			public int length=0;
+			public int max=79;
+			int cursor=0;
+			public int line=0;			
+			public lineInsert(){
+			}
+			public string input(string [] back, int len){
+				ConsoleKeyInfo key=new ConsoleKeyInfo();
+				string s="";
+				char last=' ';
+				char c32=' ';
+				char c13='\r';
+				int b=32;
+				int bb=32;
+				bool exits=false;
+				int i=0;
+				line=len-1;
+				x=Console.CursorLeft;
+				y=Console.CursorTop;
+				
+				cursor=value.Length;
+				cursorinsert();
+				while(!exits){
+					try{
+						key=Console.ReadKey(true);
+						b=Convert.ToInt16(key.Key);
+					}catch{
+						b=0;
+					}
+					
+					if(key.Key==ConsoleKey.UpArrow){
+							line--;
+							if(line<0)line=0;
+							cursor=back[line].Length;
+							refresh(back,len);
+						
+					}
+					if(key.Key==ConsoleKey.DownArrow){
+							line++;
+							if(line>len-1)line=len-1;
+							cursor=back[line].Length;
+							refresh(back,len);
+					}
+					
+					if(key.Key==ConsoleKey.PageDown){
+							line=len-1;
+							refresh(back,len);
+					}
+					if(key.Key==ConsoleKey.PageUp){
+							line=0;
+							refresh(back,len);
+					}
+
+					
+					if(key.Key==ConsoleKey.LeftArrow ){
+
+								value=value.Replace("_","");
+								cursor--;
+								cursorinsert();
+								bb=0;
+								b=1;
+
+					}
+					if(key.Key==ConsoleKey.RightArrow ){
+
+								value=value.Replace("_","");
+								cursor++;
+								cursorinsert();
+								bb=0;
+								b=1;
+
+					}
+
+
+					if(key.Key==ConsoleKey.End ){
+
+								value=value.Replace("_","");
+								cursor=value.Length;
+								cursorinsert();
+								bb=0;
+								b=1;
+
+					}
+					if(key.Key==ConsoleKey.Home ){
+
+								value=value.Replace("_","");
+								cursor=0;
+								cursorinsert();
+								bb=0;
+								b=1;
+
+					}
+
+					if(key.Key==ConsoleKey.Enter)exits=true;
+					if((key.Key==ConsoleKey.Delete || key.Key==ConsoleKey.Backspace) && length>0){
+					
+								s="";
+								
+								value.Replace("_","");
+								cursor--;
+								for(i=0;i<length;i++){
+									if(!(i==cursor))s=s+value[i];
+								}
+								value=s;
+								
+								cursorinsert();
+								bb=0;
+								b=1;
+								 
+					
+					}
+					
+					if(key.KeyChar>=' ' && length<max){
+					
+						value=value.Replace("_",key.KeyChar.ToString());
+						
+						cursor++;
+						cursorinsert();
+					}
+					
+				
+				}
+				value=value.Replace("_","");
+				cursorinsert();
+				value=value.Replace("_","");
+				length=value.Length;
+				Console.WriteLine("");
+				return value;
+			}
+			
+			
+			public void cursorinsert(){
+				string ss="";
+				int ii=0;
+				length=value.Length;
+				if(cursor>length)cursor=length;
+				if(cursor<0)cursor=0;
+				
+				for(ii=0;ii<value.Length+1;ii++){
+					if(cursor==ii)ss=ss+"_";
+					if(ii<value.Length)ss=ss+value[ii];
+				}
+				
+				value=ss;
+				Console.CursorLeft=x;
+				Console.CursorTop=y;
+				Console.Write(value+"  ");
+				Console.CursorLeft=x+cursor;
+				Console.CursorTop=y;
+				
+
+				
+			}
+			public void refresh(string [] back,int len){
+				if(len>0){
+					if(line>len-1)line=len-1;
+					if(line<0)line=0;
+					value=back[line];
+					length=back[line].Length;
+					Console.CursorLeft=x;
+					Console.CursorTop=y;
+					Console.Write(value+"  ");
+					Console.CursorLeft=x+length;
+					Console.CursorTop=y;
+				}
+			}
+
+
+		}
+
 
 
 		static void Main(string[] args){
