@@ -13,7 +13,7 @@ namespace logic{
 			public int line=0;			
 			public lineInsert(){
 			}
-			public string input(string [] back){
+			public string input(string [] back, int len){
 				ConsoleKeyInfo key=new ConsoleKeyInfo();
 				string s="";
 				char last=' ';
@@ -23,10 +23,10 @@ namespace logic{
 				int bb=32;
 				bool exits=false;
 				int i=0;
-				line=back.Length-1;
+				line=len-1;
 				x=Console.CursorLeft;
 				y=Console.CursorTop;
-				
+				value=value.Replace("_","");				
 				cursor=value.Length;
 				cursorinsert();
 				while(!exits){
@@ -39,25 +39,21 @@ namespace logic{
 					
 					if(key.Key==ConsoleKey.UpArrow){
 							line--;
-							if(line<0)line=0;
-							cursor=back[line].Length;
-							refresh(back);
+							refresh(back,len);
 						
 					}
 					if(key.Key==ConsoleKey.DownArrow){
 							line++;
-							if(line>back.Length-1)line=back.Length-1;
-							cursor=back[line].Length;
-							refresh(back);
+							refresh(back,len);
 					}
 					
 					if(key.Key==ConsoleKey.PageDown){
-							line=back.Length-1;
-							refresh(back);
+							line=len;
+							refresh(back,len);
 					}
 					if(key.Key==ConsoleKey.PageUp){
 							line=0;
-							refresh(back);
+							refresh(back,len);
 					}
 
 					
@@ -105,13 +101,15 @@ namespace logic{
 					
 								s="";
 								
-								value.Replace("_","");
+								value=value.Replace("_","");
 								cursor--;
-								for(i=0;i<length;i++){
-									if(!(i==cursor))s=s+value[i];
-								}
-								value=s;
 								
+								if(cursor>-1){
+									char c=value[cursor];
+									value=value.Insert(cursor,"_");
+									value=value.Replace("_"+c,"");
+								}
+								value=value.Replace("_","");
 								cursorinsert();
 								bb=0;
 								b=1;
@@ -121,8 +119,8 @@ namespace logic{
 					
 					if(key.KeyChar>=' ' && length<max){
 					
-						value=value.Replace("_",key.KeyChar.ToString());
-						
+						if(key.KeyChar!='_') value=value.Replace("_",key.KeyChar.ToString());
+						value=value.Replace("_","");
 						cursor++;
 						cursorinsert();
 					}
@@ -133,6 +131,7 @@ namespace logic{
 				cursorinsert();
 				value=value.Replace("_","");
 				length=value.Length;
+				Console.WriteLine("");
 				return value;
 			}
 			
@@ -159,30 +158,30 @@ namespace logic{
 
 				
 			}
-			public void refresh(string [] back){
-				if(back.Length>0){
-					if(line>back.Length-1)line=back.Length-1;
+			public void refresh(string [] back,int len){
+				if(len>0){
+					if(line>len-1)line=len-1;
 					if(line<0)line=0;
 					value=back[line];
-					length=back[line].Length;
-					Console.CursorLeft=x;
-					Console.CursorTop=y;
-					Console.Write(value+"  ");
-					Console.CursorLeft=x+length;
-					Console.CursorTop=y;
+					value=value.Replace("_","");
+					length=value.Length;
+					cursor=length;
+					cursorinsert();
 				}
 			}
 
 
 		}
-		
+
+
+	
 		static void Main(string[] args){
 			lineInsert inputs = new lineInsert();
 			string [] s = new string[12];
 			int i=0;
 			for(i=0;i<s.Length;i++)s[i]="line "+ i.ToString();  
 			
-			Console.Write("\n!{0}",inputs.input(s));
+			Console.Write("\n!{0}",inputs.input(s,12));
 				
 
 		}
