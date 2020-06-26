@@ -21,8 +21,10 @@ namespace logic{
 			public maps mp = new maps(80,20);
 			public string [] history1=new string[2048];
 			public string [] history2=new string[2048];
+			public string [] history3=new string[2048];
 			public int history1len=0;
 			public int history2len=0;
+			public int history3len=0;
 			public Shells(string files){
 
 				Console.TreatControlCAsInput=true;
@@ -42,6 +44,8 @@ namespace logic{
 				history1len=1;
 				history2[0]="exit";
 				history2len=1;
+				history3[0]="exit";
+				history3len=1;
 
 				
 				while(!endss){
@@ -3133,6 +3137,7 @@ namespace logic{
 				if(s.Length>1){
 				  center("#editor: "+s[1],terminal);
 				  while(!exits2){
+					 lineInsert inputs = new lineInsert();
 					 try{
 						ss=File.ReadAllLines(s[1]);
 						if (lline<0)lline=ss.Length+1;
@@ -3143,7 +3148,13 @@ namespace logic{
 					}
 					
 					saves=true;
-					sss=Console.ReadLine();
+					
+					sss=inputs.input(history3,history3len);
+					if(history3len<2047){
+						history3[history3len]=sss;
+						history3len++;
+					}
+
 					ldel=false;
 					sss=sss.Trim();
 					if(sss.Length>0){
@@ -3830,7 +3841,7 @@ namespace logic{
 				line=len-1;
 				x=Console.CursorLeft;
 				y=Console.CursorTop;
-				
+				value=value.Replace("_","");				
 				cursor=value.Length;
 				cursorinsert();
 				while(!exits){
@@ -3843,20 +3854,16 @@ namespace logic{
 					
 					if(key.Key==ConsoleKey.UpArrow){
 							line--;
-							if(line<0)line=0;
-							cursor=back[line].Length;
 							refresh(back,len);
 						
 					}
 					if(key.Key==ConsoleKey.DownArrow){
 							line++;
-							if(line>len-1)line=len-1;
-							cursor=back[line].Length;
 							refresh(back,len);
 					}
 					
 					if(key.Key==ConsoleKey.PageDown){
-							line=len-1;
+							line=len;
 							refresh(back,len);
 					}
 					if(key.Key==ConsoleKey.PageUp){
@@ -3909,13 +3916,15 @@ namespace logic{
 					
 								s="";
 								
-								value.Replace("_","");
+								value=value.Replace("_","");
 								cursor--;
-								for(i=0;i<length;i++){
-									if(!(i==cursor))s=s+value[i];
-								}
-								value=s;
 								
+								if(cursor>-1){
+									char c=value[cursor];
+									value=value.Insert(cursor,"_");
+									value=value.Replace("_"+c,"");
+								}
+								value=value.Replace("_","");
 								cursorinsert();
 								bb=0;
 								b=1;
@@ -3925,8 +3934,8 @@ namespace logic{
 					
 					if(key.KeyChar>=' ' && length<max){
 					
-						value=value.Replace("_",key.KeyChar.ToString());
-						
+						if(key.KeyChar!='_') value=value.Replace("_",key.KeyChar.ToString());
+						value=value.Replace("_","");
 						cursor++;
 						cursorinsert();
 					}
@@ -3969,12 +3978,10 @@ namespace logic{
 					if(line>len-1)line=len-1;
 					if(line<0)line=0;
 					value=back[line];
-					length=back[line].Length;
-					Console.CursorLeft=x;
-					Console.CursorTop=y;
-					Console.Write(value+"  ");
-					Console.CursorLeft=x+length;
-					Console.CursorTop=y;
+					value=value.Replace("_","");
+					length=value.Length;
+					cursor=length;
+					cursorinsert();
 				}
 			}
 
