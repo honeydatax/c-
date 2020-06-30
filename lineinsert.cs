@@ -38,20 +38,24 @@ namespace logic{
 					}
 					
 					if(key.Key==ConsoleKey.UpArrow){
+						clears();
 							line--;
 							refresh(back,len);
 						
 					}
 					if(key.Key==ConsoleKey.DownArrow){
+							clears();
 							line++;
 							refresh(back,len);
 					}
 					
 					if(key.Key==ConsoleKey.PageDown){
+						clears();
 							line=len;
 							refresh(back,len);
 					}
 					if(key.Key==ConsoleKey.PageUp){
+						clears();
 							line=0;
 							refresh(back,len);
 					}
@@ -168,6 +172,20 @@ namespace logic{
 					cursor=length;
 					cursorinsert();
 				}
+			}
+
+			public string stringss(int ii,string ss){
+				int i=0;
+				string s="";
+				for(i=0;i<ii;i++){
+					s=s+ss;
+				}
+				return s;
+			}
+			public void clears(){
+				Console.CursorLeft=x;
+				Console.CursorTop=y;
+				Console.Write(stringss(value.Length," "));
 			}
 
 
