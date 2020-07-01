@@ -16,7 +16,7 @@ namespace FormWithButton
 		public int y=0;
 		public int w=600;
 		public int h=300;
-		public int per=0;
+		public int per=50;
 		public Brush sky =Brushes.Cyan;
 		public Brush land =Brushes.Brown;
 		public void draws(Graphics canvas){
@@ -45,30 +45,45 @@ namespace FormWithButton
 			this.Height=350;
 			this.Top=0;
 			this.Left=0;
-			
+			ori.sky=Brushes.White;
+			ori.land=Brushes.Black;
 			x=0;
 			y=20;
 			w=(int) this.Width;
 			h=(int) this.Height-h;
 			Paint += new PaintEventHandler(OnPaints);
 			this.CenterToScreen();
-			T= new System.Timers.Timer(100);
-			T.Elapsed += new System.Timers.ElapsedEventHandler(ttimer);
-			T.AutoReset=true;
-			T.Enabled=true;
+			this.Text="key up & down to move plane";
+			
+			
+			this.KeyDown += new KeyEventHandler(Keyit);
+			
         }
-        void ttimer(object sender, System.EventArgs e){
-			T.Enabled=false;
-			steps=steps+1;
-			this.Text=Convert.ToString(steps)+" % ";
-			this.Refresh();     
-			if (steps > 100){
-				steps=1;
+        void Keyit(object sender,KeyEventArgs e){
+			
+			if(e.KeyCode==Keys.Down)ori.per=ori.per+6;
+			if(e.KeyCode==Keys.Up)ori.per=ori.per-6;
+
+			    
+			if (ori.per > 94){
+				ori.per=94;
 			}
-			T.Enabled=true;	
+			if (ori.per < 6){
+				ori.per=6;
+			}
+			this.Text=Convert.ToString(ori.per)+" % ";
+				this.Refresh();     
+			this.Refresh();
+
+		}
+
+        			
+        void ttimer(object sender, System.EventArgs e){
+			//T.Enabled=false;
+			//T.Enabled=true;	
 		}
         void draw(){
-			ori.per=100-steps;
+			
 			ori.draws(canvas);
 			
 		}
