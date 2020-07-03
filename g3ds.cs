@@ -55,8 +55,7 @@ namespace FormWithButton
 			zh3=zh3/dims;
 			xx=w/2+(zw2*(x1-(dims/2)))+x;
 			yy=h/2+(zh2*(y1-(dims/2)))+y;
-			x1=100*zw3/zw2;
-			per=x1;
+			per=100*zw2;
 		}
 		public void grid(Graphics canvas,Pen p){
 			int i=0;
@@ -90,8 +89,6 @@ namespace FormWithButton
 			zh3=zh3/dims;
 			xx=w/2+(zw2*(x1-(dims/2)))+x;
 			yy=h/2+(zh2*(y1-(dims/2)))+y;
-			x1=100*zw3/zw2;
-			per=x1;
 			canvas.DrawRectangle(p,xx,yy,zw1,zh1);
 			
 			for(ixx=xx;ixx<xx+zw1+1;ixx=ixx+zw2){
@@ -190,7 +187,7 @@ namespace FormWithButton
 			d3ds.yy=yyy;
 			d3ds.zz=zzz;
 			d3ds.calc();
-			canvas.FillEllipse(Brushes.Black,d3ds.xx,d3ds.yy,70*d3ds.per/100,70*d3ds.per/100);
+			canvas.FillEllipse(Brushes.Black,d3ds.xx,d3ds.yy,d3ds.per/(100-0),d3ds.per/(100-0));
 			d3ds.zz=zzz;
 			d3ds.grid(canvas,Pens.Black);
 			
