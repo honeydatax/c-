@@ -67,16 +67,7 @@ namespace FormWithButton
 				ndoor=i;
 				if (((hhh*2)*i)>ww)exits=true;
 			}
-			if(pos>files.Length-ndoor)pos=files.Length-ndoor;
-			if(pos<0)pos=0;
-			into=ndoor;
-			if(ndoor>files.Length){
-				into=files.Length;
-			}
-			for (i=0;i<into;i++){
-				s[i]=files[i+pos];
-				
-			}
+			ajust();
 		}
 		public int check(MouseEventArgs e){
 			int i=0;
@@ -106,6 +97,28 @@ namespace FormWithButton
 			}
 			return ii;
 		}
+		private void ajust(){
+			int froms=0;
+			int into=0;
+			int i=0;
+			if(pos>files.Length-ndoor)pos=files.Length-ndoor;
+			if(pos<0)pos=0;
+			into=ndoor;
+			if(ndoor>files.Length){
+				into=files.Length;
+			}
+			for (i=0;i<into;i++){
+				s[i]=files[i+pos];
+				
+			}
+
+		}
+		public void scroll(MouseEventArgs e){
+
+			pos=pos+(e.Delta*SystemInformation.MouseWheelScrollLines/120);
+			ajust();
+
+		}
 
 	}
    public class Form1 : Form
@@ -134,11 +147,16 @@ namespace FormWithButton
 			h=(int) this.Height-20;
 			door1.x=20;
 			door1.y=20;
+			this.Text="mouse whell to scroll over click";
 			this.Paint += new PaintEventHandler(OnPaints);
+			this.MouseWheel += new MouseEventHandler(Onwheel);
 			this.MouseMove += new MouseEventHandler(OnMousemoves);
 			this.MouseDown += new MouseEventHandler(OnMouseDowns);
 			this.CenterToScreen();
         }
+        void Onwheel(object sender,MouseEventArgs e){
+			door1.scroll(e);
+		}
         void OnMousemoves(object sender,MouseEventArgs e){
 			int i=door1.show(e);
 			    if (i>-1){
