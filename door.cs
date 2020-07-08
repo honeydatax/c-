@@ -23,6 +23,8 @@ namespace FormWithButton
 		private int ww=300;
 		public int ndoor=0;
 		private int nndoor=0;
+		public string [] files=null;
+		public int pos=0;
 		public int [] axxx= new int[50];
 		public int [] ayyy= new int[50];
 		public int [] awww= new int[50];
@@ -30,13 +32,15 @@ namespace FormWithButton
 		private string [] s= new string[50];
 		public string caption="";
 		public door(){
-			
+			files=Directory.GetFiles(".");
 		}
 		public void draw(Graphics canvas){
 			int www=0;
 			int hhh=0;
 			int hhhh=h/2;
 			int wwww=v;
+			int froms=0;
+			int into=0;
 			bool exits=false;
 			vv=v;
 			ww=w/2;
@@ -44,24 +48,34 @@ namespace FormWithButton
 			hhh=8;
 			www=ww-v*2;
 			int i=0;
+			int tt=0;
 			canvas.DrawRectangle(Pens.Black,x,y,w,hh);
 			canvas.DrawLine(Pens.Black,x,y,w+x,hh+y);
 			canvas.DrawLine(Pens.Black,w+x,y,x,hh+y);
 			i=0;
 			while(!exits){
 				nndoor=i;
-				canvas.FillRectangle(Brushes.Black,ww+30+((hhh*2)*i),hhhh-((hhh*2)*i)/2,hhh,((hhh*2)*i));
-				axxx[i]=ww+30+((hhh*2)*i);
-				ayyy[i]=hhhh-((hhh*2)*i)/2;
+				tt=i;
+				if(tt<1)tt=1;
+				canvas.FillRectangle(Brushes.Black,x+ww+30+((hhh*2)*i),y+hhhh-((hhh*2)*tt)/2,hhh,((hhh*2)*tt));
+				axxx[i]=x+ww+30+((hhh*2)*i);
+				ayyy[i]=y+hhhh-((hhh*2)*tt)/2;
 				awww[i]=hhh;
-				ahhh[i]=((hhh*2)*i);
+				ahhh[i]=((hhh*2)*tt);
 				hhh=hhh+2;
 				i++;
 				ndoor=i;
 				if (((hhh*2)*i)>ww)exits=true;
 			}
-			for (i=0;i<ndoor;i++){
-				s[i]="door "+i.ToString();
+			if(pos>files.Length-ndoor)pos=files.Length-ndoor;
+			if(pos<0)pos=0;
+			into=ndoor;
+			if(ndoor>files.Length){
+				into=files.Length;
+			}
+			for (i=0;i<into;i++){
+				s[i]=files[i+pos];
+				
 			}
 		}
 		public int check(MouseEventArgs e){
@@ -78,6 +92,21 @@ namespace FormWithButton
 			}
 			return ii;
 		}
+		public int show(MouseEventArgs e){
+			int i=0;
+			int ii=-1;
+			caption="";
+			for (i=0;i<ndoor;i++){
+				if(e.X>axxx[i] && e.Y>ayyy[i] && e.X < awww[i]+axxx[i] && e.Y < ahhh[i]+ayyy[i]){
+					caption=s[i];
+					ii=i;
+					i=ndoor+2;
+					
+				}
+			}
+			return ii;
+		}
+
 	}
    public class Form1 : Form
 		
@@ -103,12 +132,18 @@ namespace FormWithButton
 			y=0;
 			w=(int) this.Width;
 			h=(int) this.Height-20;
+			door1.x=20;
+			door1.y=20;
 			this.Paint += new PaintEventHandler(OnPaints);
-			
+			this.MouseMove += new MouseEventHandler(OnMousemoves);
 			this.MouseDown += new MouseEventHandler(OnMouseDowns);
 			this.CenterToScreen();
         }
         void OnMousemoves(object sender,MouseEventArgs e){
+			int i=door1.show(e);
+			    if (i>-1){
+					this.Text=door1.caption;
+				}
 		}
         void OnMouseDowns(object sender,MouseEventArgs e){
 			int i=door1.check(e);
