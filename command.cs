@@ -23,9 +23,9 @@ namespace logic{
 			public int history1len=0;
 			public int history2len=0;
 			public int history3len=0;
-			VarList vars1 = new VarList();
-			public Shells(string files){
-
+			VarList vars1=null ;//= new VarList();
+			public Shells(string files,VarList vars){
+				vars1=vars;
 				Console.TreatControlCAsInput=true;
 				int i=0;
 				string command="";
@@ -1810,7 +1810,7 @@ namespace logic{
 					try{
 						string ss="";
 						if(argss.argumentss.length>1)ss=argss.argumentss.texts[1].Trim();
-						Shells shells = new Shells(ss);
+						Shells shells = new Shells(ss,vars1);
 						shells.Dispose();
 				shells=null;
 				argss=null;
@@ -2505,7 +2505,7 @@ namespace logic{
 			public void list(){
 				int i;
 				for(i=0;i<length;i++){
-					Console.WriteLine("{0},{1}={2}",i,value[i],value[i]);
+					Console.WriteLine("{0},{1}={2}",i,name[i],value[i]);
 				}
 			}
 			
@@ -2666,7 +2666,7 @@ namespace logic{
 					}
 					if(chrs==3){
 						pos=pos+1;
-						if(pos>list1.length)list1.add("",pos);
+						if(pos>list1.length-1)list1.add("",pos);
 					}
 					if(chrs==4){
 						list1.start=list1.start-19;
@@ -2675,6 +2675,10 @@ namespace logic{
 					if(chrs==5){
 						list1.start=list1.start+19;
 						pos=pos+19;
+						if(pos>list1.length){
+							pos=list1.length+1;
+							list1.add("",pos);
+						}
 					}
 					if(pos<0){
 						pos=0;
@@ -2684,6 +2688,7 @@ namespace logic{
 						pos=list1.length;
 						list1.add("",pos);
 					}
+
 					if(list1.start>list1.length)list1.start=list1.length-1;
 					if(list1.start<0)list1.start=0;
 					if(list1.start<pos-19)list1.start=pos-19;
@@ -3087,9 +3092,10 @@ namespace logic{
 
 
 		static void Main(string[] args){
+			VarList vars1=new VarList();
 			string s="";
 			if(args.Length>0)s=args[0];
-			Shells shells = new Shells(s);
+			Shells shells = new Shells(s,vars1);
 
 				
 
