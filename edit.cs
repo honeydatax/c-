@@ -20,7 +20,7 @@ namespace logic{
 			list1.start=0;
 				list1.clear();
 				if(name=="")list1.add("",list1.length+1);
-				if (name!="")name="new.lst";
+				if (name=="")name="new.lst";
 				try{
 					list1.load(name);
 				}catch{
@@ -33,6 +33,7 @@ namespace logic{
 				while(!exits){
 					
 					lineInsert inputs = new lineInsert();
+					Console.Clear();
 					list1.report();
 					ss=list1.gets(pos);
 					Console.CursorLeft=list1.y;
@@ -42,7 +43,12 @@ namespace logic{
 					returner rr=inputs.input(ss,chrs);
 					ss=rr.rets;
 					chrs=rr.keys;
-					list1.change(ss,pos);
+					if(pos>=list1.length){
+						list1.add(ss,pos);
+					}else{
+						list1.change(ss,pos);
+					}
+
 					if(chrs==8){
 						exits=true;
 						
@@ -75,10 +81,11 @@ namespace logic{
 						pos=list1.length;
 						list1.add("",pos);
 					}
-					if(list1.start>list1.length)list1.start=list1.length;
+					if(list1.start>list1.length)list1.start=list1.length-1;
 					if(list1.start<0)list1.start=0;
 					if(list1.start<pos-19)list1.start=pos-19;
 					if(list1.start>list1.length)list1.start=list1.length-1;
+					if(list1.start>pos)list1.start=pos;
 					if(list1.start<0)list1.start=0;
 				}
 				try{
