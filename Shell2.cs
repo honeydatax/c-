@@ -3089,13 +3089,56 @@ namespace logic{
 
 		}
 
+			public class configFile{
+				public VarList vars = null;
+				public configFile(VarList vars1){
+					vars = vars1;
+				}
+
+				public void clear(){
+					vars.length=0;
+				}
+				public void save(string file){
+					int i=0;
+					string s="";
+					for(i=0;i<vars.length;i++){
+						s=s+vars.name[i]+"="+vars.value[i]+"\r\n";
+					}
+					File.WriteAllText(file,s);
+				}
+				public void load(string file){
+					int i=0;
+					vars.length=0;
+				  try{
+					string [] ss = File.ReadAllLines(file);
+					for(i=0;i<ss.Length;i++){
+						
+							arguments argss = new arguments(ss[i],'=');
+							vars.setvar((argss.argumentss.txt[0].Trim()).ToUpper(),argss.argumentss.texts[1]);
+						
+					}
+				   }catch{
+					}
+				}
+			}
 
 
 		static void Main(string[] args){
 			VarList vars1=new VarList();
+			configFile cnf = new configFile(vars1);
 			string s="";
+			try{
+				cnf.load("config.txt");
+			}catch{
+				
+			}
 			if(args.Length>0)s=args[0];
 			Shells shells = new Shells(s,vars1);
+			try{
+				cnf.save("config.txt");
+			}catch{
+				
+			}
 
 				
 
