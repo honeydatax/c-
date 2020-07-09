@@ -3101,20 +3101,32 @@ namespace logic{
 				public void save(string file){
 					int i=0;
 					string s="";
+					string ss="";
 					for(i=0;i<vars.length;i++){
-						s=s+vars.name[i]+"="+vars.value[i]+"\r\n";
+						ss=vars.name[i]+"="+vars.value[i];
+						ss=ss.Replace("\n","\\n");
+						ss=ss.Replace("\r","\\r");
+						ss=ss.Replace("\0","\\0");
+						ss=ss.Replace("\b","\\b");
+						s=s+ss+"\r\n";
 					}
 					File.WriteAllText(file,s);
 				}
 				public void load(string file){
 					int i=0;
+					string sss="";
 					vars.length=0;
 				  try{
 					string [] ss = File.ReadAllLines(file);
 					for(i=0;i<ss.Length;i++){
 						
 							arguments argss = new arguments(ss[i],'=');
-							vars.setvar((argss.argumentss.txt[0].Trim()).ToUpper(),argss.argumentss.texts[1]);
+						sss=argss.argumentss.texts[1];
+						sss=sss.Replace("\\n","\n");
+						sss=sss.Replace("\\r","\r");
+						sss=sss.Replace("\\0","\0");
+						sss=sss.Replace("\\b","\b");
+						vars.setvar((argss.argumentss.txt[0].Trim()).ToUpper(),sss);
 						
 					}
 				   }catch{
@@ -3127,12 +3139,22 @@ namespace logic{
 			VarList vars1=new VarList();
 			configFile cnf = new configFile(vars1);
 			string s="";
+			string ss="";
+			try{
+				ss=File.ReadAllText("logo.txt");
+			}catch{
+			}
 			try{
 				cnf.load("config.txt");
 			}catch{
 				
 			}
+			Console.Write(ss);
 			if(args.Length>0)s=args[0];
+			ss=vars1.getvar("load".ToUpper());
+			Console.WriteLine(">>>>>{0}",ss);
+			Shells shells1 =null;
+			if(ss!="") new Shells(ss,vars1);
 			Shells shells = new Shells(s,vars1);
 			try{
 				cnf.save("config.txt");
